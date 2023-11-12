@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;700&family=Abril+Fatface&display=swap");
+@font-face {
+  font-family: "Fernanta";
+  src: url("../fonts/FERNANTA.ttf") format("truetype");
+  /* You can include other font formats (e.g., woff, woff2) for better browser compatibility */
+}
+@font-face {
+  font-family: "gary_script";
+  src: url("../fonts/gary_script.ttf") format("truetype");
+  /* You can include other font formats (e.g., woff, woff2) for better browser compatibility */
+}
+@font-face {
+  font-family: "Zector";
+  src: url("../fonts/Zector.ttf") format("truetype");
+  /* You can include other font formats (e.g., woff, woff2) for better browser compatibility */
+}
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* colori base */
+/* colori aggiuntivi */
+body .container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  perspective: 200px;
+  width: 100vw;
+  height: 100vh;
+  /* test */
+}
+body .container img {
+  height: 220px;
+  padding-bottom: 15px;
+}
+body .container .group {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  transform-style: preserve-3d;
+}
+body .container #bg {
+  width: 100vw;
+  height: 100vh;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+body .container .desktop {
+  flex-direction: row;
+}
+body .container .desktop a {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+body .container .mobile {
+  flex-direction: column;
+}
+body .container #homepage {
+  background-color: #3d2419;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  transform: translateZ(-200px) scale(2);
+  z-index: 1;
+}
+body .container #homepage #menu {
+  position: absolute;
+  justify-content: center;
+  position: absolute;
+  top: 8vh;
+  display: flex;
+  font-size: 25px;
+}
+body .container #homepage #menu p {
+  color: #fad8c4;
+}
+body .container #homepage #menu .scroll-link {
+  position: relative;
+  color: white;
+  font-family: "Zector", sans-serif;
+  text-decoration: none;
+}
+body .container #homepage #menu .scroll-link:hover {
+  font-weight: bold;
+  color: #e6947c;
+  text-shadow: 1px 1px white;
+}
+body .container #homepage #logo img {
+  height: 220px;
+  padding-bottom: 15px;
+}
+body .container #homepage #logo h1 {
+  font-family: "Abril Fatface";
+  text-align: center;
+  font-size: 60px;
+  color: white;
+  text-shadow: 2px 2px #f7b797;
+}
+body .container #homepage #logo h2 {
+  font-family: "Quicksand";
+  text-align: center;
+  font-size: 35px;
+  color: white;
+  /* text-shadow: 2px 2px $marrone; */
+  padding-bottom: 10px;
+}
+body .container #portfolio {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #006d32;
+  z-index: 1;
+}
+body .container #about {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ff5733;
+  z-index: 0;
+}
+body .container #contatti {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffd700;
+}
+body .container #prodotti {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #a3ff84;
+}
+body .container #link {
+  font-size: 25px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  justify-content: end;
+}
+body .container #link a {
+  padding-top: 15px;
+  color: #001f3f;
+  font-family: "Zector", sans-serif;
+  text-decoration: none;
+}
+body .container #link a:hover {
+  text-shadow: 1px 1px black;
+}
+body .container footer {
+  font-weight: 900;
+  color: #531f10;
+  font-family: "Zector", sans-serif;
+}/*# sourceMappingURL=styles.css.map */

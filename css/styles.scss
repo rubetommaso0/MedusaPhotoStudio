@@ -1,0 +1,201 @@
+@font-face {
+    font-family: 'Fernanta';
+    src: url('../fonts/FERNANTA.ttf') format('truetype');
+    /* You can include other font formats (e.g., woff, woff2) for better browser compatibility */
+}
+
+@font-face {
+    font-family: 'gary_script';
+    src: url('../fonts/gary_script.ttf') format('truetype');
+    /* You can include other font formats (e.g., woff, woff2) for better browser compatibility */
+}
+
+@font-face {
+    font-family: 'Zector';
+    src: url('../fonts/Zector.ttf') format('truetype');
+    /* You can include other font formats (e.g., woff, woff2) for better browser compatibility */
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;700&family=Abril+Fatface&display=swap');
+
+@mixin align-center {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+@mixin layer-1 {
+    transform: translateZ(-200px) scale(2);
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+/* colori base */
+$marrone: #3d2419;
+$marrone-chiaro: darken(#e6947c, 50%);
+$pesca-scuro: #f7b797;
+$pesca-chiaro: #fad8c4;
+$grigio-chiaro: #f8f4f1;
+$grigio-scuro: #cfcdcb;
+
+/* colori aggiuntivi */
+$verde-scuro: #006d32;
+$verde-chiaro: #a3ff84;
+$blu-scuro: #001f3f;
+$giallo-scuro: #ffd700;
+$arancione-scuro: #ff5733;
+$arancione-chiaro: #ffb46e;
+
+body {
+
+    .container {
+        overflow-x: hidden;
+        overflow-y: auto;
+        perspective: 200px;
+        width: 100vw;
+        height: 100vh;
+
+        /* test */
+        img {
+            height: 220px;
+            padding-bottom: 15px;
+        }
+
+        .group {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        #bg {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+        }
+
+        .desktop {
+            flex-direction: row;
+
+            a {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+        }
+
+        .mobile {
+            flex-direction: column;
+        }
+
+        #homepage {
+            background-color: #3d2419;
+            @include align-center;
+            @include layer-1;
+            z-index: 1;
+
+            #menu {
+                position: absolute;
+                justify-content: center;
+                position: absolute;
+                top: 8vh;
+                display: flex;
+                font-size: 25px;
+
+                p {
+                    color: $pesca-chiaro;
+                }
+
+                .scroll-link {
+                    position: relative;
+                    color: white;
+                    font-family: 'Zector', sans-serif;
+                    text-decoration: none;
+
+                    &:hover {
+                        font-weight: bold;
+                        color: #e6947c;
+                        text-shadow: 1px 1px white;
+                    }
+                }
+
+
+            }
+
+            #logo {
+
+                img {
+                    height: 220px;
+                    padding-bottom: 15px;
+                }
+
+                h1 {
+                    font-family: 'Abril Fatface';
+                    text-align: center;
+                    font-size: 60px;
+                    color: white;
+                    text-shadow: 2px 2px $pesca-scuro;
+                }
+
+                h2 {
+                    font-family: "Quicksand";
+                    text-align: center;
+                    font-size: 35px;
+                    color: white;
+                    /* text-shadow: 2px 2px $marrone; */
+                    padding-bottom: 10px;
+                }
+            }
+        }
+
+        #portfolio {
+            @include align-center;
+            background-color: #006d32;
+            z-index: 1; // Set a higher z-index
+          }
+          
+          #about {
+            @include align-center;
+            background-color: #ff5733;
+            z-index: 0; // Set a lower z-index
+          }          
+
+        #contatti {
+            @include align-center;
+            background-color: #ffd700;
+        }
+
+        #prodotti {
+            @include align-center;
+            background-color: #a3ff84;
+        }
+
+        #link {
+            font-size: 25px;
+            @include align-center;
+            justify-content: end;
+            a {
+                padding-top: 15px;
+                color: $blu-scuro;
+                font-family: 'Zector', sans-serif;
+                text-decoration: none;
+
+                &:hover {
+                    text-shadow: 1px 1px black;
+                }
+            }
+        }
+
+        footer {
+            font-weight: 900;
+            color: $marrone-chiaro;
+            font-family: 'Zector', sans-serif;
+        }
+    }
+}
