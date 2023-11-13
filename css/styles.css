@@ -30,8 +30,30 @@ body .container {
   /* test */
 }
 body .container img {
+  display: flex;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: #cfcdcb;
+  border-width: 2px;
+}
+body .container .h {
+  display: flex;
+  flex-direction: row;
+}
+body .container .v {
+  display: flex;
+  flex-direction: column;
+}
+body .container img {
   height: 220px;
   padding-bottom: 15px;
+}
+body .container h1 {
+  font-family: "Abril Fatface";
+  text-align: center;
+  font-size: 60px;
+  color: #f7b797;
+  text-shadow: 2px 2px #531f10;
 }
 body .container .group {
   width: 100vw;
@@ -44,6 +66,15 @@ body .container #bg {
   height: 100vh;
   -o-object-fit: cover;
      object-fit: cover;
+}
+body .container .caption {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f8f4f1;
 }
 body .container .desktop {
   flex-direction: row;
@@ -116,7 +147,6 @@ body .container #portfolio {
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: #006d32;
   z-index: 1;
 }
 body .container #about {

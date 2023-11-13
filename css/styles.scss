@@ -62,10 +62,35 @@ body {
         width: 100vw;
         height: 100vh;
 
+        img {
+            display: flex;
+            object-fit: cover;
+            border: #cfcdcb;
+            border-width: 2px;
+        }
+
+        .h {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .v {
+            display: flex;
+            flex-direction: column;
+        }
+
         /* test */
         img {
             height: 220px;
             padding-bottom: 15px;
+        }
+
+        h1 {
+            font-family: 'Abril Fatface';
+            text-align: center;
+            font-size: 60px;
+            color: $pesca-scuro;
+            text-shadow: 2px 2px $marrone-chiaro;
         }
 
         .group {
@@ -79,6 +104,16 @@ body {
             width: 100vw;
             height: 100vh;
             object-fit: cover;
+        }
+
+        .caption {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            background-color: $grigio-chiaro;
         }
 
         .desktop {
@@ -156,15 +191,14 @@ body {
 
         #portfolio {
             @include align-center;
-            background-color: #006d32;
             z-index: 1; // Set a higher z-index
-          }
-          
-          #about {
+        }
+
+        #about {
             @include align-center;
             background-color: #ff5733;
             z-index: 0; // Set a lower z-index
-          }          
+        }
 
         #contatti {
             @include align-center;
@@ -180,6 +214,7 @@ body {
             font-size: 25px;
             @include align-center;
             justify-content: end;
+
             a {
                 padding-top: 15px;
                 color: $blu-scuro;

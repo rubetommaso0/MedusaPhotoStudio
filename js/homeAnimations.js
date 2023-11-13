@@ -20,23 +20,20 @@ function handleIntersection(entries, observer) {
     if (entry.isIntersecting) {
       for (i = 0; i < childElements.length; i++) {
         if (childElements[i] === entry.target.querySelector('.child')) {
-          childElement = childElements[i]
-          //console.log("last: " + last + "i: " + i);
-          if (last < i) {
-            childElement.style.transform = 'translateZ(0) scale(1)';
-            childElement.style.zIndex = 1;
-            if (childElements[last] != null) {
-              childElements[last].style.transform = 'translateZ(-200px) scale(2)';
-            }
-          } else if (last == childElements.length - 1){
-            childElements[last-1].style.transform = 'translateZ(0) scale(1)';
-          } else {
-            childElements[last].style.transform = 'translateZ(0) scale(1)';
+          if (last < i && last != i) {
+            childElement = childElements[last];
+            childElement.style.transform = 'translateZ(-200px) scale(2)';
+            last = i;
+          } if (last > i) {
+            childElement = childElements[i];
+            childElement.style.transform = 'translateZ(-200px) scale(2)';
+            last = i;
           }
-          last = i;
+        } else {
+          childElements[i].style.transform = 'translateZ(0) scale(1)';
         }
       }
-    } 
+    }
   });
 }
 
