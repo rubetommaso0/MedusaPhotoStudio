@@ -169,36 +169,25 @@ body {
                 }
             }
 
-            #logo {    
-                position: absolute;
+            #name {
                 display: flex;
-                flex-direction: column;
-                @include align-center;
-                top: 30vh;
-                z-index: 1;
-                height: auto;
-                width: auto;
-
-                img {
-                    height: 220px;
-                    width: 220px;
-                    padding-bottom: 15vh;
-                }
+                flex-direction: row;
+                position: absolute;
+                top: 20vh;
+                justify-content: center;
+                align-items: center;
 
                 h1 {
-                    padding-left: 5px;
-                    background-color: black;
                     font-family: 'Abril Fatface';
                     letter-spacing: 5px;
                     text-align: center;
                     font-size: 60px;
                     color: white;
                     text-shadow: 2px 2px $pesca-scuro;
+                    padding-right: 20px;
                 }
 
                 h2 {
-                    padding-left: 15px;
-                    background-color: #6e9a75;
                     font-family: "Quicksand";
                     text-align: center;
                     font-weight: 100;
@@ -206,7 +195,22 @@ body {
                     font-size: 35px;
                     color: white;
                     /* text-shadow: 2px 2px $marrone; */
-                    padding-bottom: 10px;
+                }
+            }
+
+            #logo {    
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                @include align-center;
+                z-index: 1;
+                height: auto;
+                width: auto;
+                padding-top: 10vh;
+
+                img {
+                    height: 220px;
+                    width: 220px;
                 }
             }
         }
