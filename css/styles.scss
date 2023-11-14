@@ -48,7 +48,7 @@ $grigio-scuro: #cfcdcb;
 /* colori aggiuntivi */
 $verde-scuro: #006d32;
 $verde-chiaro: #a3ff84;
-$blu-scuro: #001f3f;
+$blu-scuro: #0a2c4f;
 $giallo-scuro: #ffd700;
 $arancione-scuro: #ff5733;
 $arancione-chiaro: #ffb46e;
@@ -129,11 +129,32 @@ body {
             flex-direction: column;
         }
 
+        .scroll-link {
+            position: relative;
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 200;
+            letter-spacing: 3px;
+            text-decoration: none;
+
+            &:hover {
+                font-weight: 400;
+                color: #e6947c;
+                text-shadow: 1px 1px white;
+            }
+        }
+
         #homepage {
-            background-color: #3d2419;
             @include align-center;
             @include layer-1;
             z-index: 1;
+
+            #bg {
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                padding-bottom: 0px;
+            }
 
             #menu {
                 position: absolute;
@@ -146,32 +167,29 @@ body {
                 p {
                     color: $pesca-chiaro;
                 }
-
-                .scroll-link {
-                    position: relative;
-                    color: white;
-                    font-family: 'Zector', sans-serif;
-                    text-decoration: none;
-
-                    &:hover {
-                        font-weight: bold;
-                        color: #e6947c;
-                        text-shadow: 1px 1px white;
-                    }
-                }
-
-
             }
 
-            #logo {
+            #logo {    
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                @include align-center;
+                top: 30vh;
+                z-index: 1;
+                height: auto;
+                width: auto;
 
                 img {
                     height: 220px;
-                    padding-bottom: 15px;
+                    width: 220px;
+                    padding-bottom: 15vh;
                 }
 
                 h1 {
+                    padding-left: 5px;
+                    background-color: black;
                     font-family: 'Abril Fatface';
+                    letter-spacing: 5px;
                     text-align: center;
                     font-size: 60px;
                     color: white;
@@ -179,8 +197,12 @@ body {
                 }
 
                 h2 {
+                    padding-left: 15px;
+                    background-color: #6e9a75;
                     font-family: "Quicksand";
                     text-align: center;
+                    font-weight: 100;
+                    letter-spacing: 10px;
                     font-size: 35px;
                     color: white;
                     /* text-shadow: 2px 2px $marrone; */
@@ -192,6 +214,10 @@ body {
         #portfolio {
             @include align-center;
             z-index: 1; // Set a higher z-index
+            h1 {
+                font-size: 45px;
+                text-shadow: 2px 2px #89290E;
+            }
         }
 
         #about {
@@ -220,16 +246,17 @@ body {
                 color: $blu-scuro;
                 font-family: 'Zector', sans-serif;
                 text-decoration: none;
+                font-weight: 900;
 
                 &:hover {
-                    text-shadow: 1px 1px black;
+                    text-shadow: 1px 1px $blu-scuro;
+                    color: rgb(7, 85, 85);
                 }
             }
         }
 
         footer {
-            font-weight: 900;
-            color: $marrone-chiaro;
+            color: black;
             font-family: 'Zector', sans-serif;
         }
     }

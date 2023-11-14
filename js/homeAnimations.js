@@ -41,7 +41,7 @@ function handleIntersection(entries, observer) {
 const options = {
   root: null,
   rootMargin: '0px',
-  threshold: 0.02
+  threshold: 0.005
 };
 
 // Create the Intersection Observer
