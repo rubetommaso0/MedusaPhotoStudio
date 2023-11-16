@@ -1,4 +1,6 @@
 
+
+// menu links scroll animation
 document.querySelectorAll('.scroll-link').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     e.preventDefault();
@@ -9,26 +11,30 @@ document.querySelectorAll('.scroll-link').forEach(anchor => {
   });
 });
 
+
+// Slide animation
 const childElements = document.querySelectorAll('.child');
 var childElement = null;
 var last = 0;
 
-// Function to handle the intersection changes
-function handleIntersection(entries, observer) {
+function handleIntersection(entries, observer1) {
   entries.forEach(entry => {
 
     if (entry.isIntersecting) {
       for (i = 0; i < childElements.length; i++) {
         if (childElements[i] === entry.target.querySelector('.child')) {
-          if (last < i && last != i) {
+          console.log("i= " + i + ", last=" + last);
+          if (last <= i && last != i) {
+            console.log("last:" + last + " - 200y")
             childElement = childElements[last];
             childElement.style.transform = 'translateZ(-200px) scale(2)';
-            last = i;
-          } if (last > i) {
+          } 
+          if (last != 0 && last > i) {
+            console.log("i:" + i + " - 200y" + last + i)
             childElement = childElements[i];
             childElement.style.transform = 'translateZ(-200px) scale(2)';
-            last = i;
           }
+          last = i;
         } else {
           childElements[i].style.transform = 'translateZ(0) scale(1)';
         }
@@ -37,20 +43,58 @@ function handleIntersection(entries, observer) {
   });
 }
 
-// Options for the Intersection Observer
 const options = {
   root: null,
   rootMargin: '0px',
   threshold: 0.005
 };
 
-// Create the Intersection Observer
-const observer = new IntersectionObserver(handleIntersection, options);
+const observer1 = new IntersectionObserver(handleIntersection, options);
 
-// Target the elements with the class 'group'
 const groupElements = document.querySelectorAll('.group');
 
-// Observe each 'group' element
 groupElements.forEach(groupElement => {
-  observer.observe(groupElement);
+  observer1.observe(groupElement);
 });
+
+
+// scroll snap animation 
+let scrollTimer;
+let currentView;
+
+function intersectionCallback(entries, observer) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+      currentView = entry.target;
+    }
+  });
+}
+
+const observer2 = new IntersectionObserver(intersectionCallback, {
+  threshold: 0.5, 
+});
+
+groupElements.forEach(groupElement => {
+  observer2.observe(groupElement);
+});
+
+window.addEventListener('wheel', () => {
+  clearTimeout(scrollTimer); // Clear the existing timeout
+
+  // Set a new timeout after the wheel event
+  scrollTimer = setTimeout(() => {
+
+    for (i=0; i<childElements.length; i++) {
+      if (childElements[i] === currentView.querySelector('.child')) {
+        last = i;
+        console.log("last is now " + i);
+      }
+    }
+
+    currentView.scrollIntoView({
+      behavior: 'smooth'
+    });
+  }, 100); 
+});
+
+
