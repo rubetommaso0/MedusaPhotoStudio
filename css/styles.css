@@ -53,7 +53,6 @@ body .container h1 {
   text-align: center;
   font-size: 60px;
   color: #f7b797;
-  text-shadow: 2px 2px #531f10;
 }
 body .container .group {
   width: 100vw;
@@ -87,11 +86,12 @@ body .container .mobile {
   flex-direction: column;
 }
 body .container .scroll-link {
+  font-size: 20px;
   position: relative;
   color: white;
   font-family: "Quicksand", sans-serif;
-  font-weight: 200;
-  letter-spacing: 3px;
+  font-weight: 100;
+  letter-spacing: 2px;
   text-decoration: none;
 }
 body .container .scroll-link:hover {
@@ -139,16 +139,15 @@ body .container #homepage #name h1 {
   font-family: "Abril Fatface";
   letter-spacing: 8px;
   text-align: center;
-  font-size: 60px;
+  font-size: 70px;
   color: white;
-  text-shadow: 2px 2px #f7b797;
-  padding-right: 20px;
+  padding-right: 35px;
 }
 body .container #homepage #name h2 {
   font-family: "Quicksand";
   text-align: center;
   font-weight: 100;
-  letter-spacing: 13px;
+  letter-spacing: 12px;
   font-size: 35px;
   color: white;
   /* text-shadow: 2px 2px $marrone; */
