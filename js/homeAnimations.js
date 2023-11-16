@@ -100,7 +100,7 @@ window.addEventListener('wheel', Event => {
       }
       setTimeout(() => {
         isScrolling = false;
-      }, 1000);
+      }, 500);
     }, 200);
   } else {
     Event.preventDefault();
