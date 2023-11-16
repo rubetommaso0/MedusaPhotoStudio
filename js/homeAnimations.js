@@ -24,6 +24,9 @@ function handleIntersection(entries, observer1) {
       for (i = 0; i < childElements.length; i++) {
         if (childElements[i] === entry.target.querySelector('.child')) {
           console.log("i= " + i + ", last=" + last);
+          if (last == i - 2) {
+            last++;
+          }
           if (last <= i && last != i) {
             console.log("last:" + last + " - 200y")
             childElement = childElements[last];
@@ -64,14 +67,14 @@ let currentView;
 
 function intersectionCallback(entries, observer) {
   entries.forEach(entry => {
-    if (entry.intersectionRatio >= 0.3) {
+    if (entry.intersectionRatio >= 0.5) {
       currentView = entry.target;
     }
   });
 }
 
 const observer2 = new IntersectionObserver(intersectionCallback, {
-  threshold: 0.3,
+  threshold: 0.5,
 });
 
 groupElements.forEach(groupElement => {
@@ -101,7 +104,7 @@ window.addEventListener('wheel', Event => {
       setTimeout(() => {
         isScrolling = false;
       }, 500);
-    }, 200);
+    }, 500);
   } else {
     Event.preventDefault();
     Event.stopPropagation();
