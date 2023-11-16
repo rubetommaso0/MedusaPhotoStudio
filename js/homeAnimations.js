@@ -28,9 +28,9 @@ function handleIntersection(entries, observer1) {
             console.log("last:" + last + " - 200y")
             childElement = childElements[last];
             childElement.style.transform = 'translateZ(-200px) scale(2)';
-          } 
+          }
           if (last != 0 && last > i) {
-            console.log("i:" + i + " - 200y" + last + i)
+            console.log("i:" + i + " - 200y")
             childElement = childElements[i];
             childElement.style.transform = 'translateZ(-200px) scale(2)';
           }
@@ -64,37 +64,47 @@ let currentView;
 
 function intersectionCallback(entries, observer) {
   entries.forEach(entry => {
-    if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+    if (entry.intersectionRatio >= 0.3) {
       currentView = entry.target;
     }
   });
 }
 
 const observer2 = new IntersectionObserver(intersectionCallback, {
-  threshold: 0.5, 
+  threshold: 0.3,
 });
 
 groupElements.forEach(groupElement => {
   observer2.observe(groupElement);
 });
 
-window.addEventListener('wheel', () => {
-  clearTimeout(scrollTimer); // Clear the existing timeout
+var isScrolling = false;
 
-  // Set a new timeout after the wheel event
-  scrollTimer = setTimeout(() => {
+window.addEventListener('wheel', Event => {
+  if (!isScrolling) {
+    clearTimeout(scrollTimer); // Clear the existing timeout
+    console.log("wheel");
 
-    for (i=0; i<childElements.length; i++) {
-      if (childElements[i] === currentView.querySelector('.child')) {
-        last = i;
-        console.log("last is now " + i);
+    // Set a new timeout after the wheel event
+    scrollTimer = setTimeout(() => {
+      isScrolling = true;
+
+      currentView.scrollIntoView({
+        behavior: 'smooth'
+      });
+      for (i = 0; i < childElements.length; i++) {
+        if (childElements[i] === currentView.querySelector('.child')) {
+          last = i;
+          console.log("last is now " + i);
+        }
       }
-    }
-
-    currentView.scrollIntoView({
-      behavior: 'smooth'
-    });
-  }, 100); 
-});
+      setTimeout(() => {
+        isScrolling = false;
+      }, 1000);
+    }, 200);
+  } else {
+    Event.preventDefault();
+    Event.stopPropagation();
+  }}, { passive: false });
 
 
