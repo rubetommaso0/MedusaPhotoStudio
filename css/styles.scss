@@ -157,6 +157,8 @@ body {
             }
 
             #menu {
+                opacity: 0;
+                transition: opacity 1.5s ease-in-out;
                 position: absolute;
                 justify-content: center;
                 position: absolute;
@@ -178,6 +180,8 @@ body {
                 align-items: center;
 
                 h1 {
+                    opacity: 0;
+                    transition: opacity 1.5s ease-in-out;
                     font-family: 'Abril Fatface';
                     letter-spacing: 8px;
                     text-align: center;
@@ -188,6 +192,7 @@ body {
                 }
 
                 h2 {
+                    transition: opacity 1s ease-in-out;
                     font-family: "Quicksand";
                     text-align: center;
                     font-weight: 100;
@@ -219,8 +224,10 @@ body {
             @include align-center;
             z-index: 1; // Set a higher z-index
             h1 {
-                font-size: 45px;
-                text-shadow: 2px 2px #89290E;
+                font-size: 70px;
+                color: #e6947c;
+                letter-spacing: 5px;
+                font-style: italic;
             }
         }
 

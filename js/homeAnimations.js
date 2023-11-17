@@ -110,4 +110,38 @@ window.addEventListener('wheel', Event => {
     Event.stopPropagation();
   }}, { passive: false });
 
+// on appear animation 
 
+function animateOnIntersection(entries, observer) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      // Animation on intersection
+      document.getElementById('menu').style.opacity = '1';
+      setTimeout(() => {
+        document.getElementById('name').querySelector('h1').style.opacity = '1';
+      }, 1500);
+      const h2 = document.getElementById('name').querySelector('h2');
+      const text = h2.textContent;
+      h2.textContent = '';
+      
+      for (let i = 0; i < text.length; i++) {
+        (function (index) {
+          setTimeout(() => {
+            h2.textContent += text[index];
+          }, 3000 + 250 * index);
+        })(i);
+      }
+      
+
+      // Stop observing after animation is triggered
+      observer.unobserve(entry.target);
+    }
+  });
+}
+
+// Create Intersection Observer with threshold 0.01
+const observer3 = new IntersectionObserver(animateOnIntersection, { threshold: 0.01 });
+
+// Observe target elements
+observer3.observe(document.getElementById('menu'));
+observer3.observe(document.getElementById('name'));
