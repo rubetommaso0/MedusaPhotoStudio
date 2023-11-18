@@ -135,9 +135,10 @@ function portfolioAnimation(view) {
   var i = 1;
   imgContainers.forEach(container => {
     container.style.width = '50%';
+    container.style.opacity = 0;
     setTimeout(() => {
       container.style.opacity = 1;
-    }, i * 1000);
+    }, i * 800);
     i++;
   });
 }
@@ -154,11 +155,9 @@ function resetPortfolio(view) {
   start.style.height = '100%';
   second.style.height = '0%';
   caption.style.width = '100%';
-  var i = 1;
   imgContainers.forEach(container => {
     container.style.width = '0%';
     container.style.opacity = 0;
-    i++;
   });
 }
 
