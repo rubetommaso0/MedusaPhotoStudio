@@ -27,14 +27,6 @@ body .container {
   perspective: 200px;
   width: 100vw;
   height: 100vh;
-  /* test */
-}
-body .container img {
-  display: flex;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border: #cfcdcb;
-  border-width: 2px;
 }
 body .container .h {
   display: flex;
@@ -43,16 +35,6 @@ body .container .h {
 body .container .v {
   display: flex;
   flex-direction: column;
-}
-body .container img {
-  height: 220px;
-  padding-bottom: 15px;
-}
-body .container h1 {
-  font-family: "Abril Fatface";
-  text-align: center;
-  font-size: 60px;
-  color: #f7b797;
 }
 body .container .group {
   width: 100vw;
@@ -74,6 +56,7 @@ body .container .caption {
   width: 100vw;
   height: 100vh;
   background-color: #f8f4f1;
+  font-family: "Abril Fatface";
 }
 body .container .desktop {
   flex-direction: row;
@@ -178,14 +161,71 @@ body .container #homepage #logo img {
   width: 220px;
 }
 body .container #portfolio {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #f8f4f1;
+}
+body .container #portfolio .image-container {
+  position: relative;
+  width: 100%; /* Set your image card width */
+  height: 100%; /* Set your image card height */
+  overflow: hidden;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
+}
+body .container #portfolio .image-container img {
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: filter 0.3s ease;
+}
+body .container #portfolio .text-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  color: transparent;
+  display: flex;
+  font-family: "Abril fatface";
+  justify-content: center;
+  align-items: center;
+  font-size: 70px;
+  color: #e6947c;
+  letter-spacing: 5px;
+  font-style: italic;
+  opacity: 0;
+  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+body .container #portfolio .image-container:hover .text-overlay {
+  background-color: #f8f4f1;
+  color: #e6947c;
+  opacity: 1;
+}
+body .container #portfolio #start {
+  width: 100%;
+  height: 100%;
+  transition: all 1s;
+}
+body .container #portfolio #caption {
+  width: 100%;
+  height: 100%;
+  transition: all 1s;
+}
+body .container #portfolio #second {
+  width: 100%;
+  height: 0%;
+  transition: all 1s;
+}
+body .container #portfolio .image-container {
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  width: 0%;
+  height: 100%;
+  transition: all 1s;
 }
 body .container #portfolio h1 {
   font-size: 70px;

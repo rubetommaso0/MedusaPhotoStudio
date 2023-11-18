@@ -95,6 +95,7 @@ window.addEventListener('wheel', Event => {
       currentView.scrollIntoView({
         behavior: 'smooth'
       });
+      triggerAnimation(currentView.querySelector('.child'));
       for (i = 0; i < childElements.length; i++) {
         if (childElements[i] === currentView.querySelector('.child')) {
           last = i;
@@ -108,7 +109,58 @@ window.addEventListener('wheel', Event => {
   } else {
     Event.preventDefault();
     Event.stopPropagation();
-  }}, { passive: false });
+  }
+}, { passive: false });
+
+function triggerAnimation(view) {
+  if (view.id == "portfolio") {
+    portfolioAnimation(view);
+  } else {
+    resetPortfolio(document.querySelector("#portfolio"));
+  }
+}
+
+function portfolioAnimation(view) {
+  console.log("triggerAnimation of " + view.id);
+  const start = view.querySelector("#start");
+  const second = view.querySelector("#second");
+  const matrimoni = view.querySelector("#matrimoni");
+  const battesimi = view.querySelector("#battesimi");
+  const altro = view.querySelector("#altro");
+  const caption = view.querySelector("#caption");
+  const imgContainers = view.querySelectorAll('.image-container');
+  start.style.height = '50%';
+  second.style.height = '50%';
+  caption.style.width = '50%';
+  var i = 1;
+  imgContainers.forEach(container => {
+    container.style.width = '50%';
+    setTimeout(() => {
+      container.style.opacity = 1;
+    }, i * 1000);
+    i++;
+  });
+}
+
+function resetPortfolio(view) {
+  console.log("ResetAnimation of " + view.id);
+  const start = view.querySelector("#start");
+  const second = view.querySelector("#second");
+  const matrimoni = view.querySelector("#matrimoni");
+  const battesimi = view.querySelector("#battesimi");
+  const altro = view.querySelector("#altro");
+  const caption = view.querySelector("#caption");
+  const imgContainers = view.querySelectorAll('.image-container');
+  start.style.height = '100%';
+  second.style.height = '0%';
+  caption.style.width = '100%';
+  var i = 1;
+  imgContainers.forEach(container => {
+    container.style.width = '0%';
+    container.style.opacity = 0;
+    i++;
+  });
+}
 
 // on appear animation 
 
@@ -123,7 +175,7 @@ function animateOnIntersection(entries, observer) {
       const h2 = document.getElementById('name').querySelector('h2');
       const text = h2.textContent;
       h2.textContent = '';
-      
+
       for (let i = 0; i < text.length; i++) {
         (function (index) {
           setTimeout(() => {
@@ -131,7 +183,7 @@ function animateOnIntersection(entries, observer) {
           }, 3000 + 250 * index);
         })(i);
       }
-      
+
 
       // Stop observing after animation is triggered
       observer.unobserve(entry.target);
