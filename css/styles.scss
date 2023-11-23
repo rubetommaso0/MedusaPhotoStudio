@@ -240,6 +240,7 @@ body {
                 font-style: italic;
                 opacity: 0;
                 transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+                cursor: pointer;
             }
             
             .image-container:hover .text-overlay {
