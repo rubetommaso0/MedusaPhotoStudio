@@ -26,3 +26,23 @@ test.forEach(element => {
 });
 
 mc.innerHTML = str;
+
+// Get all images on the page
+const images = document.querySelectorAll('img');
+const loader = document.querySelector('.loader');
+
+let loadedImagesCount = 0;
+
+// Function to check if all images are loaded
+function checkImagesLoaded() {
+  loadedImagesCount++;
+  if (loadedImagesCount === images.length) {
+    // All images are loaded, hide the loader
+    loader.style.display = 'none';
+  }
+}
+
+// Loop through each image and listen for 'load' event
+images.forEach(image => {
+  image.addEventListener('load', checkImagesLoaded);
+});

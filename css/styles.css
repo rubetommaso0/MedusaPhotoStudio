@@ -21,12 +21,46 @@
 
 /* colori base */
 /* colori aggiuntivi */
+body .loader {
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f7b797;
+  align-items: center;
+  justify-content: center;
+}
+body .loader .v {
+  display: flex;
+  flex-direction: column;
+}
+body .loader p {
+  display: flex;
+  align-self: center;
+  font-family: "Zector", sans-serif;
+  font-size: 50px;
+}
+body .loader .progress-bar {
+  width: 50vw;
+  background-color: #f8f4f1;
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+body .loader .progress-bar .progress {
+  width: 0%;
+  height: 100%;
+  background-color: #ffb46e;
+}
 body .container {
   overflow-x: hidden;
   overflow-y: auto;
   perspective: 200px;
   width: 100vw;
-  height: 100vh;
+  height: 0vh;
+  transition: height 0.7s ease-in-out;
 }
 body .container .h {
   display: flex;
@@ -167,8 +201,10 @@ body .container #portfolio {
 }
 body .container #portfolio .image-container {
   position: relative;
-  width: 100%; /* Set your image card width */
-  height: 100%; /* Set your image card height */
+  width: 100%;
+  /* Set your image card width */
+  height: 100%;
+  /* Set your image card height */
   overflow: hidden;
   justify-content: center;
   align-items: center;

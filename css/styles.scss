@@ -55,12 +55,52 @@ $arancione-chiaro: #ffb46e;
 
 body {
 
+    .loader {
+        display: flex;
+        overflow-x: hidden;
+        overflow-y: auto;
+        width: 100vw;
+        height: 100vh;
+        background-color: #f7b797;
+        align-items: center;
+        justify-content: center;
+
+        .v {
+            display: flex;
+            flex-direction: column;
+        }
+
+        p {
+            display: flex;
+            align-self: center;
+            font-family: 'Zector', sans-serif;
+            font-size: 50px;
+        }
+
+        .progress-bar {
+            width: 50vw;
+            background-color: $grigio-chiaro;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+
+            .progress {
+                width: 0%;
+                height: 100%;
+                background-color: $arancione-chiaro;
+            }
+        }
+    }
+
     .container {
         overflow-x: hidden;
         overflow-y: auto;
         perspective: 200px;
         width: 100vw;
-        height: 100vh;
+        height: 0vh;
+        transition: height 0.7s ease-in-out;
+
 
         .h {
             display: flex;
@@ -208,20 +248,22 @@ body {
 
             .image-container {
                 position: relative;
-                width: 100%; /* Set your image card width */
-                height: 100%; /* Set your image card height */
+                width: 100%;
+                /* Set your image card width */
+                height: 100%;
+                /* Set your image card height */
                 overflow: hidden;
                 justify-content: center;
                 align-items: center;
             }
-            
+
             .image-container img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
                 transition: filter 0.3s ease;
             }
-            
+
             .text-overlay {
                 position: absolute;
                 top: 0;
@@ -242,13 +284,13 @@ body {
                 transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
                 cursor: pointer;
             }
-            
+
             .image-container:hover .text-overlay {
                 background-color: $grigio-chiaro;
                 color: #e6947c;
                 opacity: 1;
-            }  
-            
+            }
+
             #start {
                 width: 100%;
                 height: 100%;
