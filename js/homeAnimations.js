@@ -252,21 +252,11 @@ function checkImagesLoaded() {
 
 images.forEach(image => {
   image.addEventListener('load', checkImagesLoaded);
+  console.log("imageLoaded");
 }); 
 
 function contentLoad() {
-  loader.animate(
-    [
-      // Keyframes for the loader animation
-      { height: '100vh' }, // Start with the loader at full height
-      { height: '0vh' }, // Animate to 0 height
-    ],
-    {
-      duration: 700, // Animation duration in milliseconds
-      easing: 'ease', // Easing function
-      fill: 'forwards', // Keep the final state of the animation
-    }
-  );
+  loader.style.height = '0vh';
   setTimeout(() => {
     document.body.querySelector('.container').style.height = '100vh';
   }, 700);
