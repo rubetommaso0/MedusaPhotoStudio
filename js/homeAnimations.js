@@ -239,23 +239,20 @@ const intervalId = setInterval(() => {
   loadedImagesCount += 1;
   updateProgress(loadedImagesCount,images.length);
   if (loadedImagesCount == images.length) {
-    // All images are loaded, hide the loader
     clearInterval(intervalId);
-    contentLoad();
   }
 }, 800);
 
 function checkImagesLoaded() {
   loadedImagesCount++;
   if (loadedImagesCount === images.length) {
-    // All images are loaded, hide the loader
-    clearInterval(intervalId);
+    contentLoad();
   }
 }
 
-/* images.forEach(image => {
+images.forEach(image => {
   image.addEventListener('load', checkImagesLoaded);
-}); */
+}); 
 
 function contentLoad() {
   loader.animate(
