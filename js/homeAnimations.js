@@ -237,14 +237,15 @@ const intervalId = setInterval(() => {
   dots.textContent = dotStates[dotIndex];
   dotIndex = (dotIndex + 1) % dotStates.length;
   loadedImagesCount += 1;
-  updateProgress(loadedImagesCount,images.length);
   if (loadedImagesCount == images.length) {
     clearInterval(intervalId);
   }
 }, 800);
 
 function checkImagesLoaded() {
+  console.log(loadedImagesCount + "/" + images.length);
   loadedImagesCount++;
+  updateProgress(loadedImagesCount,images.length);
   if (loadedImagesCount === images.length) {
     contentLoad();
   }
@@ -252,12 +253,13 @@ function checkImagesLoaded() {
 
 images.forEach(image => {
   image.addEventListener('load', checkImagesLoaded);
-  console.log("imageLoaded");
 }); 
 
 function contentLoad() {
+  console.log("contentLoad called");
   loader.style.height = '0vh';
   setTimeout(() => {
     document.body.querySelector('.container').style.height = '100vh';
   }, 700);
+  console.log("contentLoad ended");
 }
