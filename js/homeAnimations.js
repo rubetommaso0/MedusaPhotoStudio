@@ -246,7 +246,7 @@ function checkImagesLoaded() {
   console.log(loadedImagesCount + "/" + images.length);
   loadedImagesCount++;
   updateProgress(loadedImagesCount,images.length);
-  if (loadedImagesCount === images.length) {
+  if (loadedImagesCount == images.length) {
     contentLoad();
   }
 }
