@@ -341,41 +341,52 @@ body {
             background-color: #cfcdcb;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
 
             img {
                 height: 80vh;
             }
 
             .h {
+                overflow: hidden;
                 background-color: #f8f4f1;
                 margin-left: 5vw;
                 margin-right: 5vw;
+                width: 100%;
             }
 
             #descrizione {
+                transition: height 1s ease-out;
                 display: flex;
+                position: relative;
+                width: 100%;
+                height: 100%;
                 flex-direction: column;
                 font-family: 'Quicksand', sans-serif;
                 align-items: center;
                 justify-content: center;
                 text-align: center;
                 h1 {
+                    padding-top: 10%;
+                    transition: font-size 2.5s ease-in-out, opacity 2.5s ease-in-out;
                     font-family: 'Abril fatface', sans-serif;
-                    font-size: 50px;
+                    font-size: 100px;
                     font-weight: 700;
+                    opacity: 0.85;
                 }
                 h2 {
+                    opacity: 0;
+                    transition: opacity 1s ease-in;
                     font-size: 45px;
                     padding-top: 10px;
                     font-weight: 400;
                     padding-bottom: 20px;
                 }
                 p {
+                    opacity: 0;
+                    transition: opacity 1s ease-in, padding-top 1s ease-out;
                     font-size: 19px;
-                    padding-top: 3px;
+                    padding-top: 5px;
                     font-weight: 200;
-                    padding-bottom: 3px;
                     padding-left: 20px;
                     padding-right: 20px;
                 }

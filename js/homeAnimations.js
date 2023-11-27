@@ -139,6 +139,11 @@ function triggerAnimation(view) {
   } else {
     resetPortfolio(document.querySelector("#portfolio"));
   }
+  if (view.id == "about") {
+    aboutAnimation();
+  } else {
+
+  }
 }
 
 function portfolioAnimation(view) {
@@ -180,6 +185,72 @@ function resetPortfolio(view) {
     container.style.width = '0%';
     container.style.opacity = 0;
   });
+}
+
+function aboutAnimation() {
+  const subtitle_txt = "Mi chiamo "
+  const name_txt = "Marta Cosca."
+  const p1_txt = "Sono diplomata in lingue e laureata in Arti Visive presso la NABA di Milano."
+  const p2_txt = "Dal 2020 ho la mia attività da fotografa."
+  const p3_txt = "Amo osservare e documentare tutto ciò che è reale, spontaneo, crudo!"
+  const p4_txt = "Qui non troverete mai finzione, filtri stravolgenti, effetti speciali, visi perfezionati, immagini costruite."
+  const p5_txt = "Qui troverete una versione bidimensionale, autentica e trasparente di ciò che siete, interpretata da me, che mi innamoro delle piccole cose, dei piccoli gesti, degli sguardi fugaci e di tutto ciò che ci rende unici."
+
+  const descContainer = document.body.querySelector('#descrizione');
+  const title = document.body.querySelector('#ab-title');
+  const sub = document.body.querySelector('#ab-subtitle');
+  const p1 = document.body.querySelector('#ab-p1');
+  const p2 = document.body.querySelector('#ab-p2');
+  const p3 = document.body.querySelector('#ab-p3');
+  const p4 = document.body.querySelector('#ab-p4');
+  const p5 = document.body.querySelector('#ab-p5');
+
+  setTimeout(() => {
+    title.style.fontSize = '60px';
+    title.style.opacity = '1';
+  }, 500);
+
+  setTimeout(() => {
+    sub.textContent = subtitle_txt;
+    sub.style.opacity = '1';
+  }, 1600);
+  i = 0;
+  Array.from(name_txt).forEach(letter => {
+    (function (index) {
+      setTimeout(() => {
+        sub.textContent = sub.textContent + letter;
+        console.log(sub.textContent + letter);
+      }, 1800 + 150 * index);
+    })(i);
+    i++;
+  })
+  setTimeout(() => {
+    p1.textContent = p1_txt;
+    p1.style.opacity = '1';
+  }, 2400 + 150 * i);
+  setTimeout(() => {
+    p2.textContent = p2_txt;
+    p2.style.opacity = '1';
+  }, 3200 + 150 * i);
+  setTimeout(() => {
+    p3.textContent = p3_txt;
+    p3.style.opacity = '1';
+  }, 4000 + 150 * i);
+  setTimeout(() => {
+    p4.textContent = p4_txt;
+    p4.style.opacity = '1';
+  }, 4800 + 150 * i);
+  setTimeout(() => {
+    p5.textContent = p5_txt;
+    p5.style.opacity = '1';
+  }, 5600 + 150 * i);
+  setTimeout(() => {
+    p1.style.paddingTop = '12px';
+    p2.style.paddingTop = '12px';
+    p3.style.paddingTop = '12px';
+    p4.style.paddingTop = '12px';
+    p5.style.paddingTop = '12px';
+  }, 6000 + 150 * i);
 }
 
 // on appear animation 
@@ -259,7 +330,7 @@ const intervalId = setInterval(() => {
 
 function checkImagesLoaded() {
   console.log(loadedImagesCount + "/" + images.length);
-  updateProgress(loadedImagesCount,images.length);
+  updateProgress(loadedImagesCount, images.length);
   if (loadedImagesCount == images.length) {
     contentLoad();
   }
