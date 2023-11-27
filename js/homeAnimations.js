@@ -1,6 +1,6 @@
 
 // Menu links scroll animation
-document.querySelectorAll('.scroll-link').forEach(anchor => {
+Array.from(document.querySelectorAll('.scroll-link')).forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     e.preventDefault();
 
