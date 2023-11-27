@@ -165,6 +165,18 @@ function triggerAnimation(view) {
   }
 }
 
+function handleMouseOver(container) {
+  // Get the text overlay within the hovered container
+  const textOverlay = container.querySelector('.text-overlay');
+
+  // Apply styles to the text overlay when hovered
+  if (textOverlay) {
+    textOverlay.style.backgroundColor = `#f8f4f1`;
+    textOverlay.style.color = '#e6947c';
+    textOverlay.style.opacity = '1';
+  }
+}
+
 function portfolioAnimation(view) {
   console.log("triggerAnimation of " + view.id);
   const start = view.querySelector("#start");
@@ -178,12 +190,26 @@ function portfolioAnimation(view) {
   second.style.height = '50%';
   caption.style.width = '50%';
   var i = 1;
-  imgContainers.forEach(container => {
-    container.style.width = '50%';
-    container.style.opacity = 0;
-    setTimeout(() => {
-      container.style.opacity = 1;
-    }, i * 800);
+  // Get all elements with the class "image-container"
+  const imageContainers = document.querySelectorAll('.image-container');
+
+  Array.from(imgContainers).forEach(container => {
+    (function (index) {
+      container.style.width = '50%';
+      setTimeout(() => {
+        container.querySelector('img').style.opacity = '1';
+        container.addEventListener('mouseover', () => handleMouseOver(container));
+
+        container.addEventListener('mouseout', () => {
+          const textOverlay = container.querySelector('.text-overlay');
+
+          // Reset styles when mouse leaves
+          if (textOverlay) {
+            textOverlay.style.opacity = '0';
+          }
+        });
+      }, index * 800)
+    })(i);
     i++;
   });
 }
@@ -200,9 +226,12 @@ function resetPortfolio(view) {
   start.style.height = '100%';
   second.style.height = '0%';
   caption.style.width = '100%';
+
   imgContainers.forEach(container => {
     container.style.width = '0%';
-    container.style.opacity = 0;
+    container.querySelector('img').style.opacity = '0';
+    const newElement = container.cloneNode(true);
+    container.parentNode.replaceChild(newElement, container);
   });
 }
 
