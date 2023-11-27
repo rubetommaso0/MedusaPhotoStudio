@@ -1,19 +1,52 @@
 
 
-// menu links scroll animation
+// Smooth scroll function
+function smoothScroll(element, duration) {
+  const target = document.querySelector(element);
+  const targetPosition = target.getBoundingClientRect().top;
+  const startPosition = window.pageYOffset;
+  const distance = targetPosition - startPosition;
+  let startTime = null;
+
+  function animation(currentTime) {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const run = ease(timeElapsed, startPosition, distance, duration);
+    window.scrollTo(0, run);
+    if (timeElapsed < duration) requestAnimationFrame(animation);
+  }
+
+  function ease(t, b, c, d) {
+    t /= d / 2;
+    if (t < 1) return (c / 2) * t * t + b;
+    t--;
+    return (-c / 2) * (t * (t - 2) - 1) + b;
+  }
+
+  requestAnimationFrame(animation);
+}
+
+// Menu links scroll animation
 document.querySelectorAll('.scroll-link').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     e.preventDefault();
 
-    document.querySelector(this.getAttribute('href')).scrollIntoView({
-      behavior: 'smooth'
-    });
-    const view = document.querySelector(this.getAttribute('href'));
+    const target = this.getAttribute('href');
+    if ('scrollBehavior' in document.documentElement.style) {
+      document.querySelector(target).scrollIntoView({
+        behavior: 'smooth'
+      });
+    } else {
+      smoothScroll(target, 1000); // Adjust duration as needed
+    }
+
+    const view = document.querySelector(target);
     scrollTimer = setTimeout(() => {
       triggerAnimation(view);
     }, 500);
   });
-})
+});
+
 
 // portfolio links
 const matrimoni = document.body.querySelector("#matrimoni-link");
@@ -102,36 +135,45 @@ groupElements.forEach(groupElement => {
   observer2.observe(groupElement);
 });
 
-var isScrolling = false;
+let isScrolling = false;
 
-window.addEventListener('wheel', Event => {
+// Function to handle scrolling
+function handleScroll(event) {
   if (!isScrolling) {
-    clearTimeout(scrollTimer); // Clear the existing timeout
-    console.log("wheel");
+    clearTimeout(scrollTimer);
+    console.log("scrolling");
 
-    // Set a new timeout after the wheel event
     scrollTimer = setTimeout(() => {
       isScrolling = true;
-
       currentView.scrollIntoView({
         behavior: 'smooth'
       });
+
       triggerAnimation(currentView.querySelector('.child'));
-      for (i = 0; i < childElements.length; i++) {
+
+      for (let i = 0; i < childElements.length; i++) {
         if (childElements[i] === currentView.querySelector('.child')) {
           last = i;
           console.log("last is now " + i);
         }
       }
+
       setTimeout(() => {
         isScrolling = false;
       }, 500);
     }, 500);
   } else {
-    Event.preventDefault();
-    Event.stopPropagation();
+    event.preventDefault();
+    event.stopPropagation();
   }
-}, { passive: false });
+}
+
+// Mouse wheel scrolling
+window.addEventListener('wheel', handleScroll, { passive: false });
+
+// Touch-based scrolling
+window.addEventListener('touchmove', handleScroll, { passive: false });
+
 
 function triggerAnimation(view) {
   if (view.id == "portfolio") {
