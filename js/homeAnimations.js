@@ -137,8 +137,8 @@ function handleScroll(event) {
 
       setTimeout(() => {
         isScrolling = false;
-      }, 500);
-    }, 500);
+      }, event == 'touchMove' ? 800 : 500);
+    }, event == 'touchMove' ? 800 : 500);
   } else {
     event.preventDefault();
     event.stopPropagation();
