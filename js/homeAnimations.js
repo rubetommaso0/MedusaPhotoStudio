@@ -188,19 +188,25 @@ function animateOnIntersection(entries, observer) {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       // Animation on intersection
-      document.getElementById('menu').style.opacity = '1';
+      document.getElementById('menu').style.opacity = '0.85';
       setTimeout(() => {
         document.getElementById('name').querySelector('h1').style.opacity = '1';
-      }, 1500);
+      }, 1000);
+      setTimeout(() => {
+        document.getElementById('logo').style.opacity = '0.7';
+      }, 1400);
       const h2 = document.getElementById('name').querySelector('h2');
       const text = h2.textContent;
-      h2.textContent = '';
+      h2.textContent = text[0];
+      setTimeout(() => {
+        h2.style.opacity = 1;
+      }, 1400);
 
-      for (let i = 0; i < text.length; i++) {
+      for (let i = 1; i < text.length; i++) {
         (function (index) {
           setTimeout(() => {
             h2.textContent += text[index];
-          }, 3000 + 250 * index);
+          }, 1400 + 250 * index);
         })(i);
       }
 
@@ -235,7 +241,7 @@ imageSources = images.map(image => {
 imageSources.forEach(imageSrc => {
   const img = new Image();
   img.src = imageSrc;
-  img.onload = () => console.log(`Image ${imageSrc} loaded`);
+  img.onload = () => loadedImagesCount++;
 });
 
 let loadedImagesCount = 0;
@@ -258,12 +264,6 @@ function checkImagesLoaded() {
     contentLoad();
   }
 }
-
-images.forEach(image => {
-  image.onload = ( () => {
-    loadedImagesCount++;
-  });
-}); 
 
 function contentLoad() {
   console.log("contentLoad called");
