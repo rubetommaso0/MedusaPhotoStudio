@@ -118,9 +118,13 @@ function handleScroll(event) {
 
     scrollTimer = setTimeout(() => {
       isScrolling = true;
-      currentView.scrollIntoView({
-        behavior: 'smooth'
-      });
+      if ('scrollBehavior' in document.documentElement.style) {
+        currentView.scrollIntoView({
+          behavior: 'smooth'
+        });
+      } else {
+        currentView.scrollIntoView();
+      }
 
       triggerAnimation(currentView.querySelector('.child'));
 
