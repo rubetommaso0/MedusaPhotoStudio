@@ -225,9 +225,18 @@ function updateProgress(loaded, total) {
   progressBar.style.width = `${progress}%`;
 }
 
-const images = document.body.querySelectorAll('img');
+const images = Array.from(document.body.querySelectorAll('img'));
 const loader = document.body.querySelector('.loader');
 const dots = document.body.querySelector('#dots');
+imageSources = images.map(image => {
+  return image.src;
+});
+
+imageSources.forEach(imageSrc => {
+  const img = new Image();
+  img.src = imageSrc;
+  img.onload = () => console.log(`Image ${imageSrc} loaded`);
+});
 
 let loadedImagesCount = 0;
 let dotStates = ['', '.', '..', '...'];
@@ -236,15 +245,14 @@ let dotIndex = 0;
 const intervalId = setInterval(() => {
   dots.textContent = dotStates[dotIndex];
   dotIndex = (dotIndex + 1) % dotStates.length;
-  loadedImagesCount += 1;
   if (loadedImagesCount == images.length) {
     clearInterval(intervalId);
   }
+  checkImagesLoaded();
 }, 800);
 
 function checkImagesLoaded() {
   console.log(loadedImagesCount + "/" + images.length);
-  loadedImagesCount++;
   updateProgress(loadedImagesCount,images.length);
   if (loadedImagesCount == images.length) {
     contentLoad();
@@ -252,7 +260,9 @@ function checkImagesLoaded() {
 }
 
 images.forEach(image => {
-  image.addEventListener('load', checkImagesLoaded);
+  image.onload = ( () => {
+    loadedImagesCount++;
+  });
 }); 
 
 function contentLoad() {
