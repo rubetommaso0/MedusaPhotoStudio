@@ -271,15 +271,48 @@ body .container #portfolio h1 {
   font-style: italic;
 }
 body .container #about {
-  position: absolute;
+  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  background-color: #cfcdcb;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: #ff5733;
-  z-index: 0;
+  overflow: hidden;
+}
+body .container #about img {
+  height: 80vh;
+}
+body .container #about .h {
+  background-color: #f8f4f1;
+  margin-left: 5vw;
+  margin-right: 5vw;
+}
+body .container #about #descrizione {
+  display: flex;
+  flex-direction: column;
+  font-family: "Quicksand", sans-serif;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+body .container #about #descrizione h1 {
+  font-family: "Abril fatface", sans-serif;
+  font-size: 50px;
+  font-weight: 700;
+}
+body .container #about #descrizione h2 {
+  font-size: 45px;
+  padding-top: 10px;
+  font-weight: 400;
+  padding-bottom: 20px;
+}
+body .container #about #descrizione p {
+  font-size: 19px;
+  padding-top: 3px;
+  font-weight: 200;
+  padding-bottom: 3px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 body .container #contatti {
   position: absolute;

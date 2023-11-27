@@ -335,9 +335,51 @@ body {
         }
 
         #about {
-            @include align-center;
-            background-color: #ff5733;
-            z-index: 0; // Set a lower z-index
+            height: 100%;
+            width: 100%;
+            display: flex;
+            background-color: #cfcdcb;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+
+            img {
+                height: 80vh;
+            }
+
+            .h {
+                background-color: #f8f4f1;
+                margin-left: 5vw;
+                margin-right: 5vw;
+            }
+
+            #descrizione {
+                display: flex;
+                flex-direction: column;
+                font-family: 'Quicksand', sans-serif;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                h1 {
+                    font-family: 'Abril fatface', sans-serif;
+                    font-size: 50px;
+                    font-weight: 700;
+                }
+                h2 {
+                    font-size: 45px;
+                    padding-top: 10px;
+                    font-weight: 400;
+                    padding-bottom: 20px;
+                }
+                p {
+                    font-size: 19px;
+                    padding-top: 3px;
+                    font-weight: 200;
+                    padding-bottom: 3px;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                }
+            }
         }
 
         #contatti {
