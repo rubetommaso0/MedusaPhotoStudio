@@ -151,6 +151,7 @@ window.addEventListener('wheel', handleScroll, { passive: false });
 // Touch-based scrolling
 window.addEventListener('touchmove', handleScroll, { passive: false });
 
+let aboutAnimationComplete = false;
 
 function triggerAnimation(view) {
   if (view.id == "portfolio") {
@@ -158,10 +159,10 @@ function triggerAnimation(view) {
   } else {
     resetPortfolio(document.querySelector("#portfolio"));
   }
-  if (view.id == "about") {
+  if (view.id == "about" && !aboutAnimationComplete) {
     aboutAnimation();
   } else {
-
+    aboutAnimationComplete = true;
   }
 }
 
