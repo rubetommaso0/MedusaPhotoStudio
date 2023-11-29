@@ -54,6 +54,9 @@ body .loader .progress-bar .progress {
   height: 100%;
   background-color: #ffb46e;
 }
+body .loader .progress-bar.mobile {
+  width: 85vw;
+}
 body .container {
   overflow-x: hidden;
   overflow-y: auto;
@@ -92,18 +95,7 @@ body .container .caption {
   background-color: #f8f4f1;
   font-family: "Abril Fatface";
 }
-body .container .desktop {
-  flex-direction: row;
-}
-body .container .desktop a {
-  padding-left: 30px;
-  padding-right: 30px;
-}
-body .container .mobile {
-  flex-direction: column;
-}
 body .container .scroll-link {
-  font-size: 20px;
   position: relative;
   color: white;
   font-family: "Quicksand", sans-serif;
@@ -111,10 +103,18 @@ body .container .scroll-link {
   letter-spacing: 2px;
   text-decoration: none;
 }
-body .container .scroll-link:hover {
+body .container .scroll-link.desktop {
+  font-size: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+body .container .scroll-link.desktop:hover {
   font-weight: 400;
   color: #e6947c;
   text-shadow: 1px 1px white;
+}
+body .container .scroll-link.mobile {
+  font-size: 15px;
 }
 body .container #homepage {
   position: absolute;
@@ -146,19 +146,18 @@ body .container #homepage #menu {
 body .container #homepage #menu p {
   color: #fad8c4;
 }
-body .container #homepage #name {
-  display: flex;
-  flex-direction: row;
-  position: absolute;
-  top: 15vh;
-  justify-content: center;
-  align-items: center;
+body .container #homepage #menu.mobile {
+  flex-direction: column;
+  top: 3vh;
+  text-align: center;
+}
+body .container #homepage #menu.mobile p {
+  height: 12px;
+  overflow: hidden;
+  opacity: 0;
 }
 body .container #homepage #name {
   display: flex;
-  flex-direction: row;
-  position: absolute;
-  top: 15vh;
   justify-content: center;
   align-items: center;
 }
@@ -188,10 +187,33 @@ body .container #homepage #name h2 {
 }
 body .container #homepage #name img {
   opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+body .container #homepage #name.mobile {
+  flex-direction: column;
+  position: absolute;
+  top: 20vh;
+}
+body .container #homepage #name.mobile h1 {
+  font-size: 50px;
+}
+body .container #homepage #name.mobile h2 {
+  font-size: 30px;
+}
+body .container #homepage #name.mobile img {
+  margin-top: 10px;
+  height: 65px;
+  overflow: hidden;
+}
+body .container #homepage #name.desktop {
+  flex-direction: row;
+  position: absolute;
+  top: 15vh;
+}
+body .container #homepage #name.desktop img {
   height: 100px;
   margin-right: 40px;
   margin-top: 20px;
-  transition: opacity 1s ease-in-out;
 }
 body .container #portfolio {
   width: 100%;
@@ -236,17 +258,17 @@ body .container #portfolio .text-overlay {
   transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
   cursor: pointer;
 }
-body .container #portfolio #start {
+body .container #portfolio #start.desktop {
   width: 100%;
   height: 100%;
   transition: all 1s;
 }
-body .container #portfolio #caption {
+body .container #portfolio #caption.desktop {
   width: 100%;
   height: 100%;
   transition: all 1s;
 }
-body .container #portfolio #second {
+body .container #portfolio #second.desktop {
   width: 100%;
   height: 0%;
   transition: all 1s;

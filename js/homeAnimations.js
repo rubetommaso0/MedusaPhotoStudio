@@ -1,3 +1,21 @@
+// mobile vs. desktop behaviour
+
+const allElements = document.querySelectorAll('*');
+
+function setLayout() {
+  const isMobile = window.innerWidth <= 960;
+  if (isMobile) {
+    allElements.forEach(element => {
+      element.classList.add('mobile'); // Replace 'yourClassName' with your desired class name
+    });
+  } else {
+    allElements.forEach(element => {
+      element.classList.add('desktop'); // Replace 'yourClassName' with your desired class name
+    });
+  }
+}
+
+setLayout();
 
 // Menu links scroll animation
 Array.from(document.querySelectorAll('.scroll-link')).forEach(anchor => {
@@ -137,8 +155,8 @@ function handleScroll(event) {
 
       setTimeout(() => {
         isScrolling = false;
-      }, event == 'touchMove' ? 800 : 500);
-    }, event == 'touchMove' ? 800 : 500);
+      }, event == 'touchMove' ? 1000 : 500);
+    }, event == 'touchMove' ? 1000 : 500);
   } else {
     event.preventDefault();
     event.stopPropagation();
