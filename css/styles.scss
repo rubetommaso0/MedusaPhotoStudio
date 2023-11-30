@@ -343,7 +343,6 @@ body {
                 font-size: 70px;
                 color: #e6947c;
                 letter-spacing: 5px;
-                font-style: italic;
             }
 
            #second.mobile {
@@ -380,6 +379,15 @@ body {
                 opacity: 0;
                 object-fit: cover;
                 transition: filter 0.3s ease, opacity 1s ease;
+            }
+
+            .text-overlay.mobile {
+                font-size: 40px;
+                color: #e6947c;
+                letter-spacing: 4px;
+                align-items: end;
+                margin-bottom: 20px;
+                transition: opacity 1s ease-in;
             }
         }
 

@@ -250,12 +250,11 @@ function portfolioAnimation(view) {
       const textOverlay = container.querySelector('.text-overlay');
       (function (index) {
         setTimeout(() => {
-          textOverlay.style.opacity = '1';
-        }, (index-1) * 1300);
-        setTimeout(() => {
-          textOverlay.style.opacity = '0';
           container.querySelector('img').style.opacity = '1';
-        }, index * 1300);
+        }, (index-1) * 1500);
+        setTimeout(() => {
+          textOverlay.style.opacity = '1';
+        }, index * 1500);
       })(i);
       i++;
     });
@@ -284,7 +283,8 @@ function resetPortfolio(view) {
     });
   } else {
     imgContainers.forEach(container => {
-      container.querySelector('img').style.opacity = '0';
+      const textOverlay = container.querySelector('.text-overlay');
+      textOverlay.style.opacity = '0';
     });
   }
 }

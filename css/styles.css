@@ -277,7 +277,6 @@ body .container #portfolio h1 {
   font-size: 70px;
   color: #e6947c;
   letter-spacing: 5px;
-  font-style: italic;
 }
 body .container #portfolio #second.mobile {
   height: 67%;
@@ -309,6 +308,14 @@ body .container #portfolio .image-container img.mobile {
   -o-object-fit: cover;
      object-fit: cover;
   transition: filter 0.3s ease, opacity 1s ease;
+}
+body .container #portfolio .text-overlay.mobile {
+  font-size: 40px;
+  color: #e6947c;
+  letter-spacing: 4px;
+  align-items: end;
+  margin-bottom: 20px;
+  transition: opacity 1s ease-in;
 }
 body .container #portfolio.mobile {
   flex-direction: column;
