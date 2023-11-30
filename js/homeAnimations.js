@@ -25,6 +25,12 @@ window.addEventListener('resize', function(event) {
     setLayout();
   }
 });
+window.addEventListener('orientationchange', () => {
+  if ((isMobileLayout && this.window.innerWidth > 960) || (!isMobileLayout && this.window.innerWidth < 960)) {
+    isMobileLayout = window.innerWidth <= 960;
+    setLayout();
+  }
+});
 
 // scroll function
 function handleClickOrTap(e) {
