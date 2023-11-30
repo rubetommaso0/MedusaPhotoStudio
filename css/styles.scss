@@ -194,11 +194,11 @@ body {
 
             #menu.mobile {
                 flex-direction: column;
-                top: 3vh;
+                top: 18px;
                 text-align: center;
 
                 p {
-                    height: 12px;
+                    height: 8px;
                     overflow: hidden;
                     opacity: 0;
                 }
@@ -246,14 +246,14 @@ body {
             #name.mobile {
                 flex-direction: column;
                 position: absolute;
-                top: 20vh;
+                top: 150px;
 
                 h1 {
                     font-size: 50px;
                 }
 
                 h2 {
-                    font-size: 30px;
+                    font-size: 22px;
                 }
 
                 img {

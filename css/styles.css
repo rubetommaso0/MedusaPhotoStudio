@@ -148,11 +148,11 @@ body .container #homepage #menu p {
 }
 body .container #homepage #menu.mobile {
   flex-direction: column;
-  top: 3vh;
+  top: 18px;
   text-align: center;
 }
 body .container #homepage #menu.mobile p {
-  height: 12px;
+  height: 8px;
   overflow: hidden;
   opacity: 0;
 }
@@ -192,13 +192,13 @@ body .container #homepage #name img {
 body .container #homepage #name.mobile {
   flex-direction: column;
   position: absolute;
-  top: 20vh;
+  top: 150px;
 }
 body .container #homepage #name.mobile h1 {
   font-size: 50px;
 }
 body .container #homepage #name.mobile h2 {
-  font-size: 30px;
+  font-size: 22px;
 }
 body .container #homepage #name.mobile img {
   margin-top: 10px;
