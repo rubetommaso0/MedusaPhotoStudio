@@ -1,23 +1,32 @@
 // mobile vs. desktop behaviour
 
 const allElements = document.querySelectorAll('*');
+var isMobileLayout = window.innerWidth <= 960;
 
 function setLayout() {
-  const isMobile = window.innerWidth <= 960;
-  if (isMobile) {
+  if (isMobileLayout) {
     allElements.forEach(element => {
-      element.classList.add('mobile'); // Replace 'yourClassName' with your desired class name
+      element.classList.add('mobile');
+      element.classList.remove('desktop');
     });
   } else {
     allElements.forEach(element => {
-      element.classList.add('desktop'); // Replace 'yourClassName' with your desired class name
+      element.classList.add('desktop');
+      element.classList.remove('mobile');
     });
   }
 }
 
 setLayout();
 
+window.addEventListener('resize', function(event) {
+  if ((isMobileLayout && this.window.innerWidth > 960) || (!isMobileLayout && this.window.innerWidth < 960)) {
+    isMobileLayout = window.innerWidth <= 960;
+    setLayout();
+  }
+});
 
+// scroll function
 function handleClickOrTap(e) {
   e.preventDefault();
 
