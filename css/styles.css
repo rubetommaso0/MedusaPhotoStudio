@@ -253,7 +253,6 @@ body .container #portfolio .text-overlay {
   font-size: 70px;
   color: #e6947c;
   letter-spacing: 5px;
-  font-style: italic;
   opacity: 0;
   transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
   cursor: pointer;
@@ -310,11 +309,13 @@ body .container #portfolio .image-container img.mobile {
   transition: filter 0.3s ease, opacity 1s ease;
 }
 body .container #portfolio .text-overlay.mobile {
-  font-size: 40px;
-  color: #e6947c;
+  font-size: 30px;
+  color: #fad8c4;
   letter-spacing: 4px;
   align-items: end;
+  justify-content: end;
   margin-bottom: 20px;
+  margin-right: 20px;
   transition: opacity 1s ease-in;
 }
 body .container #portfolio.mobile {
