@@ -19,19 +19,6 @@ function setLayout() {
 
 setLayout();
 
-window.addEventListener('resize', function(event) {
-  if ((isMobileLayout && this.window.innerWidth > 960) || (!isMobileLayout && this.window.innerWidth < 960)) {
-    isMobileLayout = window.innerWidth <= 960;
-    setLayout();
-  }
-});
-window.addEventListener('orientationchange', () => {
-  if ((isMobileLayout && this.window.innerWidth > 960) || (!isMobileLayout && this.window.innerWidth < 960)) {
-    isMobileLayout = window.innerWidth <= 960;
-    setLayout();
-  }
-});
-
 // scroll function
 function handleClickOrTap(e) {
   e.preventDefault();
@@ -229,32 +216,50 @@ function portfolioAnimation(view) {
   const altro = view.querySelector("#altro");
   const caption = view.querySelector("#caption");
   const imgContainers = view.querySelectorAll('.image-container');
-  start.style.height = '50%';
-  second.style.height = '50%';
-  caption.style.width = '50%';
-  var i = 1;
-  // Get all elements with the class "image-container"
-  const imageContainers = document.querySelectorAll('.image-container');
 
-  Array.from(imgContainers).forEach(container => {
-    (function (index) {
-      container.style.width = '50%';
-      setTimeout(() => {
-        container.querySelector('img').style.opacity = '1';
-        container.addEventListener('mouseover', () => handleMouseOver(container));
+  if (!isMobileLayout) {
+    start.style.height = '50%';
+    second.style.height = '50%';
+    caption.style.width = '50%';
+    var i = 1;
+    // Get all elements with the class "image-container"
+    const imageContainers = document.querySelectorAll('.image-container');
 
-        container.addEventListener('mouseout', () => {
-          const textOverlay = container.querySelector('.text-overlay');
+    Array.from(imgContainers).forEach(container => {
+      (function (index) {
+        container.style.width = '50%';
+        setTimeout(() => {
+          container.querySelector('img').style.opacity = '1';
+          container.addEventListener('mouseover', () => handleMouseOver(container));
 
-          // Reset styles when mouse leaves
-          if (textOverlay) {
-            textOverlay.style.opacity = '0';
-          }
-        });
-      }, index * 800)
-    })(i);
-    i++;
-  });
+          container.addEventListener('mouseout', () => {
+            const textOverlay = container.querySelector('.text-overlay');
+
+            // Reset styles when mouse leaves
+            if (textOverlay) {
+              textOverlay.style.opacity = '0';
+            }
+          });
+        }, index * 800);
+      })(i);
+      i++;
+    });
+  } else {
+    var i = 1;
+    Array.from(imgContainers).forEach(container => {
+      const textOverlay = container.querySelector('.text-overlay');
+      (function (index) {
+        setTimeout(() => {
+          textOverlay.style.opacity = '1';
+        }, (index-1) * 1300);
+        setTimeout(() => {
+          textOverlay.style.opacity = '0';
+          container.querySelector('img').style.opacity = '1';
+        }, index * 1300);
+      })(i);
+      i++;
+    });
+  }
 }
 
 function resetPortfolio(view) {
@@ -266,16 +271,22 @@ function resetPortfolio(view) {
   const altro = view.querySelector("#altro");
   const caption = view.querySelector("#caption");
   const imgContainers = view.querySelectorAll('.image-container');
-  start.style.height = '100%';
-  second.style.height = '0%';
-  caption.style.width = '100%';
+  if (!isMobileLayout) {
+    start.style.height = '100%';
+    second.style.height = '0%';
+    caption.style.width = '100%';
 
-  imgContainers.forEach(container => {
-    container.style.width = '0%';
-    container.querySelector('img').style.opacity = '0';
-    const newElement = container.cloneNode(true);
-    container.parentNode.replaceChild(newElement, container);
-  });
+    imgContainers.forEach(container => {
+      container.style.width = '0%';
+      container.querySelector('img').style.opacity = '0';
+      const newElement = container.cloneNode(true);
+      container.parentNode.replaceChild(newElement, container);
+    });
+  } else {
+    imgContainers.forEach(container => {
+      container.querySelector('img').style.opacity = '0';
+    });
+  }
 }
 
 function aboutAnimation() {
@@ -371,8 +382,6 @@ function animateOnIntersection(entries, observer) {
           }, 1400 + 250 * index);
         })(i);
       }
-
-
       // Stop observing after animation is triggered
       observer.unobserve(entry.target);
     }

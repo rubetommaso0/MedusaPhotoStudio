@@ -345,6 +345,46 @@ body {
                 letter-spacing: 5px;
                 font-style: italic;
             }
+
+           #second.mobile {
+            height: 67%;
+           } 
+
+           #start.mobile {
+            height: 33%;
+           }
+
+            #caption.mobile {
+                height: 0%;
+                overflow: hidden;
+            }
+
+            .h.mobile {
+                flex-direction: column;
+            }
+
+            .image-container.mobile {
+                overflow: hidden;
+                position: relative;
+                display: inline-block;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                transition: all 1s;
+            }
+
+            .image-container img.mobile {
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                object-fit: cover;
+                transition: filter 0.3s ease, opacity 1s ease;
+            }
+        }
+
+        #portfolio.mobile {
+            flex-direction: column;
         }
 
         #about {
