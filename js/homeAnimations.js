@@ -17,25 +17,34 @@ function setLayout() {
 
 setLayout();
 
+
+function handleClickOrTap(e) {
+  e.preventDefault();
+
+  const target = this.getAttribute('href');
+  if ('scrollBehavior' in document.documentElement.style) {
+    document.querySelector(target).scrollIntoView({
+      behavior: 'smooth'
+    });
+  } else {
+    document.querySelector(target).scrollIntoView();
+  }
+
+  const view = document.querySelector(target);
+  scrollTimer = setTimeout(() => {
+    triggerAnimation(view);
+  }, 500);
+}
+
+const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+
 // Menu links scroll animation
 Array.from(document.querySelectorAll('.scroll-link')).forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-
-    const target = this.getAttribute('href');
-    if ('scrollBehavior' in document.documentElement.style) {
-      document.querySelector(target).scrollIntoView({
-        behavior: 'smooth'
-      });
-    } else {
-      document.querySelector(target).scrollIntoView();
-    }
-
-    const view = document.querySelector(target);
-    scrollTimer = setTimeout(() => {
-      triggerAnimation(view);
-    }, 500);
-  });
+  if (hasTouchScreen) {
+    element.addEventListener('touchend', handleClickOrTap);
+  } else {
+    anchor.addEventListener('click', handleClickOrTap);
+  }
 });
 
 
