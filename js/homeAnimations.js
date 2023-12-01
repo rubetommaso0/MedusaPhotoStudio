@@ -44,11 +44,7 @@ const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0 
 
 // Menu links scroll animation
 Array.from(document.querySelectorAll('.scroll-link')).forEach(anchor => {
-  if (hasTouchScreen) {
-    anchor.addEventListener('touchstart', handleClickOrTap);
-  } else {
-    anchor.addEventListener('click', handleClickOrTap);
-  }
+  anchor.addEventListener('click', handleClickOrTap);
 });
 
 
