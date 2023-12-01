@@ -20,21 +20,19 @@ function setLayout() {
 setLayout();
 
 // scroll function
-function handleClickOrTap(e) {
-  console.log(hasTouchScreen ? "tap" : "click");
-  const target = this.getAttribute('href');
-  if (!hasTouchScreen) {
-    e.preventDefault();
-    if ('scrollBehavior' in document.documentElement.style) {
-      document.querySelector(target).scrollIntoView({
-        behavior: 'smooth'
-      });
-    } else {
-      document.querySelector(target).scrollIntoView();
-    }
+function handleClickOrTap(event) {
+  const target = event.target;
+  const selector = target.dataset.link;
+  event.preventDefault();
+  if ('scrollBehavior' in document.documentElement.style) {
+    document.querySelector(selector).scrollIntoView({
+      behavior: 'smooth'
+    });
+  } else {
+    document.querySelector(selector).scrollIntoView();
   }
 
-  const view = document.querySelector(target);
+  const view = document.querySelector(selector);
   scrollTimer = setTimeout(() => {
     triggerAnimation(view);
   }, 500);
