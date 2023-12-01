@@ -21,15 +21,16 @@ setLayout();
 
 // scroll function
 function handleClickOrTap(e) {
-  e.preventDefault();
-
   const target = this.getAttribute('href');
-  if ('scrollBehavior' in document.documentElement.style) {
-    document.querySelector(target).scrollIntoView({
-      behavior: 'smooth'
-    });
-  } else {
-    document.querySelector(target).scrollIntoView();
+  if (!hasTouchScreen) {
+    e.preventDefault();
+    if ('scrollBehavior' in document.documentElement.style) {
+      document.querySelector(target).scrollIntoView({
+        behavior: 'smooth'
+      });
+    } else {
+      document.querySelector(target).scrollIntoView();
+    }
   }
 
   const view = document.querySelector(target);
@@ -251,7 +252,7 @@ function portfolioAnimation(view) {
       (function (index) {
         setTimeout(() => {
           container.querySelector('img').style.opacity = '1';
-        }, (index-1) * 1500);
+        }, (index - 1) * 1500);
         setTimeout(() => {
           textOverlay.style.opacity = '1';
         }, index * 1500);
