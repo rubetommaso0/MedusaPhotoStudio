@@ -21,6 +21,7 @@ setLayout();
 
 // scroll function
 function handleClickOrTap(e) {
+  console.log(hasTouchScreen ? "tap" : "click");
   const target = this.getAttribute('href');
   if (!hasTouchScreen) {
     e.preventDefault();
@@ -44,7 +45,7 @@ const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0 
 // Menu links scroll animation
 Array.from(document.querySelectorAll('.scroll-link')).forEach(anchor => {
   if (hasTouchScreen) {
-    anchor.addEventListener('touchend', handleClickOrTap);
+    anchor.addEventListener('touchstart', handleClickOrTap);
   } else {
     anchor.addEventListener('click', handleClickOrTap);
   }
