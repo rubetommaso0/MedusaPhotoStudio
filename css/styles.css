@@ -101,6 +101,7 @@ body .container .scroll-link {
   font-weight: 100;
   letter-spacing: 2px;
   text-decoration: none;
+  z-index: 3;
 }
 body .container .scroll-link.desktop {
   font-size: 20px;
@@ -133,6 +134,7 @@ body .container #homepage #bg {
   padding-bottom: 0px;
 }
 body .container #homepage #menu {
+  z-index: 3;
   opacity: 0;
   transition: opacity 1.5s ease-in-out;
   position: absolute;
