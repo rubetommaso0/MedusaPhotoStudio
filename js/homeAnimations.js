@@ -78,15 +78,18 @@ function handleIntersection(entries, observer1) {
           if (last <= i && last != i) {
             console.log("last:" + last + " - 200y")
             childElement = childElements[last];
-            childElement.style.transform = 'translateZ(-200px) scale(2)';
+            childElement.parentElement.style.transform = 'translateZ(-200px) scale(2)';
+            childElement.style.transform = 'translateZ(-200px) scale(1.5)';
           }
           if (last != 0 && last > i) {
             console.log("i:" + i + " - 200y")
             childElement = childElements[i];
-            childElement.style.transform = 'translateZ(-200px) scale(2)';
+            childElement.parentElement.style.transform = 'translateZ(-200px) scale(2)';
+            childElement.style.transform = 'translateZ(-200px) scale(1.5)';
           }
           last = i;
         } else {
+          childElements[i].parentElement.style.transform = 'translateZ(0) scale(1)';
           childElements[i].style.transform = 'translateZ(0) scale(1)';
         }
       }
