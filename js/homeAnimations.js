@@ -66,6 +66,12 @@ var childElement = null;
 var current = 0;
 var last = 0;
 
+childElements.forEach(element => {
+  element.parentElement.style.zIndex = -1;
+});
+
+let flag = 0;
+
 function handleIntersection(entries, observer1) {
   entries.forEach(entry => {
 
@@ -73,14 +79,16 @@ function handleIntersection(entries, observer1) {
       for (i = 0; i < childElements.length; i++) {
         if (childElements[i] === entry.target.querySelector('.child')) {
           console.log("i= " + i + ", current=" + current);
-          if (current == i - 2 ) {
+          if (current == i - 2) {
             current++;
           }
           if (i == current && last == i - 1 && last > -1) {
             childElements[last].parentElement.style.transform = 'translateZ(-200px) scale(2)';
             childElements[last].style.transform = 'translateZ(-200px) scale(1.5)';
+            current = last;
           }
           if (current <= i && current != i) {
+
             console.log("current:" + current + " - 200y")
             childElement = childElements[current];
             childElement.parentElement.style.transform = 'translateZ(-200px) scale(2)';
@@ -99,7 +107,7 @@ function handleIntersection(entries, observer1) {
         }
       }
     } else {
-      last = current - 1; 
+      last = current - 1;
       console.log("last: " + last);
     }
   });
@@ -161,17 +169,22 @@ function handleScroll(event) {
         if (currentView) {
           if (childElements[i] === currentView.querySelector('.child')) {
             if (current == i && current > last) {
-              isScrolling = true;
-              if ('scrollBehavior' in document.documentElement.style) {
-                currentView.scrollIntoView({
-                  behavior: 'smooth'
-                });
-              } else {
-                currentView.scrollIntoView();
+
+              if (!flag || !(current == i && current == 1 && last == 0)) {
+                isScrolling = true;
+                if ('scrollBehavior' in document.documentElement.style) {
+                  currentView.scrollIntoView({
+                    behavior: 'smooth'
+                  });
+                } else {
+                  currentView.scrollIntoView();
+                }
+                triggerAnimation(currentView.querySelector('.child'));
+                last = i;
               }
-              triggerAnimation(currentView.querySelector('.child'));
             }
-            last = i;
+            flag = 1;
+
           }
         }
       }
