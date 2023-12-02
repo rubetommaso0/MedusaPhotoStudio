@@ -19,11 +19,14 @@ function setLayout() {
 
 setLayout();
 
-// scroll function
-function handleClickOrTap(event) {
-  const target = event.target;
+
+const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+
+// Menu links scroll animation
+Array.from(document.querySelectorAll('.scroll-link')).forEach(anchor => {
+  anchor.addEventListener('click', function () {
+  const target = anchor
   const selector = target.dataset.link;
-  event.preventDefault();
   if ('scrollBehavior' in document.documentElement.style) {
     document.querySelector(selector).scrollIntoView({
       behavior: 'smooth'
@@ -36,13 +39,7 @@ function handleClickOrTap(event) {
   scrollTimer = setTimeout(() => {
     triggerAnimation(view);
   }, 500);
-}
-
-const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
-
-// Menu links scroll animation
-Array.from(document.querySelectorAll('.scroll-link')).forEach(anchor => {
-  anchor.addEventListener('click', handleClickOrTap);
+  });
 });
 
 
