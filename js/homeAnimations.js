@@ -23,7 +23,7 @@ setLayout();
 const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
 
 // Menu links scroll animation
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
   if (event.target.classList.contains('scroll-link')) {
     const target = event.target;
     const selector = target.dataset.link;
@@ -63,6 +63,7 @@ altro.addEventListener('click', function () {
 // Slide animation
 const childElements = document.querySelectorAll('.child');
 var childElement = null;
+var current = 0;
 var last = 0;
 
 function handleIntersection(entries, observer1) {
@@ -71,28 +72,35 @@ function handleIntersection(entries, observer1) {
     if (entry.isIntersecting) {
       for (i = 0; i < childElements.length; i++) {
         if (childElements[i] === entry.target.querySelector('.child')) {
-          console.log("i= " + i + ", last=" + last);
-          if (last == i - 2) {
-            last++;
+          console.log("i= " + i + ", current=" + current);
+          if (current == i - 2 ) {
+            current++;
           }
-          if (last <= i && last != i) {
-            console.log("last:" + last + " - 200y")
-            childElement = childElements[last];
+          if (i == current && last == i - 1 && last > -1) {
+            childElements[last].parentElement.style.transform = 'translateZ(-200px) scale(2)';
+            childElements[last].style.transform = 'translateZ(-200px) scale(1.5)';
+          }
+          if (current <= i && current != i) {
+            console.log("current:" + current + " - 200y")
+            childElement = childElements[current];
             childElement.parentElement.style.transform = 'translateZ(-200px) scale(2)';
             childElement.style.transform = 'translateZ(-200px) scale(1.5)';
           }
-          if (last != 0 && last > i) {
+          if (current != 0 && current > i) {
             console.log("i:" + i + " - 200y")
             childElement = childElements[i];
             childElement.parentElement.style.transform = 'translateZ(-200px) scale(2)';
             childElement.style.transform = 'translateZ(-200px) scale(1.5)';
           }
-          last = i;
+          current = i;
         } else {
           childElements[i].parentElement.style.transform = 'translateZ(0) scale(1)';
           childElements[i].style.transform = 'translateZ(0) scale(1)';
         }
       }
+    } else {
+      last = current - 1; 
+      console.log("last: " + last);
     }
   });
 }
@@ -100,7 +108,7 @@ function handleIntersection(entries, observer1) {
 const options = {
   root: null,
   rootMargin: '0px',
-  threshold: 0.005
+  threshold: 0.01
 };
 
 const observer1 = new IntersectionObserver(handleIntersection, options);
@@ -118,14 +126,20 @@ let currentView;
 
 function intersectionCallback(entries, observer) {
   entries.forEach(entry => {
-    if (entry.intersectionRatio >= 0.5) {
-      currentView = entry.target;
+    if (entry.intersectionRatio >= 0.30) {
+      let child = entry.target.querySelector('.child');
+      if (child) {
+        if (child == childElements[current]) {
+          currentView = entry.target;
+          console.log(currentView);
+        }
+      }
     }
   });
 }
 
 const observer2 = new IntersectionObserver(intersectionCallback, {
-  threshold: 0.5,
+  threshold: 0.35,
 });
 
 groupElements.forEach(groupElement => {
@@ -141,21 +155,24 @@ function handleScroll(event) {
     console.log("scrolling");
 
     scrollTimer = setTimeout(() => {
-      isScrolling = true;
-      if ('scrollBehavior' in document.documentElement.style) {
-        currentView.scrollIntoView({
-          behavior: 'smooth'
-        });
-      } else {
-        currentView.scrollIntoView();
-      }
-
-      triggerAnimation(currentView.querySelector('.child'));
+      console.log(currentView);
 
       for (let i = 0; i < childElements.length; i++) {
-        if (childElements[i] === currentView.querySelector('.child')) {
-          last = i;
-          console.log("last is now " + i);
+        if (currentView) {
+          if (childElements[i] === currentView.querySelector('.child')) {
+            if (current == i && current > last) {
+              isScrolling = true;
+              if ('scrollBehavior' in document.documentElement.style) {
+                currentView.scrollIntoView({
+                  behavior: 'smooth'
+                });
+              } else {
+                currentView.scrollIntoView();
+              }
+              triggerAnimation(currentView.querySelector('.child'));
+            }
+            last = i;
+          }
         }
       }
 
