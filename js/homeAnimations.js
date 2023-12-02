@@ -23,25 +23,24 @@ setLayout();
 const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
 
 // Menu links scroll animation
-Array.from(document.querySelectorAll('.scroll-link')).forEach(anchor => {
-  anchor.addEventListener('click', function () {
-  const target = anchor
-  const selector = target.dataset.link;
-  if ('scrollBehavior' in document.documentElement.style) {
-    document.querySelector(selector).scrollIntoView({
-      behavior: 'smooth'
-    });
-  } else {
-    document.querySelector(selector).scrollIntoView();
+document.addEventListener('click', function(event) {
+  if (event.target.classList.contains('scroll-link')) {
+    const target = event.target;
+    const selector = target.dataset.link;
+    if ('scrollBehavior' in document.documentElement.style) {
+      document.querySelector(selector).scrollIntoView({
+        behavior: 'smooth'
+      });
+    } else {
+      document.querySelector(selector).scrollIntoView();
+    }
+
+    const view = document.querySelector(selector);
+    scrollTimer = setTimeout(() => {
+      triggerAnimation(view);
+    }, 500);
   }
-
-  const view = document.querySelector(selector);
-  scrollTimer = setTimeout(() => {
-    triggerAnimation(view);
-  }, 500);
-  });
 });
-
 
 // portfolio links
 const matrimoni = document.body.querySelector("#matrimoni-link");
