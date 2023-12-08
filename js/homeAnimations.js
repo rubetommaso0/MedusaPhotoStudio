@@ -28,11 +28,11 @@ document.addEventListener('click', function (event) {
     const target = event.target;
     const selector = target.dataset.link;
     if ('scrollBehavior' in document.documentElement.style) {
-      document.querySelector(selector).scrollIntoView({
+      document.querySelector(selector).parentElement.scrollIntoView({
         behavior: 'smooth'
       });
     } else {
-      document.querySelector(selector).scrollIntoView();
+      document.querySelector(selector).parentElement.scrollIntoView();
     }
 
     const view = document.querySelector(selector);
@@ -40,6 +40,23 @@ document.addEventListener('click', function (event) {
       triggerAnimation(view);
     }, 500);
   }
+});
+
+// portfolio links
+const matrimoni = document.body.querySelector("#matrimoni-link");
+const battesimi = document.body.querySelector("#battesimi-link");
+const altro = document.body.querySelector("#altro-link");
+matrimoni.addEventListener('click', function () {
+  // Replace 'your-link-here' with the URL you want to navigate to
+  window.location.href = 'portfolio.html?page=Matrimoni';
+});
+battesimi.addEventListener('click', function () {
+  // Replace 'your-link-here' with the URL you want to navigate to
+  window.location.href = 'portfolio.html?page=Battesimi';
+});
+altro.addEventListener('click', function () {
+  // Replace 'your-link-here' with the URL you want to navigate to
+  window.location.href = 'portfolio.html?page=Altro';
 });
 
 
