@@ -17,6 +17,12 @@ function setLayout() {
 }
 setLayout();
 
+const container = document.querySelector('.container');
+container.scrollTo({
+  top: container.scrollHeight, // Scroll to the bottom
+  behavior: 'smooth' // Optional: Add smooth scrolling behavior
+});
+
 /* Menu scroll links */
 let scrollTimer;
 
