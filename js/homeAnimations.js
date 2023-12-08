@@ -1,5 +1,4 @@
-// mobile vs. desktop behaviour
-
+/* Mobile vs. Desktop layout */
 const allElements = document.querySelectorAll('*');
 var isMobileLayout = window.innerWidth <= 960;
 
@@ -16,13 +15,11 @@ function setLayout() {
     });
   }
 }
-
 setLayout();
 
+/* Menu scroll links */
+let scrollTimer;
 
-const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
-
-// Menu links scroll animation
 document.addEventListener('click', function (event) {
   if (event.target.classList.contains('scroll-link')) {
     const target = event.target;
@@ -42,31 +39,30 @@ document.addEventListener('click', function (event) {
   }
 });
 
-// portfolio links
+/* Portfolio pages links */
 const matrimoni = document.body.querySelector("#matrimoni-link");
 const battesimi = document.body.querySelector("#battesimi-link");
 const altro = document.body.querySelector("#altro-link");
 matrimoni.addEventListener('click', function () {
-  // Replace 'your-link-here' with the URL you want to navigate to
   window.location.href = 'portfolio.html?page=Matrimoni';
 });
 battesimi.addEventListener('click', function () {
-  // Replace 'your-link-here' with the URL you want to navigate to
   window.location.href = 'portfolio.html?page=Battesimi';
 });
 altro.addEventListener('click', function () {
-  // Replace 'your-link-here' with the URL you want to navigate to
   window.location.href = 'portfolio.html?page=Altro';
 });
 
 
-// Slide animation
-
+/* 
+-----  3d scroll animation -----
+*/
 const childElements = document.querySelectorAll('.child');
 var current = 0;
 var newInd = 0;
 var down = true;
 
+// Transform function
 function setTransform(down) {
   const index = down ? (current + 1) : (current - 1);
   if (index == 0) {
@@ -90,6 +86,14 @@ function setTransform(down) {
 }
 setTransform(down);
 
+// NewView observer
+const optionsNewView = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.01
+};
+const observerNewView = new IntersectionObserver(handleIntersection, optionsNewView);
+
 function handleIntersection(entries) {
   entries.forEach(entry => {
     if (entry.isIntersecting && entry.intersectionRatio > 0.01) {
@@ -111,6 +115,14 @@ function handleIntersection(entries) {
   });
 }
 
+// Current view Observer & Animation trigger function (On Appear)
+const optionsCurrentView = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.99
+};
+const observerCurrentView = new IntersectionObserver(handleCurrentView, optionsCurrentView);
+
 function handleCurrentView(entries) {
   entries.forEach(entry => {
     if (entry.isIntersecting && entry.intersectionRatio > 0.99) {
@@ -127,29 +139,54 @@ function handleCurrentView(entries) {
   });
 }
 
-const optionsNewView = {
-  root: null,
-  rootMargin: '0px',
-  threshold: 0.01
-};
+/* 
+----- On Appear animations for sections ----- 
+*/
 
-const optionsCurrentView = {
-  root: null,
-  rootMargin: '0px',
-  threshold: 0.99
-};
+function triggerAnimation(view) {
+  if (view.id == "portfolio") {
+    portfolioAnimation(view);
+  }
+  if (view.id == "about" && !aboutAnimationComplete) {
+    aboutAnimation();
+  } else {
+    aboutAnimationComplete = true;
+  }
+}
 
-const observerNewView = new IntersectionObserver(handleIntersection, optionsNewView);
-const observerCurrentView = new IntersectionObserver(handleCurrentView, optionsCurrentView);
+// On appear home animation 
+function onAppearAnimation(entries, observer) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      // Animation on intersection
+      document.getElementById('menu').style.opacity = '0.85';
+      setTimeout(() => {
+        document.getElementById('name').querySelector('h1').style.opacity = '1';
+      }, 1000);
+      setTimeout(() => {
+        document.getElementById('logo').style.opacity = '0.7';
+      }, 1400);
+      const h2 = document.getElementById('name').querySelector('h2');
+      const text = h2.textContent;
+      h2.textContent = text[0];
+      setTimeout(() => {
+        h2.style.opacity = 1;
+      }, 1400);
 
-childElements.forEach(childElement => {
-  observerNewView.observe(childElement);
-  observerCurrentView.observe(childElement);
-});
+      for (let i = 1; i < text.length; i++) {
+        (function (index) {
+          setTimeout(() => {
+            h2.textContent += text[index];
+          }, 1400 + 250 * index);
+        })(i);
+      }
+      // Stop observing after animation is triggered
+      observer.unobserve(entry.target);
+    }
+  });
+}
+const onAppearObserver = new IntersectionObserver(onAppearAnimation, { threshold: 0.01 });
 
-
-// scroll snap animation 
-let scrollTimer;
 let currentView;
 
 function intersectionCallback(entries, observer) {
@@ -166,31 +203,7 @@ function intersectionCallback(entries, observer) {
   });
 }
 
-function triggerAnimation(view) {
-  if (view.id == "portfolio") {
-    portfolioAnimation(view);
-  } else {
-    resetPortfolio(document.querySelector("#portfolio"));
-  }
-  if (view.id == "about" && !aboutAnimationComplete) {
-    aboutAnimation();
-  } else {
-    aboutAnimationComplete = true;
-  }
-}
-
-function handleMouseOver(container) {
-  // Get the text overlay within the hovered container
-  const textOverlay = container.querySelector('.text-overlay');
-
-  // Apply styles to the text overlay when hovered
-  if (textOverlay) {
-    textOverlay.style.backgroundColor = `#f8f4f1`;
-    textOverlay.style.color = '#e6947c';
-    textOverlay.style.opacity = '1';
-  }
-}
-
+// Portfolio onAppear Animation
 function portfolioAnimation(view) {
   console.log("triggerAnimation of " + view.id);
   const start = view.querySelector("#start");
@@ -206,7 +219,6 @@ function portfolioAnimation(view) {
     second.style.height = '50%';
     caption.style.width = '50%';
     var i = 1;
-    // Get all elements with the class "image-container"
     const imageContainers = document.querySelectorAll('.image-container');
 
     Array.from(imgContainers).forEach(container => {
@@ -218,8 +230,6 @@ function portfolioAnimation(view) {
 
           container.addEventListener('mouseout', () => {
             const textOverlay = container.querySelector('.text-overlay');
-
-            // Reset styles when mouse leaves
             if (textOverlay) {
               textOverlay.style.opacity = '0';
             }
@@ -244,35 +254,17 @@ function portfolioAnimation(view) {
     });
   }
 }
-
-function resetPortfolio(view) {
-  console.log("ResetAnimation of " + view.id);
-  const start = view.querySelector("#start");
-  const second = view.querySelector("#second");
-  const matrimoni = view.querySelector("#matrimoni");
-  const battesimi = view.querySelector("#battesimi");
-  const altro = view.querySelector("#altro");
-  const caption = view.querySelector("#caption");
-  const imgContainers = view.querySelectorAll('.image-container');
-  if (!isMobileLayout) {
-    start.style.height = '100%';
-    second.style.height = '0%';
-    caption.style.width = '100%';
-
-    imgContainers.forEach(container => {
-      container.style.width = '0%';
-      container.querySelector('img').style.opacity = '0';
-      const newElement = container.cloneNode(true);
-      container.parentNode.replaceChild(newElement, container);
-    });
-  } else {
-    imgContainers.forEach(container => {
-      const textOverlay = container.querySelector('.text-overlay');
-      textOverlay.style.opacity = '0';
-    });
+// Desktop Portfolio Mouseover Animation
+function handleMouseOver(container) {
+  const textOverlay = container.querySelector('.text-overlay');
+  if (textOverlay) {
+    textOverlay.style.backgroundColor = `#f8f4f1`;
+    textOverlay.style.color = '#e6947c';
+    textOverlay.style.opacity = '1';
   }
 }
 
+// About onAppear animation
 function aboutAnimation() {
   const subtitle_txt = "Mi chiamo "
   const name_txt = "Marta Cosca."
@@ -339,69 +331,19 @@ function aboutAnimation() {
   }, 6000 + 150 * i);
 }
 
-// on appear animation 
-
-function animateOnIntersection(entries, observer) {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      // Animation on intersection
-      document.getElementById('menu').style.opacity = '0.85';
-      setTimeout(() => {
-        document.getElementById('name').querySelector('h1').style.opacity = '1';
-      }, 1000);
-      setTimeout(() => {
-        document.getElementById('logo').style.opacity = '0.7';
-      }, 1400);
-      const h2 = document.getElementById('name').querySelector('h2');
-      const text = h2.textContent;
-      h2.textContent = text[0];
-      setTimeout(() => {
-        h2.style.opacity = 1;
-      }, 1400);
-
-      for (let i = 1; i < text.length; i++) {
-        (function (index) {
-          setTimeout(() => {
-            h2.textContent += text[index];
-          }, 1400 + 250 * index);
-        })(i);
-      }
-      // Stop observing after animation is triggered
-      observer.unobserve(entry.target);
-    }
-  });
-}
-
-// Create Intersection Observer with threshold 0.01
-const observer3 = new IntersectionObserver(animateOnIntersection, { threshold: 0.01 });
-
-// Observe target elements
-observer3.observe(document.getElementById('menu'));
-observer3.observe(document.getElementById('name'));
-
-// loader animation
-function updateProgress(loaded, total) {
-  const progress = (loaded / total) * 100;
-  const progressBar = document.querySelector('.progress');
-  progressBar.style.width = `${progress}%`;
-}
+/* 
+----- Loader ----- 
+*/
 
 const images = Array.from(document.body.querySelectorAll('img'));
 const loader = document.body.querySelector('.loader');
 const dots = document.body.querySelector('#dots');
-imageSources = images.map(image => {
-  return image.src;
-});
-
-imageSources.forEach(imageSrc => {
-  const img = new Image();
-  img.src = imageSrc;
-  img.onload = () => loadedImagesCount++;
-});
-
 let loadedImagesCount = 0;
 let dotStates = ['', '.', '..', '...'];
 let dotIndex = 0;
+imageSources = images.map(image => {
+  return image.src;
+});
 
 const intervalId = setInterval(() => {
   dots.textContent = dotStates[dotIndex];
@@ -416,15 +358,64 @@ function checkImagesLoaded() {
   console.log(loadedImagesCount + "/" + images.length);
   updateProgress(loadedImagesCount, images.length);
   if (loadedImagesCount == images.length) {
-    contentLoad();
+    loader.style.height = '0vh';
+    setTimeout(() => {
+      document.body.querySelector('.container').style.height = '100vh';
+    }, 700);
   }
 }
 
-function contentLoad() {
-  console.log("contentLoad called");
-  loader.style.height = '0vh';
-  setTimeout(() => {
-    document.body.querySelector('.container').style.height = '100vh';
-  }, 700);
-  console.log("contentLoad ended");
+function updateProgress(loaded, total) {
+  const progress = (loaded / total) * 100;
+  const progressBar = document.querySelector('.progress');
+  progressBar.style.width = `${progress}%`;
 }
+
+imageSources.forEach(imageSrc => {
+  const img = new Image();
+  img.src = imageSrc;
+  img.onload = () => loadedImagesCount++;
+});
+
+
+/* Add All Observers */
+
+// 3dscroll
+childElements.forEach(childElement => {
+  observerNewView.observe(childElement);
+  observerCurrentView.observe(childElement);
+});
+//onAppear
+onAppearObserver.observe(document.getElementById('menu'));
+onAppearObserver.observe(document.getElementById('name'));
+
+
+
+/*
+function resetPortfolio(view) {
+  console.log("ResetAnimation of " + view.id);
+  const start = view.querySelector("#start");
+  const second = view.querySelector("#second");
+  const matrimoni = view.querySelector("#matrimoni");
+  const battesimi = view.querySelector("#battesimi");
+  const altro = view.querySelector("#altro");
+  const caption = view.querySelector("#caption");
+  const imgContainers = view.querySelectorAll('.image-container');
+  if (!isMobileLayout) {
+    start.style.height = '100%';
+    second.style.height = '0%';
+    caption.style.width = '100%';
+
+    imgContainers.forEach(container => {
+      container.style.width = '0%';
+      container.querySelector('img').style.opacity = '0';
+      const newElement = container.cloneNode(true);
+      container.parentNode.replaceChild(newElement, container);
+    });
+  } else {
+    imgContainers.forEach(container => {
+      const textOverlay = container.querySelector('.text-overlay');
+      textOverlay.style.opacity = '0';
+    });
+  }
+} */
