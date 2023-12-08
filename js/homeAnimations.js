@@ -371,6 +371,10 @@ function checkImagesLoaded() {
   updateProgress(loadedImagesCount, images.length);
   if (loadedImagesCount == images.length) {
     externalContainer.scrollTop = 0;
+    const loaderText = loader.querySelector('#loader-text');
+    loaderText.innerHTML = 'Benvenuto!';
+    loaderText.style.fontSize = '65px';
+    loader.querySelector('.progress-bar').style.height = '0px';
     loader.style.height = '30vh';
     setTimeout(() => {
       pageContainer.style.height = '100vh';

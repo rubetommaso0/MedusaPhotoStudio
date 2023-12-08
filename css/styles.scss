@@ -81,6 +81,7 @@ body {
             align-self: center;
             font-family: 'Zector', sans-serif;
             font-size: 50px;
+            transition: font-size 0.5s ease-out;
         }
 
         .progress-bar {
@@ -90,6 +91,7 @@ body {
             border-radius: 10px;
             overflow: hidden;
             margin-top: 20px;
+            transition: height 0.5s ease-out;
 
             .progress {
                 width: 0%;

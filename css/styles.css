@@ -52,6 +52,7 @@ body .loader p {
   align-self: center;
   font-family: "Zector", sans-serif;
   font-size: 50px;
+  transition: font-size 0.5s ease-out;
 }
 body .loader .progress-bar {
   width: 50vw;
@@ -60,6 +61,7 @@ body .loader .progress-bar {
   border-radius: 10px;
   overflow: hidden;
   margin-top: 20px;
+  transition: height 0.5s ease-out;
 }
 body .loader .progress-bar .progress {
   width: 0%;
