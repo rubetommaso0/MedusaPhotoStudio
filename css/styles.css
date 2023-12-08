@@ -133,7 +133,7 @@ body .container #homepage #menu p {
 }
 body .container #homepage #menu.mobile {
   flex-direction: column;
-  top: 18px;
+  top: 4vh;
   text-align: center;
 }
 body .container #homepage #menu.mobile p {
@@ -177,7 +177,7 @@ body .container #homepage #name img {
 body .container #homepage #name.mobile {
   flex-direction: column;
   position: absolute;
-  top: 150px;
+  top: 22vh;
 }
 body .container #homepage #name.mobile h1 {
   font-size: 50px;

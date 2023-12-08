@@ -94,7 +94,7 @@ body {
             width: 85vw;
         }
     }
-    
+
     .container {
         overflow-x: hidden;
         overflow-y: auto;
@@ -172,7 +172,7 @@ body {
     
             #menu.mobile {
                 flex-direction: column;
-                top: 18px;
+                top: 4vh;
                 text-align: center;
     
                 p {
@@ -224,7 +224,7 @@ body {
             #name.mobile {
                 flex-direction: column;
                 position: absolute;
-                top: 150px;
+                top: 22vh;
     
                 h1 {
                     font-size: 50px;
