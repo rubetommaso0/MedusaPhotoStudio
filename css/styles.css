@@ -62,6 +62,7 @@ body .loader .progress-bar.mobile {
   width: 85vw;
 }
 body .container {
+  z-index: 1;
   overflow-x: hidden;
   overflow-y: auto;
   perspective: 200px;
