@@ -137,8 +137,10 @@ function handleCurrentView(entries) {
       childElements.forEach(el => {
         if (pageContainer.style.overflowY !== 'auto') {
           loader.style.transition = 'none';
-          loader.style.height = '0px';
-          externalContainer.style.height = '100vh';
+          loader.innerHTML = '';
+          loader.style.backgroundColor = '#cfcdcb';
+          loader.style.height = '2px';
+          externalContainer.style.height = 'calc(100vh + 2px)';
           pageContainer.style.overflowY = 'auto'; 
         }
         if (el == entry.target) {
