@@ -19,7 +19,7 @@ setLayout();
 
 const container = document.querySelector('.container');
 container.scrollTo({
-  top: container.scrollHeight, // Scroll to the bottom
+  bottom: container.height, // Scroll to the bottom
   behavior: 'smooth' // Optional: Add smooth scrolling behavior
 });
 
