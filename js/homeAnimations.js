@@ -42,89 +42,92 @@ document.addEventListener('click', function (event) {
   }
 });
 
-// portfolio links
-const matrimoni = document.body.querySelector("#matrimoni-link");
-const battesimi = document.body.querySelector("#battesimi-link");
-const altro = document.body.querySelector("#altro-link");
-matrimoni.addEventListener('click', function () {
-  // Replace 'your-link-here' with the URL you want to navigate to
-  window.location.href = 'portfolio.html?page=Matrimoni';
-});
-battesimi.addEventListener('click', function () {
-  // Replace 'your-link-here' with the URL you want to navigate to
-  window.location.href = 'portfolio.html?page=Battesimi';
-});
-altro.addEventListener('click', function () {
-  // Replace 'your-link-here' with the URL you want to navigate to
-  window.location.href = 'portfolio.html?page=Altro';
-});
-
 
 // Slide animation
+
 const childElements = document.querySelectorAll('.child');
-var childElement = null;
 var current = 0;
-var last = 0;
+var newInd = 0;
+var down = true;
 
-childElements.forEach(element => {
-  element.parentElement.style.zIndex = -1;
-});
-
-let flag = 0;
-
-function handleIntersection(entries, observer1) {
-  entries.forEach(entry => {
-
-    if (entry.isIntersecting) {
-      for (i = 0; i < childElements.length; i++) {
-        if (childElements[i] === entry.target.querySelector('.child')) {
-          console.log("i= " + i + ", current=" + current);
-          if (current == i - 2) {
-            current++;
-          }
-          if (i == current && last == i - 1 && last > -1) {
-            childElements[last].parentElement.style.transform = 'translateZ(-200px) scale(2)';
-            childElements[last].style.transform = 'translateZ(-200px) scale(1.5)';
-            current = last;
-          }
-          if (current <= i && current != i) {
-
-            console.log("current:" + current + " - 200y")
-            childElement = childElements[current];
-            childElement.parentElement.style.transform = 'translateZ(-200px) scale(2)';
-            childElement.style.transform = 'translateZ(-200px) scale(1.5)';
-          }
-          if (current != 0 && current > i) {
-            console.log("i:" + i + " - 200y")
-            childElement = childElements[i];
-            childElement.parentElement.style.transform = 'translateZ(-200px) scale(2)';
-            childElement.style.transform = 'translateZ(-200px) scale(1.5)';
-          }
-          current = i;
-        } else {
-          childElements[i].parentElement.style.transform = 'translateZ(0) scale(1)';
-          childElements[i].style.transform = 'translateZ(0) scale(1)';
-        }
+function setTransform(down) {
+  const index = down ? (current + 1) : (current - 1);
+  if (index == 0) {
+    const index = 1;
+    childElements[index].style.transform = 'translateZ(-200px) scale(2)';
+    childElements[index].parentElement.style.zIndex = -1;
+    childElements[index + 1].style.transform = 'translateZ(0px) scale(1)';
+    childElements[index + 1].parentElement.style.zIndex = 0;
+  } else {
+    childElements.forEach((el, ind) => {
+      if (ind == index) {
+        el.style.transform = 'translateZ(-200px) scale(2)';
+        el.parentElement.style.zIndex = -1;
+      } else {
+        el.style.transform = 'translateZ(0px) scale(1)';
+        el.parentElement.style.zIndex = 0;
       }
-    } else {
-      last = current - 1;
-      console.log("last: " + last);
+    });
+  }
+  console.log("setTransform on " + index + " down: " + down);
+}
+setTransform(down);
+
+function handleIntersection(entries) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.intersectionRatio > 0.01) {
+      var i = 0;
+      childElements.forEach(el => {
+        if (el == entry.target) {
+          newInd = i;
+          console.log("newInd:" + newInd);
+        } else {
+          i++;
+        }
+      });
+
+      if (newInd != current) {
+        down = newInd > current;
+        setTransform(down);
+      }
     }
   });
 }
 
-const options = {
+function handleCurrentView(entries) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.intersectionRatio > 0.99) {
+      var currentIndex = 0;
+      childElements.forEach(el => {
+        if (el == entry.target) {
+          current = currentIndex;
+          console.log("snapping on: " + currentIndex + " down:" + down);
+        } else {
+          currentIndex++;
+        }
+      });
+    }
+  });
+}
+
+const optionsNewView = {
   root: null,
   rootMargin: '0px',
   threshold: 0.01
 };
 
-const observer1 = new IntersectionObserver(handleIntersection, options);
+const optionsCurrentView = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.99
+};
 
-const groupElements = document.querySelectorAll('.group');
+const observerNewView = new IntersectionObserver(handleIntersection, optionsNewView);
+const observerCurrentView = new IntersectionObserver(handleCurrentView, optionsCurrentView);
 
-groupElements.forEach(groupElement => {
-  observer1.observe(groupElement);
+childElements.forEach(childElement => {
+  observerNewView.observe(childElement);
+  observerCurrentView.observe(childElement);
 });
 
 
@@ -145,67 +148,6 @@ function intersectionCallback(entries, observer) {
     }
   });
 }
-
-const observer2 = new IntersectionObserver(intersectionCallback, {
-  threshold: 0.35,
-});
-
-groupElements.forEach(groupElement => {
-  observer2.observe(groupElement);
-});
-
-let isScrolling = false;
-
-// Function to handle scrolling
-function handleScroll(event) {
-  if (!isScrolling) {
-    clearTimeout(scrollTimer);
-    console.log("scrolling");
-
-    scrollTimer = setTimeout(() => {
-      console.log(currentView);
-
-      for (let i = 0; i < childElements.length; i++) {
-        if (currentView) {
-          if (childElements[i] === currentView.querySelector('.child')) {
-            if (current == i && current > last) {
-
-              if (!flag || !(current == i && current == 1 && last == 0)) {
-                isScrolling = true;
-                if ('scrollBehavior' in document.documentElement.style) {
-                  currentView.scrollIntoView({
-                    behavior: 'smooth'
-                  });
-                } else {
-                  currentView.scrollIntoView();
-                }
-                triggerAnimation(currentView.querySelector('.child'));
-                last = i;
-              }
-            }
-            flag = 1;
-
-          }
-        }
-      }
-
-      setTimeout(() => {
-        isScrolling = false;
-      }, event == 'touchMove' ? 1000 : 500);
-    }, event == 'touchMove' ? 1000 : 500);
-  } else {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-}
-
-// Mouse wheel scrolling
-window.addEventListener('wheel', handleScroll, { passive: false });
-
-// Touch-based scrolling
-window.addEventListener('touchmove', handleScroll, { passive: false });
-
-let aboutAnimationComplete = false;
 
 function triggerAnimation(view) {
   if (view.id == "portfolio") {

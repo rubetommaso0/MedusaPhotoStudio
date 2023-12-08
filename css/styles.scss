@@ -28,10 +28,6 @@
     height: 100vh;
 }
 
-@mixin layer-1 {
-    transform: translateZ(-200px) scale(2);
-}
-
 * {
     margin: 0px;
     padding: 0px;
@@ -54,6 +50,8 @@ $arancione-scuro: #ff5733;
 $arancione-chiaro: #ffb46e;
 
 body {
+    display: flex;
+    flex-direction: column;
 
     .loader {
         display: flex;
@@ -97,12 +95,153 @@ body {
         }
     }
 
+    #homepage {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+
+        #bg {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+        }
+
+        #menu {
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            position: absolute;
+            justify-content: center;
+            position: absolute;
+            top: 8vh;
+            display: flex;
+            font-size: 25px;
+
+            p {
+                color: $pesca-chiaro;
+            }
+        }
+
+        #menu.mobile {
+            flex-direction: column;
+            top: 18px;
+            text-align: center;
+
+            p {
+                height: 8px;
+                overflow: hidden;
+                opacity: 0;
+            }
+        }
+
+        #name {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .v {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            h1 {
+                opacity: 0;
+                transition: opacity 1.5s ease-in-out;
+                font-family: 'Abril Fatface';
+                letter-spacing: 8px;
+                text-align: center;
+                font-size: 70px;
+                color: white;
+
+            }
+
+            h2 {
+                opacity: 0;
+                font-family: "Quicksand";
+                text-align: center;
+                font-weight: 100;
+                letter-spacing: 12px;
+                font-size: 35px;
+                color: white;
+                /* text-shadow: 2px 2px $marrone; */
+            }
+
+            img {
+                opacity: 0;
+                transition: opacity 1s ease-in-out;
+            }
+        }
+
+        #name.mobile {
+            flex-direction: column;
+            position: absolute;
+            top: 150px;
+
+            h1 {
+                font-size: 50px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            img {
+                margin-top: 10px;
+                height: 65px;
+                overflow: hidden;
+            }
+        }
+
+        #name.desktop {
+            flex-direction: row;
+            position: absolute;
+            top: 15vh;
+
+            img {
+                height: 100px;
+                margin-right: 40px;
+                margin-top: 20px;
+            }
+        }
+
+        .scroll-link {
+            position: relative;
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 100;
+            letter-spacing: 2px;
+            text-decoration: none;
+            z-index: 3;
+        }
+
+        .scroll-link.desktop {
+            font-size: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+
+            &:hover {
+                font-weight: 400;
+                color: #e6947c;
+                text-shadow: 1px 1px white;
+            }
+        }
+
+        .scroll-link.mobile {
+            font-size: 20px;
+        }
+    }
+
     .container {
         overflow-x: hidden;
         overflow-y: auto;
         perspective: 200px;
         width: 100vw;
-        height: 0vh;
+        height: 100vh;
         transition: height 0.7s ease-in-out;
 
         .h {
@@ -140,145 +279,9 @@ body {
             font-family: 'Abril Fatface';
         }
 
-        .scroll-link {
-            position: relative;
-            color: white;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 100;
-            letter-spacing: 2px;
-            text-decoration: none;
-            z-index: 3;
-        }
-
-        .scroll-link.desktop {
-            font-size: 20px;
-            padding-left: 20px;
-            padding-right: 20px;
-
-            &:hover {
-                font-weight: 400;
-                color: #e6947c;
-                text-shadow: 1px 1px white;
-            }
-        }
-
-        .scroll-link.mobile {
-            font-size: 20px;
-        }
-
-        #homepage {
-            @include align-center;
-            @include layer-1;
-            z-index: 1;
-
-            #bg {
-                width: 100%;
-                height: 100%;
-                z-index: -1;
-                padding-bottom: 0px;
-            }
-
-            #menu {
-                z-index: 3;
-                opacity: 0;
-                transition: opacity 1.5s ease-in-out;
-                position: absolute;
-                justify-content: center;
-                position: absolute;
-                top: 8vh;
-                display: flex;
-                font-size: 25px;
-
-                p {
-                    color: $pesca-chiaro;
-                }
-            }
-
-            #menu.mobile {
-                flex-direction: column;
-                top: 18px;
-                text-align: center;
-
-                p {
-                    height: 8px;
-                    overflow: hidden;
-                    opacity: 0;
-                }
-            }
-
-            #name {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                .v {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                }
-
-                h1 {
-                    opacity: 0;
-                    transition: opacity 1.5s ease-in-out;
-                    font-family: 'Abril Fatface';
-                    letter-spacing: 8px;
-                    text-align: center;
-                    font-size: 70px;
-                    color: white;
-
-                }
-
-                h2 {
-                    opacity: 0;
-                    font-family: "Quicksand";
-                    text-align: center;
-                    font-weight: 100;
-                    letter-spacing: 12px;
-                    font-size: 35px;
-                    color: white;
-                    /* text-shadow: 2px 2px $marrone; */
-                }
-
-                img {
-                    opacity: 0;
-                    transition: opacity 1s ease-in-out;
-                }
-            }
-
-            #name.mobile {
-                flex-direction: column;
-                position: absolute;
-                top: 150px;
-
-                h1 {
-                    font-size: 50px;
-                }
-
-                h2 {
-                    font-size: 22px;
-                }
-
-                img {
-                    margin-top: 10px;
-                    height: 65px;
-                    overflow: hidden;
-                }
-            }
-
-            #name.desktop {
-                flex-direction: row;
-                position: absolute;
-                top: 15vh;
-
-                img {
-                    height: 100px;
-                    margin-right: 40px;
-                    margin-top: 20px;
-                }
-            }
-        }
-
         #portfolio {
+            display: flex;
+            position: absolute;
             width: 100%;
             height: 100%;
             background-color: $grigio-chiaro;
@@ -346,13 +349,13 @@ body {
                 letter-spacing: 5px;
             }
 
-           #second.mobile {
-            height: 67%;
-           } 
+            #second.mobile {
+                height: 67%;
+            }
 
-           #start.mobile {
-            height: 33%;
-           }
+            #start.mobile {
+                height: 33%;
+            }
 
             #caption.mobile {
                 height: 0%;
@@ -377,9 +380,8 @@ body {
             .image-container img.mobile {
                 width: 100%;
                 height: 100%;
-                opacity: 0;
+                opacity: 1;
                 object-fit: cover;
-                transition: filter 0.3s ease, opacity 1s ease;
             }
 
             .text-overlay.mobile {
@@ -399,6 +401,7 @@ body {
         }
 
         #about {
+            position: absolute;
             height: 100%;
             width: 100%;
             display: flex;
