@@ -43,6 +43,9 @@ document.addEventListener('click', function (event) {
 const matrimoni = document.body.querySelector("#matrimoni-link");
 const battesimi = document.body.querySelector("#battesimi-link");
 const altro = document.body.querySelector("#altro-link");
+matrimoni.style.zIndex = '3';
+battesimi.style.zIndex = '3';
+altro.style.zIndex = '3';
 matrimoni.addEventListener('click', function () {
   window.location.href = 'portfolio.html?page=Matrimoni';
 });
