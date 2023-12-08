@@ -25,6 +25,13 @@ body {
   display: flex;
   flex-direction: column;
 }
+body .external-div {
+  z-index: 1;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  width: 100vw;
+  height: 130vh;
+}
 body .loader {
   display: flex;
   overflow-x: hidden;
@@ -34,6 +41,7 @@ body .loader {
   background-color: #f7b797;
   align-items: center;
   justify-content: center;
+  transition: height 0.7s ease-in-out;
 }
 body .loader .v {
   display: flex;
@@ -63,10 +71,10 @@ body .loader .progress-bar.mobile {
 }
 body .container {
   overflow-x: hidden;
-  overflow-y: visible;
+  overflow-y: hidden;
   perspective: 200px;
   width: 100vw;
-  height: 100vh;
+  height: 0vh;
   transition: height 0.7s ease-in-out;
 }
 body .container .h {

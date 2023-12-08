@@ -1,3 +1,7 @@
+const pageContainer = document.body.querySelector('.container');
+const externalContainer = document.body.querySelector('.external-div');
+const loader = document.body.querySelector('.loader');
+
 /* Mobile vs. Desktop layout */
 const allElements = document.querySelectorAll('*');
 var isMobileLayout = window.innerWidth <= 960;
@@ -131,6 +135,12 @@ function handleCurrentView(entries) {
     if (entry.isIntersecting && entry.intersectionRatio > 0.99) {
       var currentIndex = 0;
       childElements.forEach(el => {
+        if (pageContainer.style.overflowY !== 'auto') {
+          loader.style.transition = 'none';
+          loader.style.height = '0px';
+          externalContainer.style.height = '100vh';
+          pageContainer.style.overflowY = 'auto'; 
+        }
         if (el == entry.target) {
           current = currentIndex;
           console.log("snapping on: " + currentIndex + " down:" + down);
@@ -339,7 +349,6 @@ function aboutAnimation() {
 */
 
 const images = Array.from(document.body.querySelectorAll('img'));
-const loader = document.body.querySelector('.loader');
 const dots = document.body.querySelector('#dots');
 let loadedImagesCount = 0;
 let dotStates = ['', '.', '..', '...'];
@@ -361,9 +370,10 @@ function checkImagesLoaded() {
   console.log(loadedImagesCount + "/" + images.length);
   updateProgress(loadedImagesCount, images.length);
   if (loadedImagesCount == images.length) {
-    loader.style.height = '0vh';
+    externalContainer.scrollTop = 0;
+    loader.style.height = '30vh';
     setTimeout(() => {
-      document.body.querySelector('.container').style.height = '100vh';
+      pageContainer.style.height = '100vh';
     }, 700);
   }
 }
