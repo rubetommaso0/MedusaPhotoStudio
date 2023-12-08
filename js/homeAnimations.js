@@ -17,22 +17,6 @@ function setLayout() {
 }
 setLayout();
 
-const fullscreenButton = document.getElementById('fullscreenButton');
-
-function requestFullscreen() {
-  const element = document.body.querySelector('.container');
-  if (element.requestFullscreen) {
-    element.requestFullscreen();
-  } else if (element.webkitRequestFullscreen) { // For Safari on iOS
-    element.webkitRequestFullscreen();
-  }
-}
-
-fullscreenButton.addEventListener('click', () => {
-  requestFullscreen();
-  fullscreenButton.style.height = '0px';
-});
-
 /* Menu scroll links */
 let scrollTimer;
 
