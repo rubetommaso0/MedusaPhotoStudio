@@ -1,6 +1,7 @@
 const pageContainer = document.body.querySelector('.container');
 const externalContainer = document.body.querySelector('.external-div');
 const loader = document.body.querySelector('.loader');
+const bottomDiv = document.querySelector('.bottom-div');
 
 /* Mobile vs. Desktop layout */
 const allElements = document.querySelectorAll('*');
@@ -40,6 +41,16 @@ document.addEventListener('click', function (event) {
     scrollTimer = setTimeout(() => {
       triggerAnimation(view);
     }, 500);
+    setTimeout(() => {
+      if ('scrollBehavior' in document.documentElement.style) {
+        bottomDiv.scrollIntoView({
+          behavior: 'smooth'
+        });
+      } else {
+        bottomDiv.scrollIntoView();
+      }  
+    }, 850);
+    
   }
 });
 
@@ -160,8 +171,6 @@ function handleCurrentView(entries) {
 }
 
 // Observer to always remove top bar on mobile phones before scrolling the main container
-const bottomDiv = document.querySelector('.bottom-div');
-
 const options = {
   threshold: 0.75 
 };
