@@ -78,6 +78,12 @@ function setTransform(down) {
     childElements[index].parentElement.style.zIndex = -1;
     childElements[index + 1].style.transform = 'translateZ(0px) scale(1)';
     childElements[index + 1].parentElement.style.zIndex = 0;
+  } else if (index == childElements.length - 1) {
+    const index = childElements.length - 2;
+    childElements[index].style.transform = 'translateZ(-200px) scale(2)';
+    childElements[index].parentElement.style.zIndex = -1;
+    childElements[index + 1].style.transform = 'translateZ(0px) scale(1)';
+    childElements[index + 1].parentElement.style.zIndex = 0;
   } else {
     childElements.forEach((el, ind) => {
       if (ind == index) {
@@ -126,22 +132,21 @@ function handleIntersection(entries) {
 const optionsCurrentView = {
   root: null,
   rootMargin: '0px',
-  threshold: 0.99
+  threshold: 0.96
 };
 const observerCurrentView = new IntersectionObserver(handleCurrentView, optionsCurrentView);
 
 function handleCurrentView(entries) {
   entries.forEach(entry => {
-    if (entry.isIntersecting && entry.intersectionRatio > 0.99) {
+    if (entry.isIntersecting && entry.intersectionRatio > 0.96) {
       var currentIndex = 0;
       childElements.forEach(el => {
         if (pageContainer.style.overflowY !== 'auto') {
           loader.style.transition = 'none';
-          loader.innerHTML = '';
-          loader.style.backgroundColor = '#cfcdcb';
-          loader.style.height = '2px';
-          externalContainer.style.height = 'calc(100vh + 2px)';
-          pageContainer.style.overflowY = 'auto'; 
+          loader.style.height = '0px';
+          externalContainer.querySelector('#link').style.opacity = '1';
+          externalContainer.style.height = 'auto';
+          pageContainer.style.overflowY = 'auto';
         }
         if (el == entry.target) {
           current = currentIndex;
@@ -153,6 +158,29 @@ function handleCurrentView(entries) {
     }
   });
 }
+
+// Observer to always remove top bar on mobile phones before scrolling the main container
+const bottomDiv = document.querySelector('.bottom-div');
+
+const options = {
+  threshold: 0.75 
+};
+
+const callback = (entries, bottomDivObserver) => {
+  entries.forEach(entry => {
+    console.log("bottomdiv intRatio: " + entry.intersectionRatio);
+    if (entry.intersectionRatio < 0.75) {
+      pageContainer.style.overflowY = 'hidden';
+      externalContainer.style.overflowY = 'auto';
+    }
+    if (entry.intersectionRatio > 0.75) {
+      pageContainer.style.overflowY = 'auto';
+      externalContainer.style.overflowY = 'hidden';
+    }
+  });
+};
+
+const bottomDivObserver = new IntersectionObserver(callback, options);
 
 /* 
 ----- On Appear animations for sections ----- 
@@ -372,12 +400,13 @@ function checkImagesLoaded() {
   console.log(loadedImagesCount + "/" + images.length);
   updateProgress(loadedImagesCount, images.length);
   if (loadedImagesCount == images.length) {
-    externalContainer.scrollTop = 0;
     const loaderText = loader.querySelector('#loader-text');
     loaderText.innerHTML = 'Benvenuto!';
     loaderText.style.fontSize = '65px';
     loader.querySelector('.progress-bar').style.height = '0px';
-    loader.style.height = '30vh';
+    loader.querySelector('.progress-bar').style.margin = '0px';
+    loader.style.height = '15vh';
+    externalContainer.scrollIntoView(loader);
     setTimeout(() => {
       pageContainer.style.height = '100vh';
     }, 700);
@@ -407,6 +436,8 @@ childElements.forEach(childElement => {
 //onAppear
 onAppearObserver.observe(document.getElementById('menu'));
 onAppearObserver.observe(document.getElementById('name'));
+//bottomDiv
+bottomDivObserver.observe(bottomDiv);
 
 
 

@@ -30,7 +30,59 @@ body .external-div {
   overflow-x: hidden;
   overflow-y: scroll;
   width: 100vw;
-  height: 130vh;
+  height: 117.5vh;
+}
+body .bottom-div {
+  display: flex;
+  overflow-y: hidden;
+  height: 2.5vh;
+  font-size: 10px;
+  background-color: #cfcdcb;
+  align-items: center;
+  justify-content: center;
+}
+body .bottom-div .h {
+  display: flex;
+  flex-direction: row;
+}
+body .bottom-div #link {
+  width: 100%;
+  opacity: 0;
+}
+body .bottom-div #link a {
+  color: #0a2c4f;
+  font-family: "Zector", sans-serif;
+  text-decoration: none;
+  font-weight: 900;
+}
+body .bottom-div #link a.desktop:hover {
+  text-shadow: 1px 1px #0a2c4f;
+  color: rgb(7, 85, 85);
+}
+body .bottom-div #link footer {
+  color: black;
+  font-family: "Zector", sans-serif;
+}
+body .bottom-div footer.mobile {
+  width: 50vw;
+  text-align: center;
+  padding-right: 5vw;
+}
+body .bottom-div a.mobile {
+  width: 50vw;
+  text-align: center;
+  padding-left: 5vw;
+}
+body .bottom-div footer.desktop {
+  padding-right: 5vw;
+  padding-right: 5vw;
+}
+body .bottom-div a.desktop {
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+body .bottom-div #link.desktop {
+  justify-content: center;
 }
 body .loader {
   display: flex;
@@ -414,30 +466,4 @@ body .container #prodotti {
   width: 100vw;
   height: 100vh;
   background-color: #a3ff84;
-}
-body .container #link {
-  font-size: 25px;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  justify-content: end;
-}
-body .container #link a {
-  padding-top: 15px;
-  color: #0a2c4f;
-  font-family: "Zector", sans-serif;
-  text-decoration: none;
-  font-weight: 900;
-}
-body .container #link a:hover {
-  text-shadow: 1px 1px #0a2c4f;
-  color: rgb(7, 85, 85);
-}
-body .container footer {
-  color: black;
-  font-family: "Zector", sans-serif;
 }/*# sourceMappingURL=styles.css.map */

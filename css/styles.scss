@@ -58,7 +58,65 @@ body {
         overflow-x: hidden;
         overflow-y: scroll;
         width: 100vw;
-        height: 130vh;
+        height: 117.5vh;
+    }
+
+    .bottom-div {
+        display: flex;
+        overflow-y: hidden;
+        height: 2.5vh;
+        font-size: 10px;
+        background-color: #cfcdcb;
+        align-items: center;
+        justify-content: center;
+
+        .h {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #link {
+            width: 100%;
+            opacity: 0;
+            a {
+                color: $blu-scuro;
+                font-family: 'Zector', sans-serif;
+                text-decoration: none;
+                font-weight: 900;
+            }
+
+            a.desktop:hover {
+                text-shadow: 1px 1px $blu-scuro;
+                color: rgb(7, 85, 85);
+            }
+
+            footer {
+                color: black;
+                font-family: 'Zector', sans-serif;
+            }
+
+        }
+        footer.mobile {
+            width: 50vw;
+            text-align: center;
+            padding-right: 5vw;
+        }
+        a.mobile {
+            width: 50vw;
+            text-align: center;
+            padding-left: 5vw;
+        }
+        footer.desktop {
+            padding-right: 5vw;
+            padding-right: 5vw;
+        }
+        a.desktop {
+            padding-left: 5vw;
+            padding-right: 5vw;
+        }
+        #link.desktop {
+            justify-content: center;
+        }
     }
 
     .loader {
@@ -71,6 +129,7 @@ body {
         align-items: center;
         justify-content: center;
         transition: height 0.7s ease-in-out;
+
         .v {
             display: flex;
             flex-direction: column;
@@ -157,13 +216,13 @@ body {
             width: 100vw;
             height: 100vh;
             object-fit: cover;
-    
+
             #bg {
                 width: 100vw;
                 height: 100vh;
                 object-fit: cover;
             }
-    
+
             #menu {
                 z-index: 3;
                 opacity: 0;
@@ -174,35 +233,35 @@ body {
                 top: 8vh;
                 display: flex;
                 font-size: 25px;
-    
+
                 p {
                     color: $pesca-chiaro;
                 }
             }
-    
+
             #menu.mobile {
                 flex-direction: column;
                 top: 4vh;
                 text-align: center;
-    
+
                 p {
                     height: 8px;
                     overflow: hidden;
                     opacity: 0;
                 }
             }
-    
+
             #name {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-    
+
                 .v {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                 }
-    
+
                 h1 {
                     opacity: 0;
                     transition: opacity 1.5s ease-in-out;
@@ -211,9 +270,9 @@ body {
                     text-align: center;
                     font-size: 70px;
                     color: white;
-    
+
                 }
-    
+
                 h2 {
                     opacity: 0;
                     font-family: "Quicksand";
@@ -224,45 +283,45 @@ body {
                     color: white;
                     /* text-shadow: 2px 2px $marrone; */
                 }
-    
+
                 img {
                     opacity: 0;
                     transition: opacity 1s ease-in-out;
                 }
             }
-    
+
             #name.mobile {
                 flex-direction: column;
                 position: absolute;
                 top: 22vh;
-    
+
                 h1 {
                     font-size: 50px;
                 }
-    
+
                 h2 {
                     font-size: 22px;
                 }
-    
+
                 img {
                     margin-top: 10px;
                     height: 65px;
                     overflow: hidden;
                 }
             }
-    
+
             #name.desktop {
                 flex-direction: row;
                 position: absolute;
                 top: 15vh;
-    
+
                 img {
                     height: 100px;
                     margin-right: 40px;
                     margin-top: 20px;
                 }
             }
-    
+
             .scroll-link {
                 position: relative;
                 color: white;
@@ -272,19 +331,19 @@ body {
                 text-decoration: none;
                 z-index: 3;
             }
-    
+
             .scroll-link.desktop {
                 font-size: 20px;
                 padding-left: 20px;
                 padding-right: 20px;
-    
+
                 &:hover {
                     font-weight: 400;
                     color: #e6947c;
                     text-shadow: 1px 1px white;
                 }
             }
-    
+
             .scroll-link.mobile {
                 font-size: 20px;
             }
@@ -484,28 +543,6 @@ body {
             background-color: #a3ff84;
         }
 
-        #link {
-            font-size: 25px;
-            @include align-center;
-            justify-content: end;
 
-            a {
-                padding-top: 15px;
-                color: $blu-scuro;
-                font-family: 'Zector', sans-serif;
-                text-decoration: none;
-                font-weight: 900;
-
-                &:hover {
-                    text-shadow: 1px 1px $blu-scuro;
-                    color: rgb(7, 85, 85);
-                }
-            }
-        }
-
-        footer {
-            color: black;
-            font-family: 'Zector', sans-serif;
-        }
     }
 }
