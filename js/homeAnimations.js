@@ -164,6 +164,10 @@ function handleCurrentView(entries) {
   });
 }
 
+/* 
+---- Scroll Down to start ----
+*/
+
 // Container observer
 const optionsContainerViewForeground = {
   root: null,
@@ -195,10 +199,70 @@ function handleContainerViewBackground(entries) {
   });
 }
 
-/* if (entry.isIntersecting && entry.intersectionRatio < 1){
-  pageContainer.style.overflowY = 'hidden';
-  console.log("Container hidden");
-} */
+// OnScroll opacity animation
+let animationId;
+
+function adjustContainerOpacity() {
+  const topPosition = document.documentElement.scrollTop || window.scrollY;
+  const maxHeight = document.documentElement.clientHeight;
+
+  const opacity = topPosition / maxHeight;
+
+  if (opacity < 0.95) {
+    pageContainer.style.opacity = opacity;
+    animationId = requestAnimationFrame(adjustContainerOpacity);
+  } else {
+    pageContainer.style.opacity = 1;
+    cancelAnimationFrame(animationId);
+    console.log('Opacity reached 1');
+  }
+}
+animationId = requestAnimationFrame(adjustContainerOpacity);
+
+// Custom scroll navigation
+let currentVisibleView = 0;
+let firstTouchY = null;
+let isScrolling = false;
+
+function handleScroll(event) {
+  event.preventDefault();
+
+  const lastTouchY = event.touches[0].clientY;
+
+  if (firstTouchY && (lastTouchY > firstTouchY + 20) || (lastTouchY < firstTouchY - 20)) {
+    console.log("handleScroll - firstTouchY:" + firstTouchY + " lastTouchY:" + lastTouchY);
+    if (lastTouchY < firstTouchY) {
+      goToNextView();
+    } else {
+      goToPreviousView();
+    }
+    firstTouchY = null;
+  } else if (firstTouchY == null) {
+    firstTouchY = lastTouchY;
+  }
+}
+
+function handleWheel(event) {
+  event.preventDefault();
+
+  const delta = Math.max(-1, Math.min(1, event.deltaY || -event.detail));
+  console.log("handleWheel - delta:" + delta);
+
+  if (delta > 0) {
+    goToNextView();
+  } else {
+    goToPreviousView();
+  }
+}
+
+function goToNextView() {
+  console.log('Navigation - Going to the next view');
+}
+function goToPreviousView() {
+  console.log('Navigation - Going to the previous view');
+}
+document.addEventListener('touchmove', handleScroll, { passive: false });
+document.addEventListener('wheel', handleWheel, { passive: false });
 
 
 /* 
