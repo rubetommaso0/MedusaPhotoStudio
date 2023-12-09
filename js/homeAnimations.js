@@ -1,7 +1,7 @@
 const pageContainer = document.body.querySelector('.container');
-const externalContainer = document.body.querySelector('.external-div');
+const scrollDownContainer = document.body.querySelector('.scroll-down');
 const loader = document.body.querySelector('.loader');
-const bottomDiv = document.querySelector('.bottom-div');
+const externalContainer = document.querySelector('.scroll-down-container');
 
 /* Mobile vs. Desktop layout */
 const allElements = document.querySelectorAll('*');
@@ -29,28 +29,33 @@ document.addEventListener('click', function (event) {
   if (event.target.classList.contains('scroll-link')) {
     const target = event.target;
     const selector = target.dataset.link;
-    if ('scrollBehavior' in document.documentElement.style) {
-      document.querySelector(selector).parentElement.scrollIntoView({
-        behavior: 'smooth'
-      });
+    const elementToScrollTo = document.querySelector(selector).parentElement;
+    if (elementToScrollTo.style.zIndex != 0) {
+      elementToScrollTo.style.transform = 'translateZ(0px) scale(1)';
+      elementToScrollTo.style.zIndex = 0;
+      if ('scrollBehavior' in document.documentElement.style) {
+        elementToScrollTo.scrollIntoView({
+          behavior: 'smooth'
+        });
+      } else {
+        elementToScrollTo.scrollIntoView();
+      }
+      elementToScrollTo.style.transform = 'translateZ(-200px) scale(2)';
+      elementToScrollTo.style.zIndex = -1;
     } else {
-      document.querySelector(selector).parentElement.scrollIntoView();
+      if ('scrollBehavior' in document.documentElement.style) {
+        elementToScrollTo.scrollIntoView({
+          behavior: 'smooth'
+        });
+      } else {
+        elementToScrollTo.scrollIntoView();
+      }
     }
 
     const view = document.querySelector(selector);
     scrollTimer = setTimeout(() => {
       triggerAnimation(view);
     }, 500);
-    setTimeout(() => {
-      if ('scrollBehavior' in document.documentElement.style) {
-        bottomDiv.scrollIntoView({
-          behavior: 'smooth'
-        });
-      } else {
-        bottomDiv.scrollIntoView();
-      }  
-    }, 850);
-    
   }
 });
 
@@ -82,33 +87,29 @@ var down = true;
 
 // Transform function
 function setTransform(down) {
-  const index = down ? (current + 1) : (current - 1);
-  if (index == 0) {
-    const index = 1;
-    childElements[index].style.transform = 'translateZ(-200px) scale(2)';
-    childElements[index].parentElement.style.zIndex = -1;
-    childElements[index + 1].style.transform = 'translateZ(0px) scale(1)';
-    childElements[index + 1].parentElement.style.zIndex = 0;
+  const index = down ? (current + 1) : current;
+  console.log("setTransform on " + index + " down: " + down + "current: " + current);
+  if (index == 0 && !down) {
+    // do nothing
   } else if (index == childElements.length - 1) {
-    const index = childElements.length - 2;
-    childElements[index].style.transform = 'translateZ(-200px) scale(2)';
-    childElements[index].parentElement.style.zIndex = -1;
-    childElements[index + 1].style.transform = 'translateZ(0px) scale(1)';
-    childElements[index + 1].parentElement.style.zIndex = 0;
+    if (down == true) {
+      childElements[index].parentElement.style.transform = 'translateZ(-200px) scale(2)';
+      childElements[index].parentElement.style.zIndex = -1;
+      childElements[index - 1].parentElement.style.transform = 'translateZ(0px) scale(1)';
+      childElements[index - 1].parentElement.style.zIndex = 0;
+    }
   } else {
     childElements.forEach((el, ind) => {
       if (ind == index) {
-        el.style.transform = 'translateZ(-200px) scale(2)';
+        el.parentElement.style.transform = 'translateZ(-200px) scale(2)';
         el.parentElement.style.zIndex = -1;
       } else {
-        el.style.transform = 'translateZ(0px) scale(1)';
+        el.parentElement.style.transform = 'translateZ(0px) scale(1)';
         el.parentElement.style.zIndex = 0;
       }
     });
   }
-  console.log("setTransform on " + index + " down: " + down);
 }
-setTransform(down);
 
 // NewView observer
 const optionsNewView = {
@@ -143,22 +144,15 @@ function handleIntersection(entries) {
 const optionsCurrentView = {
   root: null,
   rootMargin: '0px',
-  threshold: 0.96
+  threshold: 0.95
 };
 const observerCurrentView = new IntersectionObserver(handleCurrentView, optionsCurrentView);
 
 function handleCurrentView(entries) {
   entries.forEach(entry => {
-    if (entry.isIntersecting && entry.intersectionRatio > 0.96) {
+    if (entry.isIntersecting && entry.intersectionRatio > 0.95) {
       var currentIndex = 0;
       childElements.forEach(el => {
-        if (pageContainer.style.overflowY !== 'auto') {
-          loader.style.transition = 'none';
-          loader.style.height = '0px';
-          externalContainer.querySelector('#link').style.opacity = '1';
-          externalContainer.style.height = 'auto';
-          pageContainer.style.overflowY = 'auto';
-        }
         if (el == entry.target) {
           current = currentIndex;
           console.log("snapping on: " + currentIndex + " down:" + down);
@@ -170,26 +164,42 @@ function handleCurrentView(entries) {
   });
 }
 
-// Observer to always remove top bar on mobile phones before scrolling the main container
-const options = {
-  threshold: 0.75 
+// Container observer
+const optionsContainerViewForeground = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 1
 };
-
-const callback = (entries, bottomDivObserver) => {
+const observerContainerViewForeground = new IntersectionObserver(handleContainerViewForeground, optionsContainerViewForeground);
+function handleContainerViewForeground(entries) {
   entries.forEach(entry => {
-    console.log("bottomdiv intRatio: " + entry.intersectionRatio);
-    if (entry.intersectionRatio < 0.75) {
-      pageContainer.style.overflowY = 'hidden';
-      externalContainer.style.overflowY = 'auto';
-    }
-    if (entry.intersectionRatio > 0.75) {
+    if (entry.isIntersecting && entry.intersectionRatio === 1) {
       pageContainer.style.overflowY = 'auto';
-      externalContainer.style.overflowY = 'hidden';
+      console.log("Container foreground");
     }
   });
-};
+}
 
-const bottomDivObserver = new IntersectionObserver(callback, options);
+const optionsContainerViewBackground = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.98
+};
+const observerContainerViewBackground = new IntersectionObserver(handleContainerViewBackground, optionsContainerViewBackground);
+function handleContainerViewBackground(entries) {
+  entries.forEach(entry => {
+    console.log(entry.intersectionRatio);
+    if (entry.intersectionRatio < 0.98) {
+      console.log("Container hidden");
+    }
+  });
+}
+
+/* if (entry.isIntersecting && entry.intersectionRatio < 1){
+  pageContainer.style.overflowY = 'hidden';
+  console.log("Container hidden");
+} */
+
 
 /* 
 ----- On Appear animations for sections ----- 
@@ -414,8 +424,7 @@ function checkImagesLoaded() {
     loaderText.style.fontSize = '65px';
     loader.querySelector('.progress-bar').style.height = '0px';
     loader.querySelector('.progress-bar').style.margin = '0px';
-    loader.style.height = '15vh';
-    externalContainer.scrollIntoView(loader);
+    loader.style.height = '0vh';
     setTimeout(() => {
       pageContainer.style.height = '100vh';
     }, 700);
@@ -445,8 +454,9 @@ childElements.forEach(childElement => {
 //onAppear
 onAppearObserver.observe(document.getElementById('menu'));
 onAppearObserver.observe(document.getElementById('name'));
-//bottomDiv
-bottomDivObserver.observe(bottomDiv);
+//ContainerViewForeground
+observerContainerViewForeground.observe(pageContainer);
+observerContainerViewBackground.observe(pageContainer);
 
 
 
@@ -478,3 +488,33 @@ function resetPortfolio(view) {
     });
   }
 } */
+
+// Observer to always remove top bar on mobile phones before scrolling the main container
+/* const options = {
+  threshold: 0.75 
+};
+
+const callback = (entries, bottomDivObserver) => {
+  entries.forEach(entry => {
+    console.log("bottomdiv intRatio: " + entry.intersectionRatio);
+    if (entry.intersectionRatio < 0.75) {
+      pageContainer.style.overflowY = 'hidden';
+      scrollDownContainer.style.overflowY = 'auto';
+    }
+    if (entry.intersectionRatio > 0.75) {
+      pageContainer.style.overflowY = 'auto';
+      externalContainer.style.overflowY = 'hidden';
+    }
+  });
+};
+const bottomDivObserver = new IntersectionObserver(callback, options); 
+-- html 
+<div class="bottom-div">
+    <div id="link" class="h">
+      <footer>Ti piace questo sito?</footer>
+      <a href="https://github.com/rubetommaso0">Clicca qui!</a>
+    </div>
+ </div>
+//bottomDiv
+bottomDivObserver.observe(bottomDiv);
+*/

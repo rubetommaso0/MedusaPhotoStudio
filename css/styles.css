@@ -24,13 +24,93 @@
 body {
   display: flex;
   flex-direction: column;
+  height: 200vh;
+  overflow-y: scroll;
 }
-body .external-div {
-  z-index: 1;
+body .scroll-down-container {
+  z-index: -1;
+  position: fixed;
+}
+body .scroll-down-container .scroll-down {
+  opacity: 1;
   overflow-x: hidden;
   overflow-y: scroll;
   width: 100vw;
-  height: 117.5vh;
+  height: 100vh;
+  position: relative;
+  background-color: #cfcdcb;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+body .scroll-down-container .scroll-down .spacer {
+  height: 25%;
+  width: 100%;
+}
+body .scroll-down-container .scroll-down .arrow {
+  height: 75%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+body .scroll-down-container .scroll-down .arrow .text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+body .scroll-down-container .scroll-down .arrow .text p {
+  font-size: 30px;
+  font-family: "Zector", sans-serif;
+}
+body .scroll-down-container .scroll-down .arrow .scroll-down-arrow {
+  opacity: 1;
+  height: 100px;
+  margin-bottom: 30px;
+}
+body .scroll-down-container .scroll-down .loader {
+  position: absolute;
+  top: 0px;
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: visible;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f7b797;
+  align-items: center;
+  justify-content: center;
+  transition: height 0.7s ease-in-out;
+  z-index: 2;
+}
+body .scroll-down-container .scroll-down .loader .v {
+  display: flex;
+  flex-direction: column;
+}
+body .scroll-down-container .scroll-down .loader p {
+  display: flex;
+  align-self: center;
+  font-family: "Zector", sans-serif;
+  font-size: 50px;
+  transition: font-size 0.5s ease-out;
+}
+body .scroll-down-container .scroll-down .loader .progress-bar {
+  width: 50vw;
+  background-color: #f8f4f1;
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px;
+  transition: height 0.5s ease-out;
+}
+body .scroll-down-container .scroll-down .loader .progress-bar .progress {
+  width: 0%;
+  height: 100%;
+  background-color: #ffb46e;
+}
+body .scroll-down-container .scroll-down .loader .progress-bar.mobile {
+  width: 85vw;
 }
 body .bottom-div {
   display: flex;
@@ -84,46 +164,9 @@ body .bottom-div a.desktop {
 body .bottom-div #link.desktop {
   justify-content: center;
 }
-body .loader {
-  display: flex;
-  overflow-x: hidden;
-  overflow-y: visible;
-  width: 100vw;
-  height: 100vh;
-  background-color: #f7b797;
-  align-items: center;
-  justify-content: center;
-  transition: height 0.7s ease-in-out;
-}
-body .loader .v {
-  display: flex;
-  flex-direction: column;
-}
-body .loader p {
-  display: flex;
-  align-self: center;
-  font-family: "Zector", sans-serif;
-  font-size: 50px;
-  transition: font-size 0.5s ease-out;
-}
-body .loader .progress-bar {
-  width: 50vw;
-  background-color: #f8f4f1;
-  height: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 20px;
-  transition: height 0.5s ease-out;
-}
-body .loader .progress-bar .progress {
-  width: 0%;
-  height: 100%;
-  background-color: #ffb46e;
-}
-body .loader .progress-bar.mobile {
-  width: 85vw;
-}
 body .container {
+  position: absolute;
+  top: 100vh;
   overflow-x: hidden;
   overflow-y: hidden;
   perspective: 200px;

@@ -52,13 +52,104 @@ $arancione-chiaro: #ffb46e;
 body {
     display: flex;
     flex-direction: column;
+    height: 200vh;
+    overflow-y: scroll;
 
-    .external-div {
-        z-index: 1;
-        overflow-x: hidden;
-        overflow-y: scroll;
-        width: 100vw;
-        height: 117.5vh;
+    .scroll-down-container {
+        z-index: -1;
+        position: fixed;
+        .scroll-down {
+            opacity: 1;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background-color: #cfcdcb;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+
+            .spacer {
+                height: 25%;
+                width: 100%;
+            }
+
+            .arrow {
+                height: 75%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+
+                .text {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+
+                    p {
+                        font-size: 30px;
+                        font-family: 'Zector', sans-serif;
+                    }
+                }
+
+                .scroll-down-arrow {
+                    opacity: 1;
+                    height: 100px;
+                    margin-bottom: 30px;
+                }
+            }
+
+            .loader {
+                position: absolute;
+                top: 0px;
+                display: flex;
+                overflow-x: hidden;
+                overflow-y: visible;
+                width: 100vw;
+                height: 100vh;
+                background-color: #f7b797;
+                align-items: center;
+                justify-content: center;
+                transition: height 0.7s ease-in-out;
+                z-index: 2;
+
+                .v {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                p {
+                    display: flex;
+                    align-self: center;
+                    font-family: 'Zector', sans-serif;
+                    font-size: 50px;
+                    transition: font-size 0.5s ease-out;
+                }
+
+                .progress-bar {
+                    width: 50vw;
+                    background-color: $grigio-chiaro;
+                    height: 20px;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    margin-top: 20px;
+                    transition: height 0.5s ease-out;
+
+                    .progress {
+                        width: 0%;
+                        height: 100%;
+                        background-color: $arancione-chiaro;
+                    }
+                }
+
+                .progress-bar.mobile {
+                    width: 85vw;
+                }
+            }
+        }
     }
 
     .bottom-div {
@@ -78,6 +169,7 @@ body {
         #link {
             width: 100%;
             opacity: 0;
+
             a {
                 color: $blu-scuro;
                 font-family: 'Zector', sans-serif;
@@ -96,75 +188,37 @@ body {
             }
 
         }
+
         footer.mobile {
             width: 50vw;
             text-align: center;
             padding-right: 5vw;
         }
+
         a.mobile {
             width: 50vw;
             text-align: center;
             padding-left: 5vw;
         }
+
         footer.desktop {
             padding-right: 5vw;
             padding-right: 5vw;
         }
+
         a.desktop {
             padding-left: 5vw;
             padding-right: 5vw;
         }
+
         #link.desktop {
             justify-content: center;
         }
     }
 
-    .loader {
-        display: flex;
-        overflow-x: hidden;
-        overflow-y: visible;
-        width: 100vw;
-        height: 100vh;
-        background-color: #f7b797;
-        align-items: center;
-        justify-content: center;
-        transition: height 0.7s ease-in-out;
-
-        .v {
-            display: flex;
-            flex-direction: column;
-        }
-
-        p {
-            display: flex;
-            align-self: center;
-            font-family: 'Zector', sans-serif;
-            font-size: 50px;
-            transition: font-size 0.5s ease-out;
-        }
-
-        .progress-bar {
-            width: 50vw;
-            background-color: $grigio-chiaro;
-            height: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 20px;
-            transition: height 0.5s ease-out;
-
-            .progress {
-                width: 0%;
-                height: 100%;
-                background-color: $arancione-chiaro;
-            }
-        }
-
-        .progress-bar.mobile {
-            width: 85vw;
-        }
-    }
-
     .container {
+        position: absolute;
+        top: 100vh;
         overflow-x: hidden;
         overflow-y: hidden;
         perspective: 200px;
