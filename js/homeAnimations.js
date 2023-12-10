@@ -25,32 +25,36 @@ setLayout();
 /* Menu scroll links */
 let scrollTimer;
 
+function scrollToView(elementToScrollTo) {
+  if (elementToScrollTo.style.zIndex != 0) {
+    elementToScrollTo.style.transform = 'translateZ(0px) scale(1)';
+    elementToScrollTo.style.zIndex = 0;
+    if ('scrollBehavior' in document.documentElement.style) {
+      elementToScrollTo.scrollIntoView({
+        behavior: 'smooth'
+      });
+    } else {
+      elementToScrollTo.scrollIntoView();
+    }
+    elementToScrollTo.style.transform = 'translateZ(-200px) scale(2)';
+    elementToScrollTo.style.zIndex = -1;
+  } else {
+    if ('scrollBehavior' in document.documentElement.style) {
+      elementToScrollTo.scrollIntoView({
+        behavior: 'smooth'
+      });
+    } else {
+      elementToScrollTo.scrollIntoView();
+    }
+  }
+}
+
 document.addEventListener('click', function (event) {
   if (event.target.classList.contains('scroll-link')) {
     const target = event.target;
     const selector = target.dataset.link;
     const elementToScrollTo = document.querySelector(selector).parentElement;
-    if (elementToScrollTo.style.zIndex != 0) {
-      elementToScrollTo.style.transform = 'translateZ(0px) scale(1)';
-      elementToScrollTo.style.zIndex = 0;
-      if ('scrollBehavior' in document.documentElement.style) {
-        elementToScrollTo.scrollIntoView({
-          behavior: 'smooth'
-        });
-      } else {
-        elementToScrollTo.scrollIntoView();
-      }
-      elementToScrollTo.style.transform = 'translateZ(-200px) scale(2)';
-      elementToScrollTo.style.zIndex = -1;
-    } else {
-      if ('scrollBehavior' in document.documentElement.style) {
-        elementToScrollTo.scrollIntoView({
-          behavior: 'smooth'
-        });
-      } else {
-        elementToScrollTo.scrollIntoView();
-      }
-    }
+    scrollToView(elementToScrollTo);
 
     const view = document.querySelector(selector);
     scrollTimer = setTimeout(() => {
@@ -152,9 +156,11 @@ function handleCurrentView(entries) {
   entries.forEach(entry => {
     if (entry.isIntersecting && entry.intersectionRatio > 0.95) {
       var currentIndex = 0;
-      childElements.forEach(el => {
+      childElements.forEach((el, ind) => {
         if (el == entry.target) {
           current = currentIndex;
+          isScrolling = false;
+          currentVisibleView = ind;
           console.log("snapping on: " + currentIndex + " down:" + down);
         } else {
           currentIndex++;
@@ -220,34 +226,38 @@ function adjustContainerOpacity() {
 animationId = requestAnimationFrame(adjustContainerOpacity);
 
 // Custom scroll navigation
-let currentVisibleView = 0;
+const parentViews = Array.from(childElements).map(element => element.parentElement);
+let currentVisibleView = -1;
 let firstTouchY = null;
 let isScrolling = false;
 
 function handleScroll(event) {
   event.preventDefault();
 
-  const lastTouchY = event.touches[0].clientY;
+  if (!isScrolling) {
+    const lastTouchY = event.touches[0].clientY;
 
-  if (firstTouchY && (lastTouchY > firstTouchY + 20) || (lastTouchY < firstTouchY - 20)) {
-    console.log("handleScroll - firstTouchY:" + firstTouchY + " lastTouchY:" + lastTouchY);
-    if (lastTouchY < firstTouchY) {
-      goToNextView();
-    } else {
-      goToPreviousView();
+    if (firstTouchY && (lastTouchY > firstTouchY + 20) || (lastTouchY < firstTouchY - 20)) {
+      console.log("handleScroll - firstTouchY:" + firstTouchY + " lastTouchY:" + lastTouchY);
+      delta = firstTouchY - lastTouchY;
+      handleInteraction(delta);
+      firstTouchY = null;
+    } else if (firstTouchY == null) {
+      firstTouchY = lastTouchY;
     }
-    firstTouchY = null;
-  } else if (firstTouchY == null) {
-    firstTouchY = lastTouchY;
   }
 }
 
 function handleWheel(event) {
   event.preventDefault();
+  if (!isScrolling) {
+    const delta = Math.max(-1, Math.min(1, event.deltaY || -event.detail));
+    handleInteraction(delta);
+  }
+}
 
-  const delta = Math.max(-1, Math.min(1, event.deltaY || -event.detail));
-  console.log("handleWheel - delta:" + delta);
-
+function handleInteraction(delta) {
+  isScrolling = true;
   if (delta > 0) {
     goToNextView();
   } else {
@@ -256,10 +266,18 @@ function handleWheel(event) {
 }
 
 function goToNextView() {
-  console.log('Navigation - Going to the next view');
+  if (currentVisibleView + 1 < parentViews.length) {
+    scrollToView(parentViews[currentVisibleView + 1]);
+  } else {
+    isScrolling = false;
+  }
 }
 function goToPreviousView() {
-  console.log('Navigation - Going to the previous view');
+  if (currentVisibleView - 1 >= 0) {
+    scrollToView(parentViews[currentVisibleView - 1]);
+  } else {
+    isScrolling = false;
+  }
 }
 document.addEventListener('touchmove', handleScroll, { passive: false });
 document.addEventListener('wheel', handleWheel, { passive: false });
