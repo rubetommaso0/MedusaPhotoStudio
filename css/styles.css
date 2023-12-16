@@ -502,10 +502,7 @@ body .container #about {
   justify-content: center;
   align-items: center;
 }
-body .container #about img {
-  height: 100%;
-}
-body .container #about .h {
+body .container #about .h.desktop {
   overflow: hidden;
   background-color: #f8f4f1;
   margin-left: 5vw;
@@ -513,19 +510,22 @@ body .container #about .h {
   width: 100%;
   height: 80vh;
 }
-body .container #about #descrizione {
-  transition: height 1s ease-out;
+body .container #about .h.desktop img.desktop {
+  height: 100%;
+}
+body .container #about .h.desktop #descrizione {
+  transition: height 3s ease-out, padding-top 2s ease-out;
   display: flex;
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 35%;
   flex-direction: column;
   font-family: "Quicksand", sans-serif;
   align-items: center;
   justify-content: start;
   text-align: center;
 }
-body .container #about #descrizione h1 {
+body .container #about .h.desktop #descrizione h1 {
   padding-top: 10px;
   transition: font-size 2.5s ease-in-out, opacity 2.5s ease-in-out;
   font-family: "Abril fatface", sans-serif;
@@ -533,7 +533,7 @@ body .container #about #descrizione h1 {
   font-weight: 700;
   opacity: 0.85;
 }
-body .container #about #descrizione h2 {
+body .container #about .h.desktop #descrizione h2 {
   opacity: 0;
   transition: opacity 1s ease-in;
   font-size: 45px;
@@ -541,10 +541,62 @@ body .container #about #descrizione h2 {
   font-weight: 400;
   padding-bottom: 20px;
 }
-body .container #about #descrizione p {
+body .container #about .h.desktop #descrizione p {
   opacity: 0;
   transition: opacity 1s ease-in, padding-top 1s ease-out;
   font-size: 19px;
+  padding-top: 5px;
+  font-weight: 200;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+body .container #about .h.mobile {
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #f8f4f1;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  width: 100%;
+  height: 95vh;
+}
+body .container #about .h.mobile img.mobile {
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 65%;
+  transition: height 3s ease-out;
+}
+body .container #about .h.mobile #descrizione {
+  transition: height 3s ease-out, padding-top 2s ease-out;
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 35%;
+  flex-direction: column;
+  font-family: "Quicksand", sans-serif;
+  align-items: center;
+  justify-content: start;
+  text-align: center;
+}
+body .container #about .h.mobile #descrizione h1 {
+  padding-top: 5px;
+  transition: font-size 2.5s ease-in-out, opacity 2.5s ease-in-out;
+  font-family: "Abril fatface", sans-serif;
+  font-size: 90px;
+  font-weight: 700;
+  opacity: 0.85;
+}
+body .container #about .h.mobile #descrizione h2 {
+  opacity: 0;
+  transition: opacity 1s ease-in;
+  font-size: 25px;
+  padding-top: 10px;
+  font-weight: 400;
+  padding-bottom: 20px;
+}
+body .container #about .h.mobile #descrizione p {
+  opacity: 0;
+  transition: opacity 1s ease-in, padding-top 1s ease-out;
+  font-size: 17px;
   padding-top: 5px;
   font-weight: 200;
   padding-left: 20px;

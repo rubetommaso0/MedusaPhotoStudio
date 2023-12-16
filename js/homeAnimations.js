@@ -27,6 +27,7 @@ function setLayout() {
     allElements.forEach(element => {
       element.classList.add('mobile');
       element.classList.remove('desktop');
+      document.getElementById('ab-image').src = "../images/home/about_me_mobile.jpg";
     });
   } else {
     allElements.forEach(element => {
@@ -292,12 +293,12 @@ const handleWheel = (event) => {
   clearTimeout(wheelTimer);
   console.log("wheel");
   event.preventDefault();
-  
+
   if (!isScrolling && wheelTimer == null) {
     const delta = Math.max(-1, Math.min(1, event.deltaY || -event.detail));
     handleInteraction(delta);
   }
-  
+
   wheelTimer = setTimeout(() => {
     wheelTimer = null;
     console.log("restarting Timer");
@@ -351,7 +352,7 @@ function triggerAnimation(view) {
   }
   if (view.id == "about" && !aboutAnimationComplete) {
     aboutAnimation();
-    console.log("triggerAnimation called " + view.id)
+    console.log("triggerAnimation desktop called " + view.id)
     aboutAnimationComplete = true;
   }
 }
@@ -470,6 +471,8 @@ function aboutAnimation() {
   const p5_txt = "Qui troverete una versione bidimensionale, autentica e trasparente di ciò che siete, interpretata da me, che mi innamoro delle piccole cose, dei piccoli gesti, degli sguardi fugaci e di tutto ciò che ci rende unici."
 
   const descContainer = document.body.querySelector('#descrizione');
+  const heightContainer = document.body.querySelector('#height-container');
+  const image = document.body.querySelector('#ab-image');
   const title = document.body.querySelector('#ab-title');
   const sub = document.body.querySelector('#ab-subtitle');
   const p1 = document.body.querySelector('#ab-p1');
@@ -481,6 +484,20 @@ function aboutAnimation() {
   setTimeout(() => {
     title.style.fontSize = '60px';
     title.style.opacity = '1';
+    descContainer.style.height = 'auto';
+    if (isMobileLayout) {
+      image.style.height = '35%';
+      if (window.innerHeight < 750) {
+        title.style.fontSize = '40px';
+        sub.paddingTop = '5px';
+        sub.paddingBottom = '5px';
+        p1.style.fontSize = '15px';
+        p2.style.fontSize = '15px';
+        p3.style.fontSize = '15px';
+        p4.style.fontSize = '15px';
+        p5.style.fontSize = '15px';
+      }
+    }
   }, 500);
 
   setTimeout(() => {
@@ -518,11 +535,18 @@ function aboutAnimation() {
     p5.style.opacity = '1';
   }, 5600 + 150 * i);
   setTimeout(() => {
-    p1.style.paddingTop = '12px';
-    p2.style.paddingTop = '12px';
-    p3.style.paddingTop = '12px';
-    p4.style.paddingTop = '12px';
-    p5.style.paddingTop = '12px';
+    if (!isMobileLayout) {
+      p1.style.paddingTop = '10px';
+      p2.style.paddingTop = '10px';
+      p3.style.paddingTop = '10px';
+      p4.style.paddingTop = '10px';
+      p5.style.paddingTop = '10px';
+    } 
+    const totHeight = isMobileLayout ? (0.65 * heightContainer.clientHeight) : (heightContainer.clientHeight);
+    const descHeight = title.clientHeight + sub.clientHeight + p1.clientHeight + p2.clientHeight + p3.clientHeight + p4.clientHeight + p5.clientHeight 
+    const descHeightNew = isMobileLayout ? descHeight : (descHeight + 25);
+    console.log(totHeight + " tot, desc " + descHeight);
+    descContainer.style.paddingTop = `${(totHeight - descHeightNew) / 2}px`;
   }, 6000 + 150 * i);
 }
 
