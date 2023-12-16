@@ -329,18 +329,24 @@ function goToPreviousView() {
 /* 
 ----- On Appear animations for sections ----- 
 */
+var homeAnimationComplete = false;
+var portfolioAnimationComplete = false;
+var aboutAnimationComplete = false;
 
 function triggerAnimation(view) {
-  console.log("triggerAnimation called " + view.id)
-  if (view.id == "homepage") {
+  if (view.id == "homepage" && !homeAnimationComplete) {
     homeOnAppearAnimation();
+    homeAnimationComplete = true;
+    console.log("triggerAnimation called " + view.id)
   }
-  if (view.id == "portfolio") {
+  if (view.id == "portfolio" && !portfolioAnimationComplete) {
     portfolioAnimation(view);
+    portfolioAnimationComplete = true;
+    console.log("triggerAnimation called " + view.id)
   }
   if (view.id == "about" && !aboutAnimationComplete) {
     aboutAnimation();
-  } else {
+    console.log("triggerAnimation called " + view.id)
     aboutAnimationComplete = true;
   }
 }
