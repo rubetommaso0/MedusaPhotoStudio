@@ -73,30 +73,60 @@ body .scroll-down-container .scroll-down .istruzioni.mobile img {
   margin-bottom: 40px;
 }
 body .scroll-down-container .scroll-down .arrow {
-  height: 45%;
+  height: 35%;
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   flex-direction: column;
 }
-body .scroll-down-container .scroll-down .arrow p {
+body .scroll-down-container .scroll-down .arrow .h {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+body .scroll-down-container .scroll-down .arrow .h .text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+body .scroll-down-container .scroll-down .arrow .h p {
+  font-size: 30px;
+  font-family: "Super_Indie", sans-serif;
+  color: #2b2b2b;
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+body .scroll-down-container .scroll-down .arrow .h .akima {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: whitesmoke;
+  border-radius: 4px;
+  padding-left: 7px;
+  padding-right: 7px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-right: 40px;
+}
+body .scroll-down-container .scroll-down .arrow .h .akima p {
   font-size: 30px;
   font-family: "Super_Indie", sans-serif;
   color: #2b2b2b;
 }
-body .scroll-down-container .scroll-down .arrow .text {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+body .scroll-down-container .scroll-down .arrow .h .akima img {
+  height: 60px;
+  width: 60px;
 }
 body .scroll-down-container .scroll-down .arrow .scroll-down-arrow {
   opacity: 1;
   height: 65px;
-  margin-bottom: 30px;
-  margin-top: 30px;
   color: #2b2b2b;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 body .scroll-down-container .scroll-down .loader {
   position: absolute;
@@ -135,7 +165,7 @@ body .scroll-down-container .scroll-down .loader .progress-bar {
 body .scroll-down-container .scroll-down .loader .progress-bar .progress {
   width: 0%;
   height: 100%;
-  background-color: #ffb46e;
+  background-color: #fad8c4;
 }
 body .scroll-down-container .scroll-down .loader .progress-bar.mobile {
   width: 85vw;

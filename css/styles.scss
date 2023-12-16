@@ -84,6 +84,7 @@ body {
                     width: 80px;
                     margin-right: 40px;
                 }
+
                 p {
                     font-size: 30px;
                     font-family: 'Super_Indie', sans-serif;
@@ -95,44 +96,78 @@ body {
                     display: flex;
                     flex-direction: column;
                 }
+
             }
 
             .istruzioni.mobile {
                 flex-direction: column;
+
                 img {
                     margin-bottom: 40px;
                 }
             }
 
             .arrow {
-                height: 45%;
+                height: 35%;
                 width: 100%;
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                justify-content: space-evenly;
                 flex-direction: column;
-
-                p {
-                    font-size: 30px;
-                    font-family: 'Super_Indie', sans-serif;
-                    color: #2b2b2b;
-                }
-
-                .text {
+                
+                .h {
                     display: flex;
+                    flex-direction: row;
                     justify-content: center;
                     align-items: center;
-                    flex-direction: column;
+                    width: 100%;
 
+                    .text {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        flex-direction: column;
+                    }
+                    p {
+                        font-size: 30px;
+                        font-family: 'Super_Indie', sans-serif;
+                        color: #2b2b2b;
+                        padding-bottom: 6px;
+                        padding-top: 6px;
+                    }
+    
+                    .akima {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        background-color: whitesmoke;
+                        border-radius: 4px;
+                        padding-left: 7px;
+                        padding-right: 7px;
+                        padding-top: 3px;
+                        padding-bottom: 3px;
+                        margin-right: 40px;
+    
+                        p {
+                            font-size: 30px;
+                            font-family: 'Super_Indie', sans-serif;
+                            color: #2b2b2b;
+                        }
+    
+                        img {
+                            height: 60px;
+                            width: 60px;
+                        }
+                    }
                 }
-
+                
                 .scroll-down-arrow {
                     opacity: 1;
                     height: 65px;
-                    margin-bottom: 30px;
-                    margin-top: 30px;
                     color: #2b2b2b;
+                    object-fit: contain;
                 }
+
             }
 
             .loader {
@@ -174,7 +209,7 @@ body {
                     .progress {
                         width: 0%;
                         height: 100%;
-                        background-color: $arancione-chiaro;
+                        background-color: $pesca-chiaro;
                     }
                 }
 
