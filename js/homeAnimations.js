@@ -262,12 +262,13 @@ function adjustContainerOpacity() {
 }
 animationId = requestAnimationFrame(adjustContainerOpacity);
 
-// Custom scroll navigation
+// Custom navigation
 const parentViews = Array.from(childElements).map(element => element.parentElement);
 let currentVisibleView = -1;
 let firstTouchY = null;
 let isScrolling = false;
 
+// Scroll navigation
 function handleScroll(event) {
   event.preventDefault();
 
@@ -285,19 +286,23 @@ function handleScroll(event) {
   }
 }
 
-/* 
-1- TODO: i need to start scroll commands only after i reach scrollTop = 30%vh on the first scrollDown view 
-         also, i need to scroll to the top everytime the page gets refreshed (clear cached scrollTop)
-2- TODO: this function need to be called later, since wheel event is still firing after i reach next/previous view;
-*/
-
-function handleWheel(event) {
+// Desktop navigation
+let wheelTimer = null;
+const handleWheel = (event) => {
+  clearTimeout(wheelTimer);
+  console.log("wheel");
   event.preventDefault();
-  if (!isScrolling) {
+  
+  if (!isScrolling && wheelTimer == null) {
     const delta = Math.max(-1, Math.min(1, event.deltaY || -event.detail));
     handleInteraction(delta);
   }
-}
+  
+  wheelTimer = setTimeout(() => {
+    wheelTimer = null;
+    console.log("restarting Timer");
+  }, 70);
+};
 
 function handleInteraction(delta) {
   console.log("handleInteraction called");
