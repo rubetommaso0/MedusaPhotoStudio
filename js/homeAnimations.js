@@ -3,6 +3,21 @@ const scrollDownContainer = document.body.querySelector('.scroll-down');
 const loader = document.body.querySelector('.loader');
 const externalContainer = document.querySelector('.scroll-down-container');
 
+
+window.addEventListener('DOMContentLoaded', function () {
+  // Clear stored scroll positions
+  sessionStorage.removeItem('scrollPosition');
+  localStorage.removeItem('scrollPosition');
+
+  // Disable scroll restoration
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+});
+
+
+
+
 /* Mobile vs. Desktop layout */
 const allElements = document.querySelectorAll('*');
 var isMobileLayout = window.innerWidth <= 960;
@@ -30,6 +45,7 @@ function scrollToView(elementToScrollTo) {
     elementToScrollTo.style.transform = 'translateZ(0px) scale(1)';
     elementToScrollTo.style.zIndex = 0;
     if ('scrollBehavior' in document.documentElement.style) {
+      console.log("scrolling to view");
       elementToScrollTo.scrollIntoView({
         behavior: 'smooth'
       });
@@ -40,6 +56,7 @@ function scrollToView(elementToScrollTo) {
     elementToScrollTo.style.zIndex = -1;
   } else {
     if ('scrollBehavior' in document.documentElement.style) {
+      console.log("scrolling to view ");
       elementToScrollTo.scrollIntoView({
         behavior: 'smooth'
       });
@@ -162,6 +179,7 @@ function handleCurrentView(entries) {
           isScrolling = false;
           currentVisibleView = ind;
           console.log("snapping on: " + currentIndex + " down:" + down);
+          triggerAnimation(el);
         } else {
           currentIndex++;
         }
@@ -173,6 +191,25 @@ function handleCurrentView(entries) {
 /* 
 ---- Scroll Down to start ----
 */
+
+// startScrollCommands function
+function checkScrollPosition() {
+  const scrollPosition = window.scrollY || window.pageYOffset;
+  const viewportHeight = window.innerHeight;
+  const threshold = viewportHeight * 0.2;
+
+  if (scrollPosition > threshold) {
+    console.log("starting scroll commands");
+    document.removeEventListener('scroll', checkScrollPosition);
+    startScrollCommands();
+  }
+}
+document.addEventListener('scroll', checkScrollPosition);
+
+function startScrollCommands() {
+  document.addEventListener('touchmove', handleScroll, { passive: false });
+  document.addEventListener('wheel', handleWheel, { passive: false });
+}
 
 // Container observer
 const optionsContainerViewForeground = {
@@ -239,7 +276,7 @@ function handleScroll(event) {
 
     if (firstTouchY && (lastTouchY > firstTouchY + 20) || (lastTouchY < firstTouchY - 20)) {
       console.log("handleScroll - firstTouchY:" + firstTouchY + " lastTouchY:" + lastTouchY);
-      delta = firstTouchY - lastTouchY;
+      const delta = firstTouchY - lastTouchY;
       handleInteraction(delta);
       firstTouchY = null;
     } else if (firstTouchY == null) {
@@ -247,6 +284,12 @@ function handleScroll(event) {
     }
   }
 }
+
+/* 
+1- TODO: i need to start scroll commands only after i reach scrollTop = 30%vh on the first scrollDown view 
+         also, i need to scroll to the top everytime the page gets refreshed (clear cached scrollTop)
+2- TODO: this function need to be called later, since wheel event is still firing after i reach next/previous view;
+*/
 
 function handleWheel(event) {
   event.preventDefault();
@@ -257,6 +300,7 @@ function handleWheel(event) {
 }
 
 function handleInteraction(delta) {
+  console.log("handleInteraction called");
   isScrolling = true;
   if (delta > 0) {
     goToNextView();
@@ -266,6 +310,7 @@ function handleInteraction(delta) {
 }
 
 function goToNextView() {
+  console.log("goToNextView called, view: " + (currentVisibleView + 1));
   if (currentVisibleView + 1 < parentViews.length) {
     scrollToView(parentViews[currentVisibleView + 1]);
   } else {
@@ -273,21 +318,23 @@ function goToNextView() {
   }
 }
 function goToPreviousView() {
+  console.log("goToPreviousView called, view: " + (currentVisibleView - 1));
   if (currentVisibleView - 1 >= 0) {
     scrollToView(parentViews[currentVisibleView - 1]);
   } else {
     isScrolling = false;
   }
 }
-document.addEventListener('touchmove', handleScroll, { passive: false });
-document.addEventListener('wheel', handleWheel, { passive: false });
-
 
 /* 
 ----- On Appear animations for sections ----- 
 */
 
 function triggerAnimation(view) {
+  console.log("triggerAnimation called " + view.id)
+  if (view.id == "homepage") {
+    homeOnAppearAnimation();
+  }
   if (view.id == "portfolio") {
     portfolioAnimation(view);
   }
@@ -299,37 +346,30 @@ function triggerAnimation(view) {
 }
 
 // On appear home animation 
-function onAppearAnimation(entries, observer) {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      // Animation on intersection
-      document.getElementById('menu').style.opacity = '0.85';
-      setTimeout(() => {
-        document.getElementById('name').querySelector('h1').style.opacity = '1';
-      }, 1000);
-      setTimeout(() => {
-        document.getElementById('logo').style.opacity = '0.7';
-      }, 1400);
-      const h2 = document.getElementById('name').querySelector('h2');
-      const text = h2.textContent;
-      h2.textContent = text[0];
-      setTimeout(() => {
-        h2.style.opacity = 1;
-      }, 1400);
+function homeOnAppearAnimation(entries, observer) {
+  // Animation on intersection
+  document.getElementById('menu').style.opacity = '0.85';
+  setTimeout(() => {
+    document.getElementById('name').querySelector('h1').style.opacity = '1';
+  }, 1000);
+  setTimeout(() => {
+    document.getElementById('logo').style.opacity = '0.7';
+  }, 1400);
+  const h2 = document.getElementById('name').querySelector('h2');
+  const text = h2.textContent;
+  h2.textContent = text[0];
+  setTimeout(() => {
+    h2.style.opacity = 1;
+  }, 1400);
 
-      for (let i = 1; i < text.length; i++) {
-        (function (index) {
-          setTimeout(() => {
-            h2.textContent += text[index];
-          }, 1400 + 250 * index);
-        })(i);
-      }
-      // Stop observing after animation is triggered
-      observer.unobserve(entry.target);
-    }
-  });
+  for (let i = 1; i < text.length; i++) {
+    (function (index) {
+      setTimeout(() => {
+        h2.textContent += text[index];
+      }, 1400 + 250 * index);
+    })(i);
+  }
 }
-const onAppearObserver = new IntersectionObserver(onAppearAnimation, { threshold: 0.01 });
 
 let currentView;
 
@@ -533,9 +573,6 @@ childElements.forEach(childElement => {
   observerNewView.observe(childElement);
   observerCurrentView.observe(childElement);
 });
-//onAppear
-onAppearObserver.observe(document.getElementById('menu'));
-onAppearObserver.observe(document.getElementById('name'));
 //ContainerViewForeground
 observerContainerViewForeground.observe(pageContainer);
 observerContainerViewBackground.observe(pageContainer);
