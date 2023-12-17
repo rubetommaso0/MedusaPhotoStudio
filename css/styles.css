@@ -319,9 +319,9 @@ body .container #homepage #name h1 {
   opacity: 0;
   transition: opacity 1.5s ease-in-out;
   font-family: "Abril Fatface";
-  letter-spacing: 8px;
+  letter-spacing: 12px;
   text-align: center;
-  font-size: 70px;
+  font-size: 60px;
   color: white;
 }
 body .container #homepage #name h2 {
@@ -329,7 +329,7 @@ body .container #homepage #name h2 {
   font-family: "Quicksand";
   text-align: center;
   font-weight: 100;
-  letter-spacing: 12px;
+  letter-spacing: 9px;
   font-size: 35px;
   color: white;
   /* text-shadow: 2px 2px $marrone; */
@@ -484,11 +484,16 @@ body .container #portfolio .text-overlay.mobile {
   font-size: 30px;
   color: #fad8c4;
   letter-spacing: 4px;
-  align-items: end;
   justify-content: end;
   margin-bottom: 20px;
   margin-right: 20px;
   transition: opacity 1s ease-in;
+}
+body .container #portfolio .text-overlay.mobile .text {
+  margin-top: 45%;
+  margin-right: 7%;
+  background-color: rgba(248, 244, 241, 0.4745098039);
+  border-radius: 8px;
 }
 body .container #portfolio.mobile {
   flex-direction: column;
@@ -543,7 +548,7 @@ body .container #about .h.desktop #descrizione h2 {
 }
 body .container #about .h.desktop #descrizione p {
   opacity: 0;
-  transition: opacity 1s ease-in, padding-top 1s ease-out;
+  transition: opacity 1s ease-in, padding-top 2s ease-out;
   font-size: 19px;
   padding-top: 5px;
   font-weight: 200;
@@ -562,7 +567,7 @@ body .container #about .h.mobile {
 body .container #about .h.mobile img.mobile {
   -o-object-fit: cover;
      object-fit: cover;
-  height: 65%;
+  height: 50%;
   transition: height 3s ease-out;
 }
 body .container #about .h.mobile #descrizione {
@@ -570,7 +575,7 @@ body .container #about .h.mobile #descrizione {
   display: flex;
   position: relative;
   width: 100%;
-  height: 35%;
+  height: 50%;
   flex-direction: column;
   font-family: "Quicksand", sans-serif;
   align-items: center;
