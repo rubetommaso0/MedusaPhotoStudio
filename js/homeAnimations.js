@@ -482,7 +482,7 @@ function aboutAnimation() {
     title.style.fontSize = '60px';
     title.style.opacity = '1';
     if (isMobileLayout) {
-      descContainer.style.height = 'auto';
+      // descContainer.style.height = 'auto'; (test)
       image.style.height = '35%';
       if (window.innerHeight < 750) {
         title.style.fontSize = '40px';
