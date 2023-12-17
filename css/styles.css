@@ -488,11 +488,12 @@ body .container #portfolio .text-overlay.mobile {
   margin-bottom: 20px;
   margin-right: 20px;
   transition: opacity 1s ease-in;
+  color: #e6947c;
 }
 body .container #portfolio .text-overlay.mobile .text {
   margin-top: 45%;
   margin-right: 7%;
-  background-color: rgba(248, 244, 241, 0.4745098039);
+  background-color: rgba(191, 193, 208, 0.6588235294);
   border-radius: 8px;
 }
 body .container #portfolio.mobile {
