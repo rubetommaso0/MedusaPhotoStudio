@@ -89,14 +89,15 @@ matrimoni.style.zIndex = '3';
 battesimi.style.zIndex = '3';
 altro.style.zIndex = '3';
 matrimoni.addEventListener('click', function () {
-  window.location.href = 'portfolio.html?page=Matrimoni';
+  window.open('portfolio.html?page=Matrimoni', '_blank');
 });
 battesimi.addEventListener('click', function () {
-  window.location.href = 'portfolio.html?page=Battesimi';
+  window.open('portfolio.html?page=Battesimi', '_blank');
 });
 altro.addEventListener('click', function () {
-  window.location.href = 'portfolio.html?page=Altro';
+  window.open('portfolio.html?page=Altro', '_blank');
 });
+
 
 
 /* 
@@ -482,7 +483,7 @@ function aboutAnimation() {
     title.style.fontSize = '60px';
     title.style.opacity = '1';
     if (isMobileLayout) {
-      descContainer.style.height = '65%'; 
+      descContainer.style.height = '65%';
       image.style.height = '35%';
       if (window.innerHeight < 750) {
         title.style.fontSize = '40px';
@@ -538,9 +539,9 @@ function aboutAnimation() {
       p3.style.paddingTop = '10px';
       p4.style.paddingTop = '10px';
       p5.style.paddingTop = '10px';
-    } 
+    }
     const totHeight = isMobileLayout ? (0.65 * heightContainer.clientHeight) : (heightContainer.clientHeight);
-    const descHeight = title.clientHeight + sub.clientHeight + p1.clientHeight + p2.clientHeight + p3.clientHeight + p4.clientHeight + p5.clientHeight 
+    const descHeight = title.clientHeight + sub.clientHeight + p1.clientHeight + p2.clientHeight + p3.clientHeight + p4.clientHeight + p5.clientHeight
     const descHeightNew = isMobileLayout ? descHeight : (descHeight + 25);
     console.log(totHeight + " tot, desc " + descHeight);
     descContainer.style.paddingTop = `${(totHeight - descHeightNew) / 2}px`;
