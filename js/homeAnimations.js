@@ -562,7 +562,7 @@ function contattiAnimation() {
     setTimeout(() => {
       cont.style.height = isMobileLayout ? '17vh' : '14vh';
       cont.style.opacity = '1';
-    }, 800 * ind);
+    }, isMobileLayout ? (800 * ind) : (1400 * ind));
   });
 }
 

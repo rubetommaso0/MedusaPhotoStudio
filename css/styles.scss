@@ -865,7 +865,7 @@ body {
                 }
 
                 .c.desktop {
-                    transition: height 2s ease-out, opacity 3s ease-in;
+                    transition: height 2s ease-out, opacity 3.5s ease-in;
                     height: 0%;
                     opacity: 0;
                     overflow: hidden;
@@ -915,7 +915,7 @@ body {
                 }
 
                 .c.mobile {
-                    transition: height 2s ease-out, opacity 3s ease-in;
+                    transition: height 2s ease-out, opacity 3.5s ease-in;
                     height: 0%;
                     opacity: 0;
                     display: flex;

@@ -732,7 +732,7 @@ body .container #contatti .h.desktop h1 {
   font-family: "Abril fatface", sans-serif;
 }
 body .container #contatti .h.desktop .c.desktop {
-  transition: height 2s ease-out, opacity 3s ease-in;
+  transition: height 2s ease-out, opacity 3.5s ease-in;
   height: 0%;
   opacity: 0;
   overflow: hidden;
@@ -776,7 +776,7 @@ body .container #contatti .h.mobile h1 {
   font-family: "Abril fatface", sans-serif;
 }
 body .container #contatti .h.mobile .c.mobile {
-  transition: height 2s ease-out, opacity 3s ease-in;
+  transition: height 2s ease-out, opacity 3.5s ease-in;
   height: 0%;
   opacity: 0;
   display: flex;
