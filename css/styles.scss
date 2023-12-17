@@ -78,6 +78,7 @@ body {
                 justify-content: space-evenly;
                 align-items: center;
             }
+
             .logo-instructions.mobile {
                 height: 70%;
             }
@@ -829,8 +830,110 @@ body {
         }
 
         #contatti {
-            @include align-center;
-            background-color: #ffd700;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            background-color: #cfcdcb;
+            justify-content: start;
+            align-items: center;
+
+            .h.desktop {
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                background-color: #f8f4f1;
+                margin-left: 5vw;
+                margin-right: 5vw;
+                width: 100%;
+                height: 80vh;
+                align-items: center;
+                justify-content: start;
+
+                #title {
+                    display: flex;
+                    height: 7vh;
+                    justify-content: center;
+                    align-items: center;
+                }
+    
+                h1 {
+                    display: flex;
+                    font-size: 5vh;
+                    color: #2b2b2b;
+                    font-family: 'Abril fatface', sans-serif;
+                }
+
+                .c.desktop {
+                    transition: height 2s ease-out, opacity 3s ease-in;
+                    height: 0%;
+                    opacity: 0;
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: row;
+                    width: 60%;
+                    justify-content: start;
+                    align-items: center;
+                    font-family: 'Quicksand', sans-serif;
+                    text-align: center;
+
+                    img {
+                        width: 100px;
+                        margin-right: 8%;
+                    }
+
+                    p {
+                        font-size: 20px;
+                        margin-right: 2%;
+                    }
+                }
+            }
+
+            .h.mobile {
+                flex-direction: column;
+                overflow: hidden;
+                background-color: #f8f4f1;
+                margin-left: 5vw;
+                margin-right: 5vw;
+                width: 100%;
+                height: 95vh;
+                justify-content: start;
+                align-items: center;
+
+                #title {
+                    display: flex;
+                    height: 10vh;
+                    justify-content: center;
+                    align-items: center;
+                }
+    
+                h1 {
+                    display: flex;
+                    font-size: 5vh;
+                    color: #2b2b2b;
+                    font-family: 'Abril fatface', sans-serif;
+                }
+
+                .c.mobile {
+                    transition: height 2s ease-out, opacity 3s ease-in;
+                    height: 0%;
+                    opacity: 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    font-family: 'Quicksand', sans-serif;
+                    justify-content: center;
+
+                    img {
+                        width: 8vh;
+                    }
+
+                    p {
+                        font-size: 19px;
+                    }
+
+                }
+            }
         }
 
         #prodotti {

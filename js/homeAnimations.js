@@ -339,6 +339,7 @@ function goToPreviousView() {
 var homeAnimationComplete = false;
 var portfolioAnimationComplete = false;
 var aboutAnimationComplete = false;
+var contactsAnimationComplete = false;
 
 function triggerAnimation(view) {
   if (view.id == "homepage" && !homeAnimationComplete) {
@@ -353,8 +354,13 @@ function triggerAnimation(view) {
   }
   if (view.id == "about" && !aboutAnimationComplete) {
     aboutAnimation();
-    console.log("triggerAnimation desktop called " + view.id)
+    console.log("triggerAnimation called " + view.id)
     aboutAnimationComplete = true;
+  }
+  if (view.id == "contatti" && !contactsAnimationComplete) {
+    contattiAnimation();
+    console.log("triggerAnimation called " + view.id)
+    contactsAnimationComplete = true;
   }
 }
 
@@ -546,6 +552,18 @@ function aboutAnimation() {
     console.log(totHeight + " tot, desc " + descHeight);
     descContainer.style.paddingTop = `${(totHeight - descHeightNew) / 2}px`;
   }, 6000 + 150 * i);
+}
+
+// Contatti on appear animation
+function contattiAnimation() {
+  const contatti = Array.from(pageContainer.querySelectorAll('.c'));
+
+  contatti.forEach((cont, ind) => {
+    setTimeout(() => {
+      cont.style.height = isMobileLayout ? '17vh' : '14vh';
+      cont.style.opacity = '1';
+    }, 800 * ind);
+  });
 }
 
 /* 
