@@ -386,14 +386,14 @@ body .container #homepage .scroll-link.desktop:hover {
 body .container #homepage .scroll-link.mobile {
   font-size: 20px;
 }
-body .container #portfolio {
+body .container #portfolio.desktop {
   display: flex;
   position: absolute;
   width: 100%;
   height: 100%;
   background-color: #f8f4f1;
 }
-body .container #portfolio .image-container {
+body .container #portfolio.desktop .image-container.desktop {
   overflow: hidden;
   position: relative;
   display: inline-block;
@@ -403,7 +403,7 @@ body .container #portfolio .image-container {
   height: 100%;
   transition: all 1s;
 }
-body .container #portfolio .image-container img {
+body .container #portfolio.desktop .image-container img.desktop {
   width: 100%;
   height: 100%;
   opacity: 0;
@@ -411,7 +411,7 @@ body .container #portfolio .image-container img {
      object-fit: cover;
   transition: filter 0.3s ease, opacity 1s ease;
 }
-body .container #portfolio .text-overlay {
+body .container #portfolio.desktop .text-overlay.desktop {
   position: absolute;
   top: 0;
   left: 0;
@@ -430,74 +430,83 @@ body .container #portfolio .text-overlay {
   transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
   cursor: pointer;
 }
-body .container #portfolio #start.desktop {
+body .container #portfolio.desktop #start.desktop {
   width: 100%;
   height: 100%;
   transition: all 1s;
 }
-body .container #portfolio #caption.desktop {
+body .container #portfolio.desktop #caption.desktop {
   width: 100%;
   height: 100%;
   transition: all 1s;
 }
-body .container #portfolio #second.desktop {
+body .container #portfolio.desktop #second.desktop {
   width: 100%;
   height: 0%;
   transition: all 1s;
 }
-body .container #portfolio h1 {
+body .container #portfolio.desktop h1.desktop {
   font-size: 70px;
   color: #e6947c;
   letter-spacing: 5px;
 }
-body .container #portfolio #second.mobile {
+body .container #portfolio.mobile {
+  flex-direction: column;
+  position: absolute;
+}
+body .container #portfolio.mobile #second.mobile {
   height: 67%;
 }
-body .container #portfolio #start.mobile {
+body .container #portfolio.mobile #start.mobile {
   height: 33%;
 }
-body .container #portfolio #caption.mobile {
-  height: 0%;
+body .container #portfolio.mobile #caption.mobile {
+  height: 0px;
   overflow: hidden;
 }
-body .container #portfolio .h.mobile {
+body .container #portfolio.mobile .h.mobile {
   flex-direction: column;
 }
-body .container #portfolio .image-container.mobile {
+body .container #portfolio.mobile .image-container.mobile {
   overflow: hidden;
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 33.3vh;
   transition: all 1s;
 }
-body .container #portfolio .image-container img.mobile {
-  width: 100%;
+body .container #portfolio.mobile .image-container img.mobile {
+  width: 90vw;
   height: 100%;
   opacity: 1;
   -o-object-fit: cover;
      object-fit: cover;
 }
-body .container #portfolio .text-overlay.mobile {
+body .container #portfolio.mobile .text-overlay.mobile {
+  display: flex;
   font-size: 30px;
   color: #fad8c4;
-  letter-spacing: 4px;
-  justify-content: end;
-  margin-bottom: 20px;
-  margin-right: 20px;
+  width: 10vw;
+  height: 100%;
+  letter-spacing: 6px;
   transition: opacity 1s ease-in;
   color: #e6947c;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f4f1;
+  border-style: inset;
+  border-width: 2px;
+  border-color: rgba(250, 216, 196, 0.5215686275);
 }
-body .container #portfolio .text-overlay.mobile .text {
-  margin-top: 45%;
-  margin-right: 7%;
-  background-color: rgba(191, 193, 208, 0.6588235294);
-  border-radius: 8px;
-}
-body .container #portfolio.mobile {
-  flex-direction: column;
+body .container #portfolio.mobile .text-overlay.mobile .text.mobile {
+  transition: transform 1.5s ease-out;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  white-space: nowrap;
+  transform: translateX(50px);
 }
 body .container #about {
   position: absolute;
@@ -564,6 +573,7 @@ body .container #about .h.mobile {
   margin-right: 5vw;
   width: 100%;
   height: 95vh;
+  justify-content: start;
 }
 body .container #about .h.mobile img.mobile {
   -o-object-fit: cover;
