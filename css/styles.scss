@@ -71,18 +71,31 @@ body {
             left: 0;
             z-index: 1;
 
-            .istruzioni {
+            .logo-instructions {
                 height: 65%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+            .logo-instructions.mobile {
+                height: 70%;
+            }
+
+            .istruzioni {
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
                 align-items: center;
                 text-align: center;
                 background-color: #f8f4f1;
+                width: 80%;
 
-                img {
+                img.desktop {
                     width: 80px;
                     margin-right: 40px;
+                    margin-top: 40px;
+                    margin-bottom: 40px;
                 }
 
                 p {
@@ -101,9 +114,21 @@ body {
 
             .istruzioni.mobile {
                 flex-direction: column;
+                width: 100%;
+                padding-bottom: 10px;
+
+                p {
+                    font-size: 20px;
+                    font-family: 'Super_Indie', sans-serif;
+                    padding-bottom: 10px;
+                    color: #2b2b2b;
+                }
 
                 img {
-                    margin-bottom: 40px;
+                    width: 80px;
+                    padding-top: 20px;
+                    margin-bottom: 20px;
+                    margin-right: 0px;
                 }
             }
 
@@ -169,6 +194,76 @@ body {
                     object-fit: contain;
                 }
 
+            }
+
+            .arrow.mobile {
+                height: 30%;
+            }
+
+            .name {
+                padding-top: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .v {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+
+                h1 {
+                    transition: opacity 1.5s ease-in-out;
+                    font-family: 'Abril Fatface';
+                    letter-spacing: 12px;
+                    text-align: center;
+                    font-size: 60px;
+                    color: black;
+
+                }
+
+                h2 {
+                    font-family: "Quicksand";
+                    text-align: center;
+                    font-weight: 100;
+                    letter-spacing: 9px;
+                    font-size: 35px;
+                    color: black;
+                    /* text-shadow: 2px 2px $marrone; */
+                }
+
+                img {
+                    transition: opacity 1s ease-in-out;
+                }
+            }
+
+            .name.mobile {
+                flex-direction: column;
+
+                h1 {
+                    font-size: 50px;
+                }
+
+                h2 {
+                    font-size: 22px;
+                    margin-bottom: 10px;
+                }
+
+                img {
+                    margin-top: 10px;
+                    height: 65px;
+                    overflow: hidden;
+                }
+            }
+
+            .name.desktop {
+                flex-direction: row;
+
+                img {
+                    height: 100px;
+                    margin-right: 40px;
+                    margin-top: 20px;
+                }
             }
 
             .loader {

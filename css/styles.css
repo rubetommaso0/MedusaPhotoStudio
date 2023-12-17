@@ -43,18 +43,30 @@ body .scroll-down-container .scroll-down {
   left: 0;
   z-index: 1;
 }
-body .scroll-down-container .scroll-down .istruzioni {
+body .scroll-down-container .scroll-down .logo-instructions {
   height: 65%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+body .scroll-down-container .scroll-down .logo-instructions.mobile {
+  height: 70%;
+}
+body .scroll-down-container .scroll-down .istruzioni {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   text-align: center;
   background-color: #f8f4f1;
+  width: 80%;
 }
-body .scroll-down-container .scroll-down .istruzioni img {
+body .scroll-down-container .scroll-down .istruzioni img.desktop {
   width: 80px;
   margin-right: 40px;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 body .scroll-down-container .scroll-down .istruzioni p {
   font-size: 30px;
@@ -68,9 +80,20 @@ body .scroll-down-container .scroll-down .istruzioni .v {
 }
 body .scroll-down-container .scroll-down .istruzioni.mobile {
   flex-direction: column;
+  width: 100%;
+  padding-bottom: 10px;
+}
+body .scroll-down-container .scroll-down .istruzioni.mobile p {
+  font-size: 20px;
+  font-family: "Super_Indie", sans-serif;
+  padding-bottom: 10px;
+  color: #2b2b2b;
 }
 body .scroll-down-container .scroll-down .istruzioni.mobile img {
-  margin-bottom: 40px;
+  width: 80px;
+  padding-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 0px;
 }
 body .scroll-down-container .scroll-down .arrow {
   height: 35%;
@@ -127,6 +150,63 @@ body .scroll-down-container .scroll-down .arrow .scroll-down-arrow {
   color: #2b2b2b;
   -o-object-fit: contain;
      object-fit: contain;
+}
+body .scroll-down-container .scroll-down .arrow.mobile {
+  height: 30%;
+}
+body .scroll-down-container .scroll-down .name {
+  padding-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body .scroll-down-container .scroll-down .name .v {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+body .scroll-down-container .scroll-down .name h1 {
+  transition: opacity 1.5s ease-in-out;
+  font-family: "Abril Fatface";
+  letter-spacing: 12px;
+  text-align: center;
+  font-size: 60px;
+  color: black;
+}
+body .scroll-down-container .scroll-down .name h2 {
+  font-family: "Quicksand";
+  text-align: center;
+  font-weight: 100;
+  letter-spacing: 9px;
+  font-size: 35px;
+  color: black;
+  /* text-shadow: 2px 2px $marrone; */
+}
+body .scroll-down-container .scroll-down .name img {
+  transition: opacity 1s ease-in-out;
+}
+body .scroll-down-container .scroll-down .name.mobile {
+  flex-direction: column;
+}
+body .scroll-down-container .scroll-down .name.mobile h1 {
+  font-size: 50px;
+}
+body .scroll-down-container .scroll-down .name.mobile h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+body .scroll-down-container .scroll-down .name.mobile img {
+  margin-top: 10px;
+  height: 65px;
+  overflow: hidden;
+}
+body .scroll-down-container .scroll-down .name.desktop {
+  flex-direction: row;
+}
+body .scroll-down-container .scroll-down .name.desktop img {
+  height: 100px;
+  margin-right: 40px;
+  margin-top: 20px;
 }
 body .scroll-down-container .scroll-down .loader {
   position: absolute;
