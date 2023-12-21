@@ -4,14 +4,21 @@ const loader = document.body.querySelector('.loader');
 const externalContainer = document.querySelector('.scroll-down-container');
 
 
-window.addEventListener('DOMContentLoaded', function () {
-  // Clear stored scroll positions
+/* window.addEventListener('DOMContentLoaded', function () {
+  
   sessionStorage.removeItem('scrollPosition');
   localStorage.removeItem('scrollPosition');
 
   // Disable scroll restoration
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
+  }
+}); */
+
+// Clear stored scroll position
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    window.location.reload(false);
   }
 });
 
