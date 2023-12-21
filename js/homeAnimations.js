@@ -207,14 +207,31 @@ function checkScrollPosition() {
   const scrollPosition = window.scrollY || window.pageYOffset;
   const viewportHeight = window.innerHeight;
   const threshold = viewportHeight * 0.2;
-
   if (scrollPosition > threshold) {
     console.log("starting scroll commands");
     document.removeEventListener('scroll', checkScrollPosition);
     startScrollCommands();
   }
 }
-document.addEventListener('scroll', checkScrollPosition);
+
+const optionsScrollObserver = {
+  threshold: 0.30 
+};
+
+function intersectionCallback(entries, observer) {
+  entries.forEach(entry => {
+    if (entry.intersectionRatio >= 0.30) {
+      let child = entry.target;
+      if (child) {
+        if (child == childElements[current]) {
+          console.log("checkScrollPosition");
+          checkScrollPosition();
+        }
+      }
+    }
+  });
+}
+const scrollObserver = new IntersectionObserver(intersectionCallback, optionsScrollObserver);
 
 let touchListener;
 let desktopListener;
@@ -399,22 +416,6 @@ function homeOnAppearAnimation(entries, observer) {
       }, 1400 + 250 * index);
     })(i);
   }
-}
-
-let currentView;
-
-function intersectionCallback(entries, observer) {
-  entries.forEach(entry => {
-    if (entry.intersectionRatio >= 0.30) {
-      let child = entry.target.querySelector('.child');
-      if (child) {
-        if (child == childElements[current]) {
-          currentView = entry.target;
-          console.log(currentView);
-        }
-      }
-    }
-  });
 }
 
 // Portfolio onAppear Animation
@@ -642,6 +643,7 @@ imageSources.forEach(imageSrc => {
 childElements.forEach(childElement => {
   observerNewView.observe(childElement);
   observerCurrentView.observe(childElement);
+  scrollObserver.observe(childElement);
 });
 //ContainerViewForeground
 observerContainerViewForeground.observe(pageContainer);
