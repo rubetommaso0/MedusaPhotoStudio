@@ -499,13 +499,16 @@ function aboutAnimation() {
   const p5 = document.body.querySelector('#ab-p5');
 
   setTimeout(() => {
-    title.style.fontSize = '60px';
+    if (!isMobileLayout) {
+      title.style.fontSize = '60px';
+    } else {
+      title.style.fontSize = '40px';
+    }
     title.style.opacity = '1';
     if (isMobileLayout) {
       descContainer.style.height = '65%';
       image.style.height = '35%';
       if (window.innerHeight < 750) {
-        title.style.fontSize = '40px';
         sub.paddingTop = '5px';
         sub.paddingBottom = '5px';
         p1.style.fontSize = '15px';
