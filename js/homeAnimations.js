@@ -503,9 +503,6 @@ function aboutAnimation() {
       title.style.fontSize = '60px';
     } else {
       title.style.fontSize = '40px';
-    }
-    title.style.opacity = '1';
-    if (isMobileLayout) {
       descContainer.style.height = '65%';
       image.style.height = '35%';
       if (window.innerHeight < 750) {
@@ -518,6 +515,7 @@ function aboutAnimation() {
         p5.style.fontSize = '15px';
       }
     }
+    title.style.opacity = '1';
   }, 500);
 
   setTimeout(() => {
