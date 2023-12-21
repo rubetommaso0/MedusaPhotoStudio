@@ -16,11 +16,9 @@ window.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
-
 /* Mobile vs. Desktop layout */
 const allElements = document.querySelectorAll('*');
-var isMobileLayout = window.innerWidth <= 960;
+var isMobileLayout = window.innerWidth <= 960 || (window.innerWidth > 960 && /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 
 function setLayout() {
   if (isMobileLayout) {
