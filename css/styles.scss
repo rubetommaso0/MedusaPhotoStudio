@@ -437,10 +437,15 @@ body {
             height: 100vh;
             object-fit: cover;
 
-            #bg {
+            #bg.desktop {
                 width: 100vw;
                 height: 100vh;
                 object-fit: cover;
+            }
+
+            #bg.mobile {
+                width: 100vw;
+                height: 100vh;
             }
 
             #menu {

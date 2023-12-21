@@ -26,6 +26,7 @@ function setLayout() {
       element.classList.add('mobile');
       element.classList.remove('desktop');
       document.getElementById('ab-image').src = "../images/home/about_me_mobile.jpg";
+      document.getElementById('bg').src = "../images/home/bg_mobile.jpg";
     });
   } else {
     allElements.forEach(element => {
