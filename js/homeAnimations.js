@@ -103,6 +103,7 @@ altro.addEventListener('click', function () {
 
 function stopScrollCommands() {
   console.log("stopScrollCommands");
+  window.scrollY = 0;
   document.removeEventListener('touchmove', touchListener);
   document.removeEventListener('wheel', desktopListener);
 }
