@@ -799,10 +799,14 @@ body {
                     justify-content: start;
                     text-align: center;
 
+                    #ab-title-container {
+                        height: 50%;
+                        transition: height 2s linear;
+                    }
+
                     h1 {
                         display: flex;
                         padding-top: 5px;
-                        height: 50%;
                         transition: font-size 2s linear, opacity 2.5s ease-in-out, height 2s linear;
                         font-family: 'Abril fatface', sans-serif;
                         font-size: 90px;

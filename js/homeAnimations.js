@@ -513,7 +513,7 @@ function aboutAnimation() {
       p5.style.fontSize = '15px';
     }
     setTimeout(() => {
-      title.style.height = '15%';
+      title.parentElement.style.height = '15%';
       title.style.fontSize = '40px';
     }, 2100);
   } 
