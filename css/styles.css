@@ -660,10 +660,10 @@ body .container #about .h.mobile img.mobile {
   -o-object-fit: cover;
      object-fit: cover;
   height: 50%;
-  transition: height 2s linear;
+  transition: height 1s linear;
 }
 body .container #about .h.mobile #descrizione {
-  transition: height 2s linear, padding-top 2s ease-out;
+  transition: height 1s linear, padding-top 2s ease-out;
   display: flex;
   position: relative;
   width: 100%;
