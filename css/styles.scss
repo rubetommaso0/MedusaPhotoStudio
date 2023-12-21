@@ -843,8 +843,8 @@ body {
             .h.desktop {
                 display: flex;
                 flex-direction: column;
-                overflow: hidden;
                 background-color: #f8f4f1;
+                overflow: hidden;
                 margin-left: 5vw;
                 margin-right: 5vw;
                 width: 100%;
@@ -870,7 +870,6 @@ body {
                     transition: height 2s ease-out, opacity 3.5s ease-in;
                     height: 0%;
                     opacity: 0;
-                    overflow: hidden;
                     display: flex;
                     flex-direction: row;
                     width: 60%;
