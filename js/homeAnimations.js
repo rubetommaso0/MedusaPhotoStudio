@@ -213,7 +213,7 @@ function handleCurrentView(entries) {
 function checkScrollPosition() {
   const scrollPosition = window.scrollY || window.pageYOffset;
   const viewportHeight = window.innerHeight;
-  const threshold = viewportHeight * 0.2;
+  const threshold = viewportHeight * 0.05;
   if (scrollPosition > threshold) {
     console.log("starting scroll commands");
     document.removeEventListener('scroll', checkScrollPosition);
@@ -222,12 +222,12 @@ function checkScrollPosition() {
 }
 
 const optionsScrollObserver = {
-  threshold: 0.30
+  threshold: 0.05
 };
 
 function intersectionCallback(entries, observer) {
   entries.forEach(entry => {
-    if (entry.intersectionRatio >= 0.30) {
+    if (entry.intersectionRatio >= 0.05) {
       let child = entry.target;
       if (child) {
         if (child == childElements[current]) {
