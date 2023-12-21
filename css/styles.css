@@ -675,6 +675,7 @@ body .container #about .h.mobile #descrizione {
   text-align: center;
 }
 body .container #about .h.mobile #descrizione h1 {
+  display: flex;
   padding-top: 5px;
   height: auto;
   transition: font-size 2s linear, opacity 2.5s ease-in-out, height 2s linear;
