@@ -676,7 +676,8 @@ body .container #about .h.mobile #descrizione {
 }
 body .container #about .h.mobile #descrizione h1 {
   padding-top: 5px;
-  transition: font-size 2s ease-in-out, opacity 2.5s ease-in-out;
+  height: auto;
+  transition: font-size 2s ease-in-out, opacity 2.5s ease-in-out, height 2s ease-in-out;
   font-family: "Abril fatface", sans-serif;
   font-size: 90px;
   font-weight: 700;
