@@ -487,11 +487,6 @@ function handleMouseOver(container) {
 function aboutAnimation() {
   const subtitle_txt = "Mi chiamo "
   const name_txt = "Marta Cosca."
-  const p1_txt = "Sono diplomata in lingue e laureata in Arti Visive presso la NABA di Milano."
-  const p2_txt = "Dal 2020 ho la mia attività da fotografa."
-  const p3_txt = "Amo osservare e documentare tutto ciò che è reale, spontaneo, crudo!"
-  const p4_txt = "Qui non troverete mai finzione, filtri stravolgenti, effetti speciali, visi perfezionati, immagini costruite."
-  const p5_txt = "Qui troverete una versione bidimensionale, autentica e trasparente di ciò che siete, interpretata da me, che mi innamoro delle piccole cose, dei piccoli gesti, degli sguardi fugaci e di tutto ciò che ci rende unici."
 
   const descContainer = document.body.querySelector('#descrizione');
   const heightContainer = document.body.querySelector('#height-container');
@@ -538,23 +533,18 @@ function aboutAnimation() {
     i++;
   })
   setTimeout(() => {
-    p1.textContent = p1_txt;
     p1.style.opacity = '1';
   }, 2400 + 150 * i);
   setTimeout(() => {
-    p2.textContent = p2_txt;
     p2.style.opacity = '1';
   }, 3200 + 150 * i);
   setTimeout(() => {
-    p3.textContent = p3_txt;
     p3.style.opacity = '1';
   }, 4000 + 150 * i);
   setTimeout(() => {
-    p4.textContent = p4_txt;
     p4.style.opacity = '1';
   }, 4800 + 150 * i);
   setTimeout(() => {
-    p5.textContent = p5_txt;
     p5.style.opacity = '1';
   }, 5600 + 150 * i);
   setTimeout(() => {
