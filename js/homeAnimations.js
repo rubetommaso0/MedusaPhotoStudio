@@ -503,6 +503,7 @@ function aboutAnimation() {
     title.style.fontSize = '60px';
   } else {
     image.style.height = '35%';
+    title.style.fontSize = '40px';
     if (window.innerHeight < 750) {
       sub.paddingTop = '5px';
       sub.paddingBottom = '5px';
@@ -513,8 +514,7 @@ function aboutAnimation() {
       p5.style.fontSize = '15px';
     }
     setTimeout(() => {
-      title.parentElement.style.height = '15%';
-      title.style.fontSize = '40px';
+      title.parentElement.style.height = '70px';
     }, 2100);
   } 
   title.style.opacity = '1';

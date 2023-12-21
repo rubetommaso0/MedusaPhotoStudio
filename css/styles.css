@@ -667,7 +667,6 @@ body .container #about .h.mobile #descrizione {
   display: flex;
   position: relative;
   width: 100%;
-  height: 50%;
   flex-direction: column;
   font-family: "Quicksand", sans-serif;
   align-items: center;
@@ -675,7 +674,11 @@ body .container #about .h.mobile #descrizione {
   text-align: center;
 }
 body .container #about .h.mobile #descrizione #ab-title-container {
-  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40vh;
   transition: height 2s linear;
 }
 body .container #about .h.mobile #descrizione h1 {

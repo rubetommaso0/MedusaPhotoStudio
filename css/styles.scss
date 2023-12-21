@@ -792,7 +792,6 @@ body {
                     display: flex;
                     position: relative;
                     width: 100%;
-                    height: 50%;
                     flex-direction: column;
                     font-family: 'Quicksand', sans-serif;
                     align-items: center;
@@ -800,7 +799,11 @@ body {
                     text-align: center;
 
                     #ab-title-container {
-                        height: 50%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 100%;
+                        height: 40vh;
                         transition: height 2s linear;
                     }
 
