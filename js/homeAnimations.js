@@ -88,15 +88,22 @@ battesimi.style.zIndex = '3';
 altro.style.zIndex = '3';
 matrimoni.addEventListener('click', function () {
   window.location.href = 'portfolio.html?page=Matrimoni';
+  stopScrollCommands();
 });
 battesimi.addEventListener('click', function () {
   window.location.href = 'portfolio.html?page=Battesimi';
+  stopScrollCommands();
 });
 altro.addEventListener('click', function () {
   window.location.href = 'portfolio.html?page=Altro';
+  stopScrollCommands();
 });
 
-
+function stopScrollCommands() {
+  console.log("stopScrollCommands");
+  document.removeEventListener('touchmove', touchListener);
+  document.removeEventListener('wheel', desktopListener);
+}
 
 /* 
 -----  3d scroll animation -----
@@ -206,9 +213,12 @@ function checkScrollPosition() {
 }
 document.addEventListener('scroll', checkScrollPosition);
 
+let touchListener;
+let desktopListener;
+
 function startScrollCommands() {
-  document.addEventListener('touchmove', handleScroll, { passive: false });
-  document.addEventListener('wheel', handleWheel, { passive: false });
+  touchListener = document.addEventListener('touchmove', handleScroll, { passive: false });
+  desktopListener = document.addEventListener('wheel', handleWheel, { passive: false });
 }
 
 // Container observer
