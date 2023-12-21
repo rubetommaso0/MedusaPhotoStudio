@@ -555,7 +555,7 @@ body .container #portfolio.mobile .image-container.mobile {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 33.3vh;
+  height: 33.4vh;
   transition: all 1s;
 }
 body .container #portfolio.mobile .image-container img.mobile {
@@ -577,9 +577,6 @@ body .container #portfolio.mobile .text-overlay.mobile {
   justify-content: center;
   align-items: center;
   background-color: #f8f4f1;
-  border-style: inset;
-  border-width: 2px;
-  border-color: rgba(250, 216, 196, 0.5215686275);
 }
 body .container #portfolio.mobile .text-overlay.mobile .text.mobile {
   transition: transform 1.5s ease-out;
@@ -759,7 +756,7 @@ body .container #contatti .h.mobile {
   margin-left: 5vw;
   margin-right: 5vw;
   width: 100%;
-  height: 95vh;
+  height: 85vh;
   justify-content: start;
   align-items: center;
 }
@@ -786,7 +783,7 @@ body .container #contatti .h.mobile .c.mobile {
   justify-content: center;
 }
 body .container #contatti .h.mobile .c.mobile img {
-  width: 8vh;
+  width: 6vh;
 }
 body .container #contatti .h.mobile .c.mobile p {
   font-size: 19px;

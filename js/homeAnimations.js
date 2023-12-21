@@ -560,7 +560,7 @@ function contattiAnimation() {
 
   contatti.forEach((cont, ind) => {
     setTimeout(() => {
-      cont.style.height = isMobileLayout ? '17vh' : '14vh';
+      cont.style.height = '14vh';
       cont.style.opacity = '1';
     }, isMobileLayout ? (800 * ind) : (1400 * ind));
   });
