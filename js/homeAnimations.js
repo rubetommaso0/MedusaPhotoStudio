@@ -485,8 +485,7 @@ function handleMouseOver(container) {
 
 // About onAppear animation
 function aboutAnimation() {
-  const subtitle_txt = "Mi chiamo "
-  const name_txt = "Marta Cosca."
+  const name_txt = " Marta Cosca."
 
   const descContainer = document.body.querySelector('#descrizione');
   const heightContainer = document.body.querySelector('#height-container');
@@ -519,7 +518,6 @@ function aboutAnimation() {
   }, 500);
 
   setTimeout(() => {
-    sub.textContent = subtitle_txt;
     sub.style.opacity = '1';
   }, 1600);
   i = 0;
