@@ -4,7 +4,7 @@ const loader = document.body.querySelector('.loader');
 const externalContainer = document.querySelector('.scroll-down-container');
 
 
-/* window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', function () {
   
   sessionStorage.removeItem('scrollPosition');
   localStorage.removeItem('scrollPosition');
@@ -13,7 +13,7 @@ const externalContainer = document.querySelector('.scroll-down-container');
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
-}); */
+}); 
 
 // Clear stored scroll position
 window.addEventListener('pageshow', function(event) {
