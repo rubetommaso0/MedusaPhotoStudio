@@ -660,10 +660,10 @@ body .container #about .h.mobile img.mobile {
   -o-object-fit: cover;
      object-fit: cover;
   height: 50%;
-  transition: height 3s ease-out;
+  transition: height 2s ease-out;
 }
 body .container #about .h.mobile #descrizione {
-  transition: height 3s ease-out, padding-top 2s ease-out;
+  transition: height 2s linear, padding-top 2s ease-out;
   display: flex;
   position: relative;
   width: 100%;
@@ -676,7 +676,7 @@ body .container #about .h.mobile #descrizione {
 }
 body .container #about .h.mobile #descrizione h1 {
   padding-top: 5px;
-  transition: font-size 2.5s ease-in-out, opacity 2.5s ease-in-out;
+  transition: font-size 2s ease-in-out, opacity 2.5s ease-in-out;
   font-family: "Abril fatface", sans-serif;
   font-size: 90px;
   font-weight: 700;
