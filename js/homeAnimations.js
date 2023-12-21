@@ -88,16 +88,17 @@ matrimoni.style.zIndex = '3';
 battesimi.style.zIndex = '3';
 altro.style.zIndex = '3';
 matrimoni.addEventListener('click', function () {
-  window.location.href = 'portfolio.html?page=Matrimoni';
   stopScrollCommands();
+  window.location.href = 'portfolio.html?page=Matrimoni';
+ 
 });
 battesimi.addEventListener('click', function () {
-  window.location.href = 'portfolio.html?page=Battesimi';
   stopScrollCommands();
+  window.location.href = 'portfolio.html?page=Battesimi';
 });
 altro.addEventListener('click', function () {
-  window.location.href = 'portfolio.html?page=Altro';
   stopScrollCommands();
+  window.location.href = 'portfolio.html?page=Altro';
 });
 
 function stopScrollCommands() {
