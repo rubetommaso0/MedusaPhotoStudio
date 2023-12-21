@@ -537,18 +537,26 @@ function aboutAnimation() {
     p5.style.opacity = '1';
   }, 5600 + 150 * i);
   setTimeout(() => {
+    const totHeight = isMobileLayout ? (0.65 * heightContainer.clientHeight) : (heightContainer.clientHeight);
+    const descHeight = title.clientHeight + sub.clientHeight + p1.clientHeight + p2.clientHeight + p3.clientHeight + p4.clientHeight + p5.clientHeight
+    const descHeightNew = isMobileLayout ? descHeight : (descHeight + 25);
+    console.log(totHeight + " tot, desc " + descHeight);
+    descContainer.style.paddingTop = `${(totHeight - descHeightNew) / 2}px`;
     if (!isMobileLayout) {
       p1.style.paddingTop = '10px';
       p2.style.paddingTop = '10px';
       p3.style.paddingTop = '10px';
       p4.style.paddingTop = '10px';
       p5.style.paddingTop = '10px';
+    } else {
+      if (descHeight > totHeight) {
+        p1.style.fontSize = '14px';
+        p2.style.fontSize = '14px';
+        p3.style.fontSize = '14px';
+        p4.style.fontSize = '14px';
+        p5.style.fontSize = '14px';
+      }
     }
-    const totHeight = isMobileLayout ? (0.65 * heightContainer.clientHeight) : (heightContainer.clientHeight);
-    const descHeight = title.clientHeight + sub.clientHeight + p1.clientHeight + p2.clientHeight + p3.clientHeight + p4.clientHeight + p5.clientHeight
-    const descHeightNew = isMobileLayout ? descHeight : (descHeight + 25);
-    console.log(totHeight + " tot, desc " + descHeight);
-    descContainer.style.paddingTop = `${(totHeight - descHeightNew) / 2}px`;
   }, 6000 + 150 * i);
 }
 

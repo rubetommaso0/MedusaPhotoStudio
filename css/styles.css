@@ -688,7 +688,7 @@ body .container #about .h.mobile #descrizione h2 {
 }
 body .container #about .h.mobile #descrizione p {
   opacity: 0;
-  transition: opacity 1s ease-in, padding-top 1s ease-out;
+  transition: opacity 1s ease-in, padding-top 1s ease-out, font-size 0.3s linear;
   font-size: 17px;
   padding-top: 5px;
   font-weight: 200;
