@@ -5,7 +5,7 @@ const externalContainer = document.querySelector('.scroll-down-container');
 
 
 window.addEventListener('DOMContentLoaded', function () {
-  
+
   sessionStorage.removeItem('scrollPosition');
   localStorage.removeItem('scrollPosition');
 
@@ -13,10 +13,10 @@ window.addEventListener('DOMContentLoaded', function () {
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
-}); 
+});
 
 // Clear stored scroll position
-window.addEventListener('pageshow', function(event) {
+window.addEventListener('pageshow', function (event) {
   if (event.persisted) {
     window.location.reload(false);
   }
@@ -97,7 +97,7 @@ altro.style.zIndex = '3';
 matrimoni.addEventListener('click', function () {
   stopScrollCommands();
   window.location.href = 'portfolio.html?page=Matrimoni';
- 
+
 });
 battesimi.addEventListener('click', function () {
   stopScrollCommands();
@@ -222,7 +222,7 @@ function checkScrollPosition() {
 }
 
 const optionsScrollObserver = {
-  threshold: 0.30 
+  threshold: 0.30
 };
 
 function intersectionCallback(entries, observer) {
@@ -498,25 +498,24 @@ function aboutAnimation() {
   const p4 = document.body.querySelector('#ab-p4');
   const p5 = document.body.querySelector('#ab-p5');
 
-  setTimeout(() => {
-    if (!isMobileLayout) {
-      title.style.fontSize = '60px';
-    } else {
-      title.style.fontSize = '40px';
-      descContainer.style.height = '65%';
-      image.style.height = '35%';
-      if (window.innerHeight < 750) {
-        sub.paddingTop = '5px';
-        sub.paddingBottom = '5px';
-        p1.style.fontSize = '15px';
-        p2.style.fontSize = '15px';
-        p3.style.fontSize = '15px';
-        p4.style.fontSize = '15px';
-        p5.style.fontSize = '15px';
-      }
+  if (!isMobileLayout) {
+    title.style.fontSize = '60px';
+  } else {
+    image.style.height = '35%';
+    if (window.innerHeight < 750) {
+      sub.paddingTop = '5px';
+      sub.paddingBottom = '5px';
+      p1.style.fontSize = '15px';
+      p2.style.fontSize = '15px';
+      p3.style.fontSize = '15px';
+      p4.style.fontSize = '15px';
+      p5.style.fontSize = '15px';
     }
-    title.style.opacity = '1';
-  }, 500);
+    setTimeout(() => {
+      title.style.fontSize = '40px';
+    }, 2100);
+  } 
+  title.style.opacity = '1';
 
   setTimeout(() => {
     sub.style.opacity = '1';
