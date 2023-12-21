@@ -667,7 +667,7 @@ body .container #about .h.mobile #descrizione {
   display: flex;
   position: relative;
   width: 100%;
-  height: auto;
+  height: 50%;
   flex-direction: column;
   font-family: "Quicksand", sans-serif;
   align-items: center;
@@ -677,9 +677,9 @@ body .container #about .h.mobile #descrizione {
 body .container #about .h.mobile #descrizione h1 {
   display: flex;
   padding-top: 5px;
-  height: auto;
+  height: 50%;
   transition: font-size 2s linear, opacity 2.5s ease-in-out, height 2s linear;
-  font-family: "Super_Indie", sans-serif;
+  font-family: "Abril fatface", sans-serif;
   font-size: 90px;
   font-weight: 700;
   opacity: 0.85;

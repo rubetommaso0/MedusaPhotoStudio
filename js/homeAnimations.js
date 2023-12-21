@@ -499,6 +499,7 @@ function aboutAnimation() {
   const p5 = document.body.querySelector('#ab-p5');
 
   if (!isMobileLayout) {
+    title.style.height = 'auto';
     title.style.fontSize = '60px';
   } else {
     image.style.height = '35%';
@@ -512,6 +513,7 @@ function aboutAnimation() {
       p5.style.fontSize = '15px';
     }
     setTimeout(() => {
+      title.style.height = '15%';
       title.style.fontSize = '40px';
     }, 2100);
   } 
