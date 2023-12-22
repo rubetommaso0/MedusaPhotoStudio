@@ -389,7 +389,7 @@ body {
         overflow-y: hidden;
         perspective: 200px;
         width: 100vw;
-        height: 0vh;
+        height: 100vh;
         transition: height 0.7s ease-in-out;
 
         .h {
@@ -406,7 +406,7 @@ body {
             touch-action: pan-y;
             z-index: -1;
             width: 100vw;
-            height: 100vh;
+            height: 100%;
             position: relative;
             transform-style: preserve-3d;
         }
