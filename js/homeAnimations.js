@@ -1,14 +1,13 @@
-const scrollContainer = document.body.querySelector('.scroll-down-container');
+const scrollDownContainer = document.body.querySelector('.scroll-down-container');
 const foregroundContainer = document.querySelector('.foreground-container');
-const childElements = document.querySelectorAll('.child');
-const parentElements = document.querySelectorAll('.group');
+const pageContainer = document.body.querySelector('.container');
+
+const childElements = Array.from(document.querySelectorAll('.child'));
+const parentElements = Array.from(document.querySelectorAll('.group'));
+
+const loader = document.body.querySelector('.loader');
 
 var isMobileLayout = window.innerWidth <= 960 || (window.innerWidth > 960 && /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-
-const pageContainer = document.body.querySelector('.container');
-const scrollDownContainer = document.body.querySelector('.scroll-down');
-const loader = document.body.querySelector('.loader');
-const externalContainer = document.querySelector('.scroll-down-container');
 
 
 window.addEventListener('DOMContentLoaded', function () {
@@ -31,24 +30,28 @@ window.addEventListener('pageshow', function (event) {
 
 
 /* Mobile vs. Desktop layout */
-const allElements = document.querySelectorAll('*');
-
-function setLayout() {
+function setLayout(element) {
+  const allElements = element.querySelectorAll('*');
   if (isMobileLayout) {
     allElements.forEach(element => {
       element.classList.add('mobile');
-      element.classList.remove('desktop');
-      document.getElementById('ab-image').src = "../images/home/about_me_mobile.jpg";
-      document.getElementById('bg').src = "../images/home/bg_mobile.jpg";
+      if (element.querySelector('#ab-image')) {
+        element.querySelector('#bg').src = "../images/home/about_me_mobile.jpg";
+      }
+      if (element.querySelector('#bg')) {
+        element.querySelector('#bg').src = "../images/home/bg_mobile.jpg";
+      }
     });
   } else {
     allElements.forEach(element => {
       element.classList.add('desktop');
-      element.classList.remove('mobile');
     });
   }
 }
-setLayout();
+
+setLayout(scrollDownContainer);
+setLayout(foregroundContainer);
+setLayout(pageContainer);
 
 /* Menu scroll links */
 let scrollTimer;
@@ -94,22 +97,24 @@ document.addEventListener('click', function (event) {
 });
 
 /* Portfolio pages links */
-const matrimoni = document.body.querySelector("#matrimoni-link");
-const battesimi = document.body.querySelector("#battesimi-link");
-const altro = document.body.querySelector("#altro-link");
-matrimoni.style.zIndex = '3';
-battesimi.style.zIndex = '3';
-altro.style.zIndex = '3';
-matrimoni.addEventListener('click', function () {
-  window.location.href = 'portfolio.html?page=Matrimoni';
+function createScrollLinks() {
+  const matrimoni = document.body.querySelector("#matrimoni-link");
+  const battesimi = document.body.querySelector("#battesimi-link");
+  const altro = document.body.querySelector("#altro-link");
+  matrimoni.style.zIndex = '3';
+  battesimi.style.zIndex = '3';
+  altro.style.zIndex = '3';
+  matrimoni.addEventListener('click', function () {
+    window.location.href = 'portfolio.html?page=Matrimoni';
 
-});
-battesimi.addEventListener('click', function () {
-  window.location.href = 'portfolio.html?page=Battesimi';
-});
-altro.addEventListener('click', function () {
-  window.location.href = 'portfolio.html?page=Altro';
-});
+  });
+  battesimi.addEventListener('click', function () {
+    window.location.href = 'portfolio.html?page=Battesimi';
+  });
+  altro.addEventListener('click', function () {
+    window.location.href = 'portfolio.html?page=Altro';
+  });
+}
 
 // Current view Observer & Animation trigger function (On Appear)
 const optionsCurrentView = {
@@ -130,6 +135,8 @@ function handleCurrentView(entries) {
 /* 
 ---- Scroll Down to start ----
 */
+let notHomepage = false;
+let notLast = true;
 var foregroundElement = 0;
 
 function getTopPosition(element) {
@@ -143,18 +150,19 @@ function getBottomPosition(element) {
 }
 
 function handlefirstScrollDown() {
+  document.body.style.height = 'calc(100vh + 10px)';
+  window.scrollTo({
+    top: 1
+  })
   foregroundContainer.innerHTML = parentElements[foregroundElement].innerHTML;
   parentElements[foregroundElement].innerHTML = '';
   parentElements[foregroundElement].style.zIndex = -3;
   pageContainer.style.opacity = 0;
-  scrollContainer.style.top = '-100vh';
+  scrollDownContainer.style.top = '-100vh';
   foregroundContainer.style.top = '0vh';
   pageContainer.style.top = '0vh';
   pageContainer.style.position = 'fixed';
   pageContainer.style.overflowY = 'hidden';
-  window.scrollTo({
-    top: isMobileLayout ? window.outerHeight : window.innerHeight
-  })
   pageContainer.style.overflowY = 'auto';
   pageContainer.style.zIndex = '1';
 
@@ -175,11 +183,12 @@ function touchStart(event) {
 function handleScroll(event) {
   const touchY = event.touches[0].clientY;
 
-  if (touchY < startY || foregroundElement != 0) {
-    return;
+  if (touchY > startY && !notHomepage) {
+    event.preventDefault();
   }
-
-  event.preventDefault();
+  if (touchY < startY && !notLast) {
+    event.preventDefault();
+  }
 }
 
 // OnScroll opacity animation
@@ -207,7 +216,7 @@ function adjustContainerOpacity() {
     foregroundContainer.style.opacity = 0;
     if (foregroundElement == 0) {
       handlefirstScrollDown();
-    } 
+    }
     animationId = requestAnimationFrame(adjustContainerOpacity);
     console.log('opacityForeground reached 1');
   }
@@ -223,6 +232,8 @@ var aboutAnimationComplete = false;
 var contactsAnimationComplete = false;
 
 function triggerAnimation(view) {
+  checkIfPageBorders(view);
+
   if (view.id == "homepage" && !homeAnimationComplete) {
     homeOnAppearAnimation();
     homeAnimationComplete = true;
@@ -242,6 +253,19 @@ function triggerAnimation(view) {
     contattiAnimation();
     console.log("triggerAnimation called " + view.id)
     contactsAnimationComplete = true;
+  }
+}
+
+function checkIfPageBorders(view) {
+  if (view.id == "homepage") {
+    notHomepage = false;
+  } else {
+    notHomepage = true;
+  }
+  if (view.id == childElements[childElements.length - 1].id) {
+    notLast = false;
+  } else {
+    notLast = true;
   }
 }
 

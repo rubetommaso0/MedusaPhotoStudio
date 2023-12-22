@@ -38,6 +38,7 @@ $marrone: #3d2419;
 $marrone-chiaro: darken(#e6947c, 50%);
 $pesca-scuro: #f7b797;
 $pesca-chiaro: #fad8c4;
+$pesca-chiaro-1: #f3e5dc;
 $grigio-chiaro: #f8f4f1;
 $grigio-scuro: #cfcdcb;
 
@@ -323,7 +324,8 @@ body {
         top: 100vh;
         height: 100vh;
         width: 100vw;
-        background-color: #a3ff84;
+        background-color: $pesca-chiaro;
+        background-image: linear-gradient(to bottom, $pesca-chiaro, $grigio-chiaro);
     }
 
     .container {
@@ -336,6 +338,8 @@ body {
         height: 100vh;
         transition: height 0.7s ease-in-out;
         scroll-snap-type: y mandatory;
+        background-color: $pesca-chiaro;
+        background-image: linear-gradient(to bottom, $pesca-chiaro, $grigio-chiaro);
 
         .h {
             display: flex;
@@ -355,6 +359,27 @@ body {
             position: relative;
             scroll-snap-align: start;
             scroll-snap-stop: always;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            h3 {
+                text-align: center;
+                display: flex;
+                font-family: 'Abril fatface';
+                justify-content: center;
+                align-items: center;
+                font-size: 70px;
+                color: #e6947c;
+                letter-spacing: 5px;
+                padding: 15px;
+                background-color: $grigio-chiaro;
+                border-radius: 10px;
+            }
+
+            h3.mobile {
+                font-size: 50px;
+            }
         }
 
         #bg {
@@ -523,10 +548,11 @@ body {
 
     #portfolio.desktop {
         display: flex;
+        justify-content: center;
+        align-items: center;
         position: absolute;
         width: 100%;
         height: 100%;
-        background-color: $grigio-chiaro;
 
         .image-container.desktop {
             overflow: hidden;
@@ -593,6 +619,9 @@ body {
     }
 
     #portfolio.mobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         flex-direction: column;
         position: absolute;
 
@@ -660,7 +689,6 @@ body {
         height: 100%;
         width: 100%;
         display: flex;
-        background-color: #cfcdcb;
         justify-content: center;
         align-items: center;
 
@@ -792,8 +820,7 @@ body {
         height: 100%;
         width: 100%;
         display: flex;
-        background-color: #cfcdcb;
-        justify-content: start;
+        justify-content: center;
         align-items: center;
 
         .h.desktop {
@@ -894,7 +921,8 @@ body {
     }
 
     #prodotti {
-        @include align-center;
-        background-color: #a3ff84;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }

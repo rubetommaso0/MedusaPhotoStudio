@@ -256,7 +256,8 @@ body .foreground-container {
   top: 100vh;
   height: 100vh;
   width: 100vw;
-  background-color: #a3ff84;
+  background-color: #fad8c4;
+  background-image: linear-gradient(to bottom, #fad8c4, #f8f4f1);
 }
 body .container {
   opacity: 0;
@@ -268,6 +269,8 @@ body .container {
   height: 100vh;
   transition: height 0.7s ease-in-out;
   scroll-snap-type: y mandatory;
+  background-color: #fad8c4;
+  background-image: linear-gradient(to bottom, #fad8c4, #f8f4f1);
 }
 body .container .h {
   display: flex;
@@ -285,6 +288,25 @@ body .container .group {
   position: relative;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body .container .group h3 {
+  text-align: center;
+  display: flex;
+  font-family: "Abril fatface";
+  justify-content: center;
+  align-items: center;
+  font-size: 70px;
+  color: #e6947c;
+  letter-spacing: 5px;
+  padding: 15px;
+  background-color: #f8f4f1;
+  border-radius: 10px;
+}
+body .container .group h3.mobile {
+  font-size: 50px;
 }
 body .container #bg {
   width: 100vw;
@@ -429,10 +451,11 @@ body #homepage .scroll-link.mobile {
 }
 body #portfolio.desktop {
   display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #f8f4f1;
 }
 body #portfolio.desktop .image-container.desktop {
   overflow: hidden;
@@ -492,6 +515,9 @@ body #portfolio.desktop h1.desktop {
   letter-spacing: 5px;
 }
 body #portfolio.mobile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   position: absolute;
 }
@@ -551,7 +577,6 @@ body #about {
   height: 100%;
   width: 100%;
   display: flex;
-  background-color: #cfcdcb;
   justify-content: center;
   align-items: center;
 }
@@ -669,8 +694,7 @@ body #contatti {
   height: 100%;
   width: 100%;
   display: flex;
-  background-color: #cfcdcb;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
 }
 body #contatti .h.desktop {
@@ -757,12 +781,7 @@ body #contatti .h.mobile .c.mobile p {
   font-size: 19px;
 }
 body #prodotti {
-  position: absolute;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: #a3ff84;
 }/*# sourceMappingURL=styles.css.map */
