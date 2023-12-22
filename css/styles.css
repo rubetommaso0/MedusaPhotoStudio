@@ -250,57 +250,13 @@ body .scroll-down-container .scroll-down .loader .progress-bar .progress {
 body .scroll-down-container .scroll-down .loader .progress-bar.mobile {
   width: 85vw;
 }
-body .bottom-div {
-  display: flex;
-  overflow-y: hidden;
-  height: 2.5vh;
-  font-size: 10px;
-  background-color: #cfcdcb;
-  align-items: center;
-  justify-content: center;
-}
-body .bottom-div .h {
-  display: flex;
-  flex-direction: row;
-}
-body .bottom-div #link {
-  width: 100%;
-  opacity: 0;
-}
-body .bottom-div #link a {
-  color: #0a2c4f;
-  font-family: "Super_Indie", sans-serif;
-  text-decoration: none;
-  font-weight: 900;
-}
-body .bottom-div #link a.desktop:hover {
-  text-shadow: 1px 1px #0a2c4f;
-  color: rgb(7, 85, 85);
-}
-body .bottom-div #link footer {
-  color: black;
-  font-family: "Super_Indie", sans-serif;
-}
-body .bottom-div footer.mobile {
-  width: 50vw;
-  text-align: center;
-  padding-right: 5vw;
-}
-body .bottom-div a.mobile {
-  width: 50vw;
-  text-align: center;
-  padding-left: 5vw;
-}
-body .bottom-div footer.desktop {
-  padding-right: 5vw;
-  padding-right: 5vw;
-}
-body .bottom-div a.desktop {
-  padding-left: 5vw;
-  padding-right: 5vw;
-}
-body .bottom-div #link.desktop {
-  justify-content: center;
+body .foreground-container {
+  z-index: -1;
+  position: fixed;
+  top: 100vh;
+  height: 100vh;
+  width: 100vw;
+  background-color: #a3ff84;
 }
 body .container {
   opacity: 0;
@@ -346,7 +302,7 @@ body .container .caption {
   background-color: #f8f4f1;
   font-family: "Abril Fatface";
 }
-body .container #homepage {
+body #homepage {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -356,17 +312,17 @@ body .container #homepage {
   -o-object-fit: cover;
      object-fit: cover;
 }
-body .container #homepage #bg.desktop {
+body #homepage #bg.desktop {
   width: 100vw;
   height: 100vh;
   -o-object-fit: cover;
      object-fit: cover;
 }
-body .container #homepage #bg.mobile {
+body #homepage #bg.mobile {
   width: 100vw;
   height: 100vh;
 }
-body .container #homepage #menu {
+body #homepage #menu {
   z-index: 3;
   opacity: 0;
   transition: opacity 1.5s ease-in-out;
@@ -377,30 +333,30 @@ body .container #homepage #menu {
   display: flex;
   font-size: 25px;
 }
-body .container #homepage #menu p {
+body #homepage #menu p {
   color: #fad8c4;
 }
-body .container #homepage #menu.mobile {
+body #homepage #menu.mobile {
   flex-direction: column;
   top: 4vh;
   text-align: center;
 }
-body .container #homepage #menu.mobile p {
+body #homepage #menu.mobile p {
   height: 8px;
   overflow: hidden;
   opacity: 0;
 }
-body .container #homepage #name {
+body #homepage #name {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-body .container #homepage #name .v {
+body #homepage #name .v {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-body .container #homepage #name h1 {
+body #homepage #name h1 {
   opacity: 0;
   transition: opacity 1.5s ease-in-out;
   font-family: "Abril Fatface";
@@ -409,7 +365,7 @@ body .container #homepage #name h1 {
   font-size: 60px;
   color: white;
 }
-body .container #homepage #name h2 {
+body #homepage #name h2 {
   opacity: 0;
   font-family: "Quicksand";
   text-align: center;
@@ -419,37 +375,37 @@ body .container #homepage #name h2 {
   color: white;
   /* text-shadow: 2px 2px $marrone; */
 }
-body .container #homepage #name img {
+body #homepage #name img {
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
-body .container #homepage #name.mobile {
+body #homepage #name.mobile {
   flex-direction: column;
   position: absolute;
   top: 22vh;
 }
-body .container #homepage #name.mobile h1 {
+body #homepage #name.mobile h1 {
   font-size: 50px;
 }
-body .container #homepage #name.mobile h2 {
+body #homepage #name.mobile h2 {
   font-size: 22px;
 }
-body .container #homepage #name.mobile img {
+body #homepage #name.mobile img {
   margin-top: 10px;
   height: 65px;
   overflow: hidden;
 }
-body .container #homepage #name.desktop {
+body #homepage #name.desktop {
   flex-direction: row;
   position: absolute;
   top: 15vh;
 }
-body .container #homepage #name.desktop img {
+body #homepage #name.desktop img {
   height: 100px;
   margin-right: 40px;
   margin-top: 20px;
 }
-body .container #homepage .scroll-link {
+body #homepage .scroll-link {
   position: relative;
   color: white;
   font-family: "Quicksand", sans-serif;
@@ -458,27 +414,27 @@ body .container #homepage .scroll-link {
   text-decoration: none;
   z-index: 3;
 }
-body .container #homepage .scroll-link.desktop {
+body #homepage .scroll-link.desktop {
   font-size: 20px;
   padding-left: 20px;
   padding-right: 20px;
 }
-body .container #homepage .scroll-link.desktop:hover {
+body #homepage .scroll-link.desktop:hover {
   font-weight: 400;
   color: #e6947c;
   text-shadow: 1px 1px white;
 }
-body .container #homepage .scroll-link.mobile {
+body #homepage .scroll-link.mobile {
   font-size: 20px;
 }
-body .container #portfolio.desktop {
+body #portfolio.desktop {
   display: flex;
   position: absolute;
   width: 100%;
   height: 100%;
   background-color: #f8f4f1;
 }
-body .container #portfolio.desktop .image-container.desktop {
+body #portfolio.desktop .image-container.desktop {
   overflow: hidden;
   position: relative;
   display: inline-block;
@@ -488,7 +444,7 @@ body .container #portfolio.desktop .image-container.desktop {
   height: 100%;
   transition: all 1s;
 }
-body .container #portfolio.desktop .image-container img.desktop {
+body #portfolio.desktop .image-container img.desktop {
   width: 100%;
   height: 100%;
   opacity: 0;
@@ -496,7 +452,7 @@ body .container #portfolio.desktop .image-container img.desktop {
      object-fit: cover;
   transition: filter 0.3s ease, opacity 1s ease;
 }
-body .container #portfolio.desktop .text-overlay.desktop {
+body #portfolio.desktop .text-overlay.desktop {
   position: absolute;
   top: 0;
   left: 0;
@@ -515,44 +471,44 @@ body .container #portfolio.desktop .text-overlay.desktop {
   transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
   cursor: pointer;
 }
-body .container #portfolio.desktop #start.desktop {
+body #portfolio.desktop #start.desktop {
   width: 100%;
   height: 100%;
   transition: all 1s;
 }
-body .container #portfolio.desktop #caption.desktop {
+body #portfolio.desktop #caption.desktop {
   width: 100%;
   height: 100%;
   transition: all 1s;
 }
-body .container #portfolio.desktop #second.desktop {
+body #portfolio.desktop #second.desktop {
   width: 100%;
   height: 0%;
   transition: all 1s;
 }
-body .container #portfolio.desktop h1.desktop {
+body #portfolio.desktop h1.desktop {
   font-size: 70px;
   color: #e6947c;
   letter-spacing: 5px;
 }
-body .container #portfolio.mobile {
+body #portfolio.mobile {
   flex-direction: column;
   position: absolute;
 }
-body .container #portfolio.mobile #second.mobile {
+body #portfolio.mobile #second.mobile {
   height: 67%;
 }
-body .container #portfolio.mobile #start.mobile {
+body #portfolio.mobile #start.mobile {
   height: 33%;
 }
-body .container #portfolio.mobile #caption.mobile {
+body #portfolio.mobile #caption.mobile {
   height: 0px;
   overflow: hidden;
 }
-body .container #portfolio.mobile .h.mobile {
+body #portfolio.mobile .h.mobile {
   flex-direction: column;
 }
-body .container #portfolio.mobile .image-container.mobile {
+body #portfolio.mobile .image-container.mobile {
   overflow: hidden;
   position: relative;
   display: flex;
@@ -563,14 +519,14 @@ body .container #portfolio.mobile .image-container.mobile {
   height: 33.4vh;
   transition: all 1s;
 }
-body .container #portfolio.mobile .image-container img.mobile {
+body #portfolio.mobile .image-container img.mobile {
   width: 90vw;
   height: 100%;
   opacity: 1;
   -o-object-fit: cover;
      object-fit: cover;
 }
-body .container #portfolio.mobile .text-overlay.mobile {
+body #portfolio.mobile .text-overlay.mobile {
   display: flex;
   font-size: 30px;
   color: #fad8c4;
@@ -583,14 +539,14 @@ body .container #portfolio.mobile .text-overlay.mobile {
   align-items: center;
   background-color: #f8f4f1;
 }
-body .container #portfolio.mobile .text-overlay.mobile .text.mobile {
+body #portfolio.mobile .text-overlay.mobile .text.mobile {
   transition: transform 1.5s ease-out;
   writing-mode: vertical-rl;
   text-orientation: mixed;
   white-space: nowrap;
   transform: translateX(50px);
 }
-body .container #about {
+body #about {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -599,7 +555,7 @@ body .container #about {
   justify-content: center;
   align-items: center;
 }
-body .container #about .h.desktop {
+body #about .h.desktop {
   overflow: hidden;
   background-color: #f8f4f1;
   margin-left: 5vw;
@@ -607,10 +563,10 @@ body .container #about .h.desktop {
   width: 100%;
   height: 80vh;
 }
-body .container #about .h.desktop img.desktop {
+body #about .h.desktop img.desktop {
   height: 100%;
 }
-body .container #about .h.desktop #descrizione {
+body #about .h.desktop #descrizione {
   transition: height 3s ease-out, padding-top 2s ease-out;
   display: flex;
   position: relative;
@@ -622,7 +578,7 @@ body .container #about .h.desktop #descrizione {
   justify-content: start;
   text-align: center;
 }
-body .container #about .h.desktop #descrizione h1 {
+body #about .h.desktop #descrizione h1 {
   padding-top: 10px;
   transition: font-size 2.5s ease-in-out, opacity 2.5s ease-in-out;
   font-family: "Abril fatface", sans-serif;
@@ -630,7 +586,7 @@ body .container #about .h.desktop #descrizione h1 {
   font-weight: 700;
   opacity: 0.85;
 }
-body .container #about .h.desktop #descrizione h2 {
+body #about .h.desktop #descrizione h2 {
   opacity: 0;
   transition: opacity 1s ease-in;
   font-size: 45px;
@@ -638,7 +594,7 @@ body .container #about .h.desktop #descrizione h2 {
   font-weight: 400;
   padding-bottom: 20px;
 }
-body .container #about .h.desktop #descrizione p {
+body #about .h.desktop #descrizione p {
   opacity: 0;
   transition: opacity 1s ease-in, padding-top 2s ease-out;
   font-size: 19px;
@@ -647,7 +603,7 @@ body .container #about .h.desktop #descrizione p {
   padding-left: 20px;
   padding-right: 20px;
 }
-body .container #about .h.mobile {
+body #about .h.mobile {
   flex-direction: column;
   overflow: hidden;
   background-color: #f8f4f1;
@@ -657,13 +613,13 @@ body .container #about .h.mobile {
   height: 95vh;
   justify-content: start;
 }
-body .container #about .h.mobile img.mobile {
+body #about .h.mobile img.mobile {
   -o-object-fit: cover;
      object-fit: cover;
   height: 50%;
   transition: height 1s linear;
 }
-body .container #about .h.mobile #descrizione {
+body #about .h.mobile #descrizione {
   transition: height 1s linear, padding-top 2s ease-out;
   display: flex;
   position: relative;
@@ -674,7 +630,7 @@ body .container #about .h.mobile #descrizione {
   justify-content: start;
   text-align: center;
 }
-body .container #about .h.mobile #descrizione #ab-title-container {
+body #about .h.mobile #descrizione #ab-title-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -682,7 +638,7 @@ body .container #about .h.mobile #descrizione #ab-title-container {
   height: 40vh;
   transition: height 2s linear;
 }
-body .container #about .h.mobile #descrizione h1 {
+body #about .h.mobile #descrizione h1 {
   display: flex;
   padding-top: 5px;
   transition: font-size 2s linear, opacity 2.5s ease-in-out, height 2s linear;
@@ -691,7 +647,7 @@ body .container #about .h.mobile #descrizione h1 {
   font-weight: 700;
   opacity: 0.85;
 }
-body .container #about .h.mobile #descrizione h2 {
+body #about .h.mobile #descrizione h2 {
   opacity: 0;
   transition: opacity 1s ease-in;
   font-size: 25px;
@@ -699,7 +655,7 @@ body .container #about .h.mobile #descrizione h2 {
   font-weight: 400;
   padding-bottom: 20px;
 }
-body .container #about .h.mobile #descrizione p {
+body #about .h.mobile #descrizione p {
   opacity: 0;
   transition: opacity 1s ease-in, padding-top 1s ease-out, font-size 0.3s linear;
   font-size: 17px;
@@ -708,7 +664,7 @@ body .container #about .h.mobile #descrizione p {
   padding-left: 20px;
   padding-right: 20px;
 }
-body .container #contatti {
+body #contatti {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -717,7 +673,7 @@ body .container #contatti {
   justify-content: start;
   align-items: center;
 }
-body .container #contatti .h.desktop {
+body #contatti .h.desktop {
   display: flex;
   flex-direction: column;
   background-color: #f8f4f1;
@@ -729,19 +685,19 @@ body .container #contatti .h.desktop {
   align-items: center;
   justify-content: start;
 }
-body .container #contatti .h.desktop #title {
+body #contatti .h.desktop #title {
   display: flex;
   height: 7vh;
   justify-content: center;
   align-items: center;
 }
-body .container #contatti .h.desktop h1 {
+body #contatti .h.desktop h1 {
   display: flex;
   font-size: 5vh;
   color: #2b2b2b;
   font-family: "Abril fatface", sans-serif;
 }
-body .container #contatti .h.desktop .c.desktop {
+body #contatti .h.desktop .c.desktop {
   transition: height 2s ease-out, opacity 3.5s ease-in;
   height: 0%;
   opacity: 0;
@@ -753,15 +709,15 @@ body .container #contatti .h.desktop .c.desktop {
   font-family: "Quicksand", sans-serif;
   text-align: center;
 }
-body .container #contatti .h.desktop .c.desktop img {
+body #contatti .h.desktop .c.desktop img {
   width: 100px;
   margin-right: 8%;
 }
-body .container #contatti .h.desktop .c.desktop p {
+body #contatti .h.desktop .c.desktop p {
   font-size: 20px;
   margin-right: 2%;
 }
-body .container #contatti .h.mobile {
+body #contatti .h.mobile {
   flex-direction: column;
   overflow: hidden;
   background-color: #f8f4f1;
@@ -772,19 +728,19 @@ body .container #contatti .h.mobile {
   justify-content: start;
   align-items: center;
 }
-body .container #contatti .h.mobile #title {
+body #contatti .h.mobile #title {
   display: flex;
   height: 10vh;
   justify-content: center;
   align-items: center;
 }
-body .container #contatti .h.mobile h1 {
+body #contatti .h.mobile h1 {
   display: flex;
   font-size: 5vh;
   color: #2b2b2b;
   font-family: "Abril fatface", sans-serif;
 }
-body .container #contatti .h.mobile .c.mobile {
+body #contatti .h.mobile .c.mobile {
   transition: height 2s ease-out, opacity 3.5s ease-in;
   height: 0%;
   opacity: 0;
@@ -794,13 +750,13 @@ body .container #contatti .h.mobile .c.mobile {
   font-family: "Quicksand", sans-serif;
   justify-content: center;
 }
-body .container #contatti .h.mobile .c.mobile img {
+body #contatti .h.mobile .c.mobile img {
   width: 6vh;
 }
-body .container #contatti .h.mobile .c.mobile p {
+body #contatti .h.mobile .c.mobile p {
   font-size: 19px;
 }
-body .container #prodotti {
+body #prodotti {
   position: absolute;
   display: flex;
   flex-direction: column;
