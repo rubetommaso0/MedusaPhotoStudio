@@ -244,15 +244,6 @@ body .scroll-down-container .scroll-down .loader .progress-bar .progress {
 body .scroll-down-container .scroll-down .loader .progress-bar.mobile {
   width: 85vw;
 }
-body .scroll-down-arrow {
-  opacity: 1;
-  height: 95px;
-  color: #2b2b2b;
-  -o-object-fit: contain;
-     object-fit: contain;
-  transition: transform 0.2s ease-in-out;
-  margin-bottom: 40px;
-}
 body .foreground-container {
   opacity: 0;
   z-index: -1;
@@ -262,6 +253,19 @@ body .foreground-container {
   width: 100vw;
   background-color: #fad8c4;
   transition: opacity 0.7s ease-out;
+  background-image: linear-gradient(to bottom, #fad8c4, #f8f4f1);
+}
+body .foreground-container .group {
+  touch-action: pan-y;
+  width: 100vw;
+  height: 100%;
+  position: relative;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: none;
   background-image: linear-gradient(to bottom, #fad8c4, #f8f4f1);
 }
 body .container {
@@ -292,9 +296,8 @@ body .container .group {
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: flex;
-  justify-content: center;
   align-items: center;
-  transition: opacity 0.8s ease-in;
+  transition: none;
   background-image: linear-gradient(to bottom, #fad8c4, #f8f4f1);
 }
 body .container .group h3 {
@@ -317,21 +320,37 @@ body .container .group .presentation-container {
   display: flex;
   flex-direction: column;
 }
+body .container .scrolling-up {
+  justify-content: end;
+  padding-bottom: 50px;
+}
+body .container .scroll-up-arrow {
+  opacity: 1;
+  height: 95px;
+  color: #2b2b2b;
+  -o-object-fit: contain;
+     object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+  margin-top: 40px;
+}
+body .container .scrolling-down {
+  justify-content: start;
+  padding-top: 50px;
+}
+body .container .scroll-down-arrow {
+  opacity: 1;
+  height: 95px;
+  color: #2b2b2b;
+  -o-object-fit: contain;
+     object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+  margin-bottom: 40px;
+}
 body .container #bg {
   width: 100vw;
   height: 100vh;
   -o-object-fit: cover;
      object-fit: cover;
-}
-body .container .caption {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: #f8f4f1;
-  font-family: "Abril Fatface";
 }
 body #homepage {
   display: flex;
@@ -523,6 +542,24 @@ body #portfolio.desktop h1.desktop {
   color: #e6947c;
   letter-spacing: 5px;
 }
+body #portfolio .caption {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f8f4f1;
+  font-family: "Abril Fatface";
+}
+body #portfolio .h {
+  display: flex;
+  flex-direction: row;
+}
+body #portfolio .v {
+  display: flex;
+  flex-direction: column;
+}
 body #portfolio.mobile {
   display: flex;
   justify-content: center;
@@ -588,6 +625,14 @@ body #about {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+body #about .h {
+  display: flex;
+  flex-direction: row;
+}
+body #about .v {
+  display: flex;
+  flex-direction: column;
 }
 body #about .h.desktop {
   overflow: hidden;

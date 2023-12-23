@@ -1,3 +1,8 @@
+
+/* 
+---- Variables ----
+*/
+
 const scrollDownContainer = document.body.querySelector('.scroll-down-container');
 const foregroundContainer = document.querySelector('.foreground-container');
 const pageContainer = document.body.querySelector('.container');
@@ -10,25 +15,60 @@ var timer = 2800;
 
 var isMobileLayout = window.innerWidth <= 960 || (window.innerWidth > 960 && /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 
+const childElementDict = {
+  homepage: 0,
+  portfolio: 1,
+  about: 2,
+  contatti: 3,
+  prodotti: 4
+};
 
+// SetLayout
+setLayout(scrollDownContainer);
+setLayout(foregroundContainer);
+setLayout(pageContainer);
+
+
+
+/* 
+---- Disable scroll restoration ----
+*/
 window.addEventListener('DOMContentLoaded', function () {
 
   sessionStorage.removeItem('scrollPosition');
   localStorage.removeItem('scrollPosition');
 
-  // Disable scroll restoration
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
 });
 
-// Clear stored scroll position
-window.addEventListener('pageshow', function (event) {
-  if (event.persisted) {
-    startAnimation(700);
+/* 
+---- Mobile vs. Desktop layout ---- 
+*/
+function setLayout(element) {
+  const allElements = element.querySelectorAll('*');
+  if (isMobileLayout) {
+    allElements.forEach(element => {
+      element.classList.add('mobile');
+      if (element.querySelector('#ab-image')) {
+        element.querySelector('#bg').src = "../images/home/about_me_mobile.jpg";
+      }
+      if (element.querySelector('#bg')) {
+        element.querySelector('#bg').src = "../images/home/bg_mobile.jpg";
+      }
+    });
+  } else {
+    allElements.forEach(element => {
+      element.classList.add('desktop');
+    });
   }
-});
+}
 
+
+/* 
+---- Arrow StartAnimation for presentationViews ----
+*/
 function startAnimation(timer) {
   setTimeout(() => {
     if (getTopPosition(pageContainer) > (isMobileLayout ? window.outerHeight * 0.2 : window.innerHeight * 0.2)) {
@@ -54,34 +94,18 @@ function startAnimation(timer) {
   }, timer);
 }
 
-
-/* Mobile vs. Desktop layout */
-function setLayout(element) {
-  const allElements = element.querySelectorAll('*');
-  if (isMobileLayout) {
-    allElements.forEach(element => {
-      element.classList.add('mobile');
-      if (element.querySelector('#ab-image')) {
-        element.querySelector('#bg').src = "../images/home/about_me_mobile.jpg";
-      }
-      if (element.querySelector('#bg')) {
-        element.querySelector('#bg').src = "../images/home/bg_mobile.jpg";
-      }
-    });
-  } else {
-    allElements.forEach(element => {
-      element.classList.add('desktop');
-    });
+// StartAnimation for back
+window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+    startAnimation(700);
   }
-}
+});
 
-setLayout(scrollDownContainer);
-setLayout(foregroundContainer);
-setLayout(pageContainer);
 
-/* Menu scroll links */
+/* 
+---- Menu scroll links ----
+
 let scrollTimer;
-
 function scrollToView(elementToScrollTo) {
   if (elementToScrollTo.style.zIndex != 0) {
     elementToScrollTo.style.transform = 'translateZ(0px) scale(1)';
@@ -117,12 +141,17 @@ document.addEventListener('click', function (event) {
 
     const view = document.querySelector(selector);
     scrollTimer = setTimeout(() => {
-      triggerAnimation(view);
+      //triggerAnimation(view);
     }, 500);
   }
 });
 
-/* Portfolio pages links */
+-- comm for now
+*/
+
+/* 
+---- Portfolio pages links ----
+
 function createScrollLinks() {
   const matrimoni = document.body.querySelector("#matrimoni-link");
   const battesimi = document.body.querySelector("#battesimi-link");
@@ -141,29 +170,15 @@ function createScrollLinks() {
     window.location.href = 'portfolio.html?page=Altro';
   });
 }
+-- comm for now
+*/
 
-// Current view Observer & Animation trigger function (On Appear)
-const optionsCurrentView = {
-  root: null,
-  rootMargin: '0px',
-  threshold: 0.982
-};
-const observerCurrentView = new IntersectionObserver(handleCurrentView, optionsCurrentView);
-
-function handleCurrentView(entries) {
-  entries.forEach(entry => {
-    if (entry.isIntersecting && entry.intersectionRatio > 0.982) {
-      triggerAnimation(entry.target);
-    }
-  });
-}
 
 /* 
 ---- Scroll Down to start ----
 */
-let notHomepage = false;
-let notLast = true;
 var foregroundElement = 0;
+var nextElement = 1;
 
 function getTopPosition(element) {
   const rect = element.getBoundingClientRect();
@@ -175,43 +190,31 @@ function getBottomPosition(element) {
   return rect.bottom;
 }
 
+function startObserverChilds() {
+  childElements.forEach(childElement => {
+    observerCurrentView.observe(childElement);
+  });
+}
+
 function handlefirstScrollDown() {
+  startObserverChilds();
   document.body.style.height = 'calc(100vh + 10px)';
   window.scrollTo({
     top: 1
-  })
+  });
+  addForeground(0);
+  foregroundElement = 0;
+  document.addEventListener('touchstart', touchStart, { passive: true });
+  document.addEventListener('touchmove', handleScroll, { passive: false });
+
   scrollDownContainer.style.top = '-100vh';
   foregroundContainer.style.top = '0vh';
   pageContainer.style.top = '0vh';
   document.body.style.overflowY = 'hidden';
-  pageContainer.style.overflowY = 'auto';
+  pageContainer.style.overflow = 'hidden';
+  //pageContainer.style.overflowY = 'auto';
 
-  document.addEventListener('touchstart', touchStart, { passive: true });
-  document.addEventListener('touchmove', handleScroll, { passive: false });
-  console.log("foreground element" + foregroundElement);
-  handleScrollOnPageContainer(foregroundElement);
-
-  if (foregroundElement < parentElements.length - 1) {
-    foregroundElement++;
-  }
-}
-
-function handleScrollOnPageContainer(foregroundElement) {
-
-  foregroundContainer.innerHTML = elementsArray[foregroundElement];
-  setLayout(foregroundContainer);
-  console.log("opacity of group going to 0");
-  setTimeout(() => {
-    parentElements[foregroundElement].style.opacity = '0';
-  }, 600);
-
-
-  setTimeout(() => {
-    //pageContainer.style.opacity = '0';
-    foregroundContainer.style.opacity = '1';
-    //parentElements[foregroundElement].style.zIndex = '-1';
-  }, 1100);
-
+  console.log("first scroll down complete");
 }
 
 let startY = 0;
@@ -231,47 +234,133 @@ function handleScroll(event) {
     event.preventDefault();
     return;
   }
-  if (touchY > startY) {
-    foregroundElement--;
-    handleScrollOnPageContainer();
-  }
-  if (touchY < startY) {
-    foregroundElement++;
-    handleScrollOnPageContainer();
-  }
 }
 
-// OnScroll opacity animation
-let animationId;
+/* 
+---- Foreground handling ----
+*/
+let notHomepage = false;
+let notLast = true;
 
-var topPosition = null;
+// ForegroundView & scroll up-down observer
+const optionsCurrentView = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.982
+};
+const observerCurrentView = new IntersectionObserver(handleCurrentView, optionsCurrentView);
+
+function handleCurrentView(entries) {
+  entries.forEach(entry => {
+
+    if (entry.isIntersecting && entry.intersectionRatio > 0.982) {
+      foregroundElement = childElementDict[entry.target.id];
+      console.log("foregroundElement is " + foregroundElement);
+    } else if (foregroundElement != null && entry.target.id == childElements[foregroundElement].id && entry.intersectionRatio < 0.982) {
+
+      const isTopDisappearing = getTopPosition(entry.target) < getTopPosition(foregroundContainer);
+
+      if (isTopDisappearing) {
+        console.log("going down");
+        childElements[foregroundElement] = pageContainer.querySelector("#" + childElements[foregroundElement].id);
+        parentElements[foregroundElement] = childElements[foregroundElement].parentElement;
+        nextElement = foregroundElement + 1;
+      } else {
+        console.log("going up");
+        childElements[foregroundElement] = pageContainer.querySelector("#" + childElements[foregroundElement].id);
+        parentElements[foregroundElement] = childElements[foregroundElement].parentElement;
+        nextElement = foregroundElement - 1;
+      }
+      topPosition = getTopPosition(parentElements[nextElement]);
+      animationId = requestAnimationFrame(adjustContainerOpacity);
+    }
+  });
+}
+
+// OnScroll opacity animation & Trigger handleScrollOnPage
+let animationId;
+var firstScroll = true;
+var topPosition = getTopPosition(parentElements[0]);
 
 function adjustContainerOpacity() {
   if (topPosition == null) {
-    topPosition = getTopPosition(parentElements[foregroundElement]);
+    return;
   }
-  const bottomPosition = getBottomPosition(parentElements[foregroundElement]);
 
+  const bottomPosition = firstScroll ? getBottomPosition(parentElements[foregroundElement]) : getBottomPosition(parentElements[nextElement]);
   const opacityForeground = 1 - (bottomPosition - topPosition) / topPosition;
   const opacityScrollDown = (bottomPosition - topPosition) / topPosition;
+  const elementToAnimate = firstScroll ? parentElements[foregroundElement] : parentElements[nextElement];
 
-  console.log("opacityForeground: " + opacityForeground + " opacityScrollDown: " + opacityScrollDown);
-
+  //console.log("opacityForeground: " + opacityForeground + " opacityScrollDown: " + opacityScrollDown);
   if (opacityForeground < 0.98) {
-    pageContainer.style.opacity = Math.min(opacityForeground + 0.2, 0.99).toString();
+    elementToAnimate.style.opacity = Math.min(opacityForeground + 0.2, 0.99).toString();
     foregroundContainer.style.opacity = opacityScrollDown;
     animationId = requestAnimationFrame(adjustContainerOpacity);
   } else {
-    pageContainer.style.opacity = 1;
-    foregroundContainer.style.opacity = 0;
-    if (foregroundElement == 0) {
+    if (firstScroll) {
       handlefirstScrollDown();
+      firstScroll = false;
+    } else {
+      console.log("handleScrollOnPageContainer for " + nextElement);
+      handleScrollOnPageContainer(nextElement);
     }
     cancelAnimationFrame(animationId);
-    console.log('opacityForeground reached 1');
+    topPosition = null;
   }
 }
 animationId = requestAnimationFrame(adjustContainerOpacity);
+
+// HandleScrollOnPage
+function handleScrollOnPageContainer(element) {
+
+  console.log("addForeground");
+  addForeground(element);
+}
+
+function addForeground(element) {
+  parentElements[element].style.opacity = 1;
+  foregroundContainer.style.opacity = 0;
+  foregroundContainer.innerHTML = elementsArray[element];
+  setLayout(foregroundContainer);
+
+  setTimeout(() => {
+    parentElements[element].style.transition = 'opacity 0.8s ease-in';
+    parentElements[element].style.opacity = '0';
+  }, 600);
+
+
+  setTimeout(() => {
+    foregroundContainer.style.opacity = '1';
+    parentElements[element].style.transition = 'none';
+    childElements[element] = foregroundContainer.querySelector("#" + childElements[element].id);
+    parentElements[element] = childElements[element].parentElement;
+  }, 1100);
+
+  setTimeout(() => {
+    triggerAnimation(childElements[element]);
+  }, 1600);
+
+}
+
+function removeForeground(element) {
+  childElements[element] = pageContainer.querySelector("#" + childElements[element].id);
+  parentElements[element] = childElements[element].parentElement;
+}
+
+function checkIfPageBorders(view) {
+  if (view.id == "homepage") {
+    notHomepage = false;
+  } else {
+    notHomepage = true;
+  }
+  if (view.id == childElements[childElements.length - 1].id) {
+    notLast = false;
+  } else {
+    notLast = true;
+  }
+}
+
 
 /* 
 ----- On Appear animations for sections ----- 
@@ -303,19 +392,6 @@ function triggerAnimation(view) {
     contattiAnimation();
     console.log("triggerAnimation called " + view.id)
     contactsAnimationComplete = true;
-  }
-}
-
-function checkIfPageBorders(view) {
-  if (view.id == "homepage") {
-    notHomepage = false;
-  } else {
-    notHomepage = true;
-  }
-  if (view.id == childElements[childElements.length - 1].id) {
-    notLast = false;
-  } else {
-    notLast = true;
   }
 }
 
@@ -495,7 +571,7 @@ function aboutAnimation() {
 
 // Contatti on appear animation
 function contattiAnimation() {
-  const contatti = Array.from(pageContainer.querySelectorAll('.c'));
+  const contatti = Array.from(foregroundContainer.querySelectorAll('.c'));
 
   contatti.forEach((cont, ind) => {
     setTimeout(() => {
@@ -552,14 +628,6 @@ imageSources.forEach(imageSrc => {
   const img = new Image();
   img.src = imageSrc;
   img.onload = () => loadedImagesCount++;
-});
-
-
-/* Add All Observers */
-
-// 3dscroll
-childElements.forEach(childElement => {
-  observerCurrentView.observe(childElement);
 });
 
 const elementsArray = [
@@ -690,4 +758,110 @@ const elementsArray = [
 
   `
     `
+]
+
+const presentationUpArray = [
+  `
+        <div class="group scrolling-up">
+            <div id="homepage" class="child">
+                <div class = "presentation-container">
+                    <h3 class="pres">Home</h3>
+                    <img class="scroll-up-arrow" src="../images/home/scrollUpArrow.png">
+                </div>
+            </div>
+        </div>
+        ` ,
+  `
+        <div class="group scrolling-up">
+            <div id="portfolio" class="child">
+                <div class = "presentation-container">
+                    <h3 class="pres">Portfolio</h3>
+                    <img class="scroll-up-arrow" src="../images/home/scrollUpArrow.png">
+                </div>
+            </div>
+        </div>
+        `,
+  `
+        <div class="group scrolling-up">
+            <div id="about" class="child">
+                <div class = "presentation-container">
+                    <h3 class="pres">About me</h3>
+                    <img class="scroll-up-arrow" src="../images/home/scrollUpArrow.png">
+                </div>
+            </div>
+        </div>
+        `,
+  `
+        <div class="group scrolling-up">
+            <div id="contatti" class="child">
+                <div class = "presentation-container">
+                    <h3 class="pres">Contatti</h3>
+                    <img class="scroll-up-arrow" src="../images/home/scrollUpArrow.png">
+                </div>
+            </div>
+        </div>
+        `,
+  `
+        <div class="group scrolling-up">
+            <div id="prodotti" class="child">
+                <div class = "presentation-container">
+                    <h3 class="pres">Foto<br>prodotti</h3>
+                    <img class="scroll-up-arrow" src="../images/home/scrollUpArrow.png">
+                </div> 
+            </div>
+        </div>
+        `
+]
+
+const presentationDownArray = [
+  `
+        <div class="group scrolling-down">
+            <div id="homepage" class="child">
+                <div class = "presentation-container">
+                    <img class="scroll-down-arrow" src="../images/home/scrollDownArrow.png">
+                    <h3 class="pres">Home</h3>
+                </div>
+            </div>
+        </div>
+        ` ,
+  `
+        <div class="group scrolling-down">
+            <div id="portfolio" class="child">
+                <div class = "presentation-container">
+                    <img class="scroll-down-arrow" src="../images/home/scrollDownArrow.png">
+                    <h3 class="pres">Portfolio</h3>
+                </div>
+            </div>
+        </div>
+        `,
+  `
+        <div class="group scrolling-down">
+            <div id="about" class="child">
+                <div class = "presentation-container">
+                    <img class="scroll-down-arrow" src="../images/home/scrollDownArrow.png">
+                    <h3 class="pres">About me</h3>
+                </div>
+            </div>
+        </div>
+        `,
+  `
+        <div class="group scrolling-down">
+            <div id="contatti" class="child">
+                <div class = "presentation-container">
+                    <img class="scroll-down-arrow" src="../images/home/scrollDownArrow.png">
+                    <h3 class="pres">Contatti</h3>
+                </div>
+            </div>
+        </div>
+        `,
+  `
+        <div class="group scrolling-down">
+            <div id="prodotti" class="child">
+                <div class = "presentation-container">
+                    <h3 class="pres">Foto<br>prodotti</h3>
+                    <img class="scroll-down-arrow" src="../images/home/scrollDownArrow.png">
+                </div> 
+            </div>
+        </div>
+        `
 ]
