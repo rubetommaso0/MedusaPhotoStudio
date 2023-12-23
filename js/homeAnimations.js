@@ -291,11 +291,12 @@ function adjustContainerOpacity() {
   const opacityForeground = 1 - (bottomPosition - topPosition) / topPosition;
   const opacityScrollDown = (bottomPosition - topPosition) / topPosition;
   const elementToAnimate = firstScroll ? parentElements[foregroundElement] : parentElements[nextElement];
+  const elementToDissolve = firstScroll ? scrollDownContainer : foregroundContainer;
 
   //console.log("opacityForeground: " + opacityForeground + " opacityScrollDown: " + opacityScrollDown);
   if (opacityForeground < 0.98) {
     elementToAnimate.style.opacity = Math.min(opacityForeground + 0.2, 0.99).toString();
-    foregroundContainer.style.opacity = opacityScrollDown;
+    elementToDissolve.style.opacity = opacityScrollDown;
     animationId = requestAnimationFrame(adjustContainerOpacity);
   } else {
     if (firstScroll) {
@@ -400,25 +401,25 @@ function homeOnAppearAnimation(entries, observer) {
   // Animation on intersection
   setTimeout(() => {
     document.getElementById('menu').style.opacity = '0.85';
-  }, 1200);
+  }, 200);
   setTimeout(() => {
     document.getElementById('name').querySelector('h1').style.opacity = '1';
-  }, 2000);
+  }, 700);
   setTimeout(() => {
     document.getElementById('logo').style.opacity = '0.7';
-  }, 2400);
+  }, 900);
   const h2 = document.getElementById('name').querySelector('h2');
   const text = h2.textContent;
   h2.textContent = text[0];
   setTimeout(() => {
     h2.style.opacity = 1;
-  }, 2400);
+  }, 900);
 
   for (let i = 1; i < text.length; i++) {
     (function (index) {
       setTimeout(() => {
         h2.textContent += text[index];
-      }, 2400 + 250 * index);
+      }, 900 + 250 * index);
     })(i);
   }
 }
