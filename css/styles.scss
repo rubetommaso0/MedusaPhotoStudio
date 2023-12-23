@@ -73,7 +73,7 @@ body {
             z-index: 1;
 
             .logo-instructions {
-                height: 65%;
+                height: 80%;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-evenly;
@@ -81,7 +81,7 @@ body {
             }
 
             .logo-instructions.mobile {
-                height: 70%;
+                height: 65%;
             }
 
             .istruzioni {
@@ -135,14 +135,15 @@ body {
             }
 
             .arrow {
-                height: 35%;
+                height: 20%;
                 width: 100%;
                 display: flex;
                 align-items: center;
-                justify-content: space-evenly;
+                justify-content: start;
                 flex-direction: column;
 
                 .h {
+                    margin-top: 15px;
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
@@ -189,17 +190,10 @@ body {
                     }
                 }
 
-                .scroll-down-arrow {
-                    opacity: 1;
-                    height: 65px;
-                    color: #2b2b2b;
-                    object-fit: contain;
-                }
-
             }
 
             .arrow.mobile {
-                height: 30%;
+                height: 35%;
             }
 
             .name {
@@ -318,18 +312,29 @@ body {
         }
     }
 
+    .scroll-down-arrow {
+        opacity: 1;
+        height: 95px;
+        color: #2b2b2b;
+        object-fit: contain;
+        transition: transform 0.2s ease-in-out;
+        margin-bottom: 40px;
+    }
+
     .foreground-container {
+        opacity: 0;
         z-index: -1;
         position: fixed;
         top: 100vh;
         height: 100vh;
         width: 100vw;
         background-color: $pesca-chiaro;
+        transition: opacity 0.7s ease-out;
         background-image: linear-gradient(to bottom, $pesca-chiaro, $grigio-chiaro);
     }
 
     .container {
-        opacity: 0;
+        opacity: 1;
         position: absolute;
         top: 100vh;
         overflow-x: hidden;
@@ -338,8 +343,7 @@ body {
         height: 100vh;
         transition: height 0.7s ease-in-out;
         scroll-snap-type: y mandatory;
-        background-color: $pesca-chiaro;
-        background-image: linear-gradient(to bottom, $pesca-chiaro, $grigio-chiaro);
+        background-color: transparent;
 
         .h {
             display: flex;
@@ -353,7 +357,6 @@ body {
 
         .group {
             touch-action: pan-y;
-            z-index: -1;
             width: 100vw;
             height: 100%;
             position: relative;
@@ -362,6 +365,8 @@ body {
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: opacity 0.8s ease-in;
+            background-image: linear-gradient(to bottom, $pesca-chiaro, $grigio-chiaro);
 
             h3 {
                 text-align: center;
@@ -379,6 +384,11 @@ body {
 
             h3.mobile {
                 font-size: 50px;
+            }
+
+            .presentation-container {
+                display: flex; 
+                flex-direction: column;
             }
         }
 

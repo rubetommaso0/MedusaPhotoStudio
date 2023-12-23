@@ -6,6 +6,7 @@ const childElements = Array.from(document.querySelectorAll('.child'));
 const parentElements = Array.from(document.querySelectorAll('.group'));
 
 const loader = document.body.querySelector('.loader');
+var timer = 2800;
 
 var isMobileLayout = window.innerWidth <= 960 || (window.innerWidth > 960 && /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 
@@ -24,9 +25,34 @@ window.addEventListener('DOMContentLoaded', function () {
 // Clear stored scroll position
 window.addEventListener('pageshow', function (event) {
   if (event.persisted) {
-    window.location.reload(false);
+    startAnimation(700);
   }
 });
+
+function startAnimation(timer) {
+  setTimeout(() => {
+    if (getTopPosition(pageContainer) > (isMobileLayout ? window.outerHeight * 0.2 : window.innerHeight * 0.2)) {
+      window.scrollTo({
+        top: isMobileLayout ? window.outerHeight * 0.8 : window.innerHeight * 0.8,
+        behavior: 'smooth'
+      });
+
+      const arrow = document.querySelector('.scroll-down-arrow');
+      setTimeout(() => {
+        arrow.style.transform = 'translateY(-50px)';
+      }, 500);
+      setTimeout(() => {
+        arrow.style.transform = 'translateY(0)';
+      }, 800);
+      setTimeout(() => {
+        arrow.style.transform = 'translateY(-50px)';
+      }, 1300);
+      setTimeout(() => {
+        arrow.style.transform = 'translateY(0)';
+      }, 1600);
+    }
+  }, timer);
+}
 
 
 /* Mobile vs. Desktop layout */
@@ -120,13 +146,13 @@ function createScrollLinks() {
 const optionsCurrentView = {
   root: null,
   rootMargin: '0px',
-  threshold: 0.95
+  threshold: 0.982
 };
 const observerCurrentView = new IntersectionObserver(handleCurrentView, optionsCurrentView);
 
 function handleCurrentView(entries) {
   entries.forEach(entry => {
-    if (entry.isIntersecting && entry.intersectionRatio > 0.95) {
+    if (entry.isIntersecting && entry.intersectionRatio > 0.982) {
       triggerAnimation(entry.target);
     }
   });
@@ -154,24 +180,38 @@ function handlefirstScrollDown() {
   window.scrollTo({
     top: 1
   })
-  foregroundContainer.innerHTML = parentElements[foregroundElement].innerHTML;
-  parentElements[foregroundElement].innerHTML = '';
-  parentElements[foregroundElement].style.zIndex = -3;
-  pageContainer.style.opacity = 0;
   scrollDownContainer.style.top = '-100vh';
   foregroundContainer.style.top = '0vh';
   pageContainer.style.top = '0vh';
-  pageContainer.style.position = 'fixed';
-  pageContainer.style.overflowY = 'hidden';
+  document.body.style.overflowY = 'hidden';
   pageContainer.style.overflowY = 'auto';
-  pageContainer.style.zIndex = '1';
 
   document.addEventListener('touchstart', touchStart, { passive: true });
   document.addEventListener('touchmove', handleScroll, { passive: false });
   console.log("foreground element" + foregroundElement);
+  handleScrollOnPageContainer(foregroundElement);
+
   if (foregroundElement < parentElements.length - 1) {
     foregroundElement++;
   }
+}
+
+function handleScrollOnPageContainer(foregroundElement) {
+
+  foregroundContainer.innerHTML = elementsArray[foregroundElement];
+  setLayout(foregroundContainer);
+  console.log("opacity of group going to 0");
+  setTimeout(() => {
+    parentElements[foregroundElement].style.opacity = '0';
+  }, 600);
+
+
+  setTimeout(() => {
+    //pageContainer.style.opacity = '0';
+    foregroundContainer.style.opacity = '1';
+    //parentElements[foregroundElement].style.zIndex = '-1';
+  }, 1100);
+
 }
 
 let startY = 0;
@@ -185,9 +225,19 @@ function handleScroll(event) {
 
   if (touchY > startY && !notHomepage) {
     event.preventDefault();
+    return;
   }
   if (touchY < startY && !notLast) {
     event.preventDefault();
+    return;
+  }
+  if (touchY > startY) {
+    foregroundElement--;
+    handleScrollOnPageContainer();
+  }
+  if (touchY < startY) {
+    foregroundElement++;
+    handleScrollOnPageContainer();
   }
 }
 
@@ -207,8 +257,8 @@ function adjustContainerOpacity() {
 
   console.log("opacityForeground: " + opacityForeground + " opacityScrollDown: " + opacityScrollDown);
 
-  if (opacityForeground < 0.998) {
-    pageContainer.style.opacity = opacityForeground;
+  if (opacityForeground < 0.98) {
+    pageContainer.style.opacity = Math.min(opacityForeground + 0.2, 0.99).toString();
     foregroundContainer.style.opacity = opacityScrollDown;
     animationId = requestAnimationFrame(adjustContainerOpacity);
   } else {
@@ -217,7 +267,7 @@ function adjustContainerOpacity() {
     if (foregroundElement == 0) {
       handlefirstScrollDown();
     }
-    animationId = requestAnimationFrame(adjustContainerOpacity);
+    cancelAnimationFrame(animationId);
     console.log('opacityForeground reached 1');
   }
 }
@@ -272,25 +322,27 @@ function checkIfPageBorders(view) {
 // On appear home animation 
 function homeOnAppearAnimation(entries, observer) {
   // Animation on intersection
-  document.getElementById('menu').style.opacity = '0.85';
+  setTimeout(() => {
+    document.getElementById('menu').style.opacity = '0.85';
+  }, 1200);
   setTimeout(() => {
     document.getElementById('name').querySelector('h1').style.opacity = '1';
-  }, 1000);
+  }, 2000);
   setTimeout(() => {
     document.getElementById('logo').style.opacity = '0.7';
-  }, 1400);
+  }, 2400);
   const h2 = document.getElementById('name').querySelector('h2');
   const text = h2.textContent;
   h2.textContent = text[0];
   setTimeout(() => {
     h2.style.opacity = 1;
-  }, 1400);
+  }, 2400);
 
   for (let i = 1; i < text.length; i++) {
     (function (index) {
       setTimeout(() => {
         h2.textContent += text[index];
-      }, 1400 + 250 * index);
+      }, 2400 + 250 * index);
     })(i);
   }
 }
@@ -485,6 +537,8 @@ function checkImagesLoaded() {
     loader.querySelector('.progress-bar').style.height = '0px';
     loader.querySelector('.progress-bar').style.margin = '0px';
     loader.style.height = '0vh';
+
+    startAnimation(timer);
   }
 }
 
