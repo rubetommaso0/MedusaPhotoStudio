@@ -1,34 +1,302 @@
+/* 
+-- Utility --
+ */
+
+function getTopPosition(element) {
+  const rect = element.getBoundingClientRect();
+  return rect.top;
+}
+
+function getBottomPosition(element) {
+  const rect = element.getBoundingClientRect();
+  return rect.bottom;
+}
+
+/* 
+-- Foreground class --
+ */
+
+class Foreground {
+  constructor() {
+    this.foregroundContainer = document.querySelector('.foreground-container');
+    this.foregroundElement = null;
+    this.animations = {
+      homepage: false,
+      portfolio: false,
+      about: false,
+      contatti: false,
+      prodotti: false
+    };
+  }
+
+  id() {
+    return this.foregroundContainer.querySelector('.child').id;
+  }
+
+  update(x) {
+    this.foregroundContainer.style.opacity = 0;
+    const index = Number.isInteger(x) ? x : childElementIndex[x];
+    this.foregroundContainer.innerHTML = elementsArray[index];
+    this.foregroundElement = this.foregroundContainer.querySelector('.group');
+    setLayout(this.foregroundContainer);
+  }
+
+  appear() {
+    this.foregroundContainer.style.opacity = '1';
+  }
+
+  triggerAnimation() {
+    const id = this.id();
+    const animationComplete = this.animations[id];
+
+    if (!animationComplete) {
+      switch (id) {
+        case "homepage":
+          homeOnAppearAnimation();
+          break;
+        case "portfolio":
+          portfolioAnimation(view);
+          break;
+        case "about":
+          aboutAnimation();
+          break;
+        case "contatti":
+          contattiAnimation();
+          break;
+        default:
+          break;
+      }
+      this.animations[id] = true;
+    }
+  }
+}
+
+/* 
+-- Background class --
+ */
+
+class Background {
+  constructor() {
+    this.pageContainer = document.body.querySelector('.container');
+    this.nextElement = document.querySelector('.group');
+    this.previousElement = null;
+    this.topPosition = getTopPosition(this.nextElement);
+  }
+
+  idNext() {
+    return this.nextElement.querySelector('.child').id;
+  }
+
+  calcPosition() {
+    if (this.topPosition == null) {
+      this.topPosition = getTopPosition(this.nextElement);
+    }
+    if (this.topPosition == getBottomPosition(this.nextElement)) {
+      this.topPosition == null;
+    }
+    const dict = {
+      top: this.topPosition,
+      bottom: getBottomPosition(this.nextElement)
+    }
+    console.log(dict);
+    return dict;
+  }
+
+  createNextElement() {
+    this.nextElement.style.transition = 'none';
+    const index = childElementIndex[this.idNext()] + 1;
+    this.pageContainer.innerHTML = this.pageContainer.innerHTML + presentationDownArray[index];
+    this.nextElement = this.pageContainer.querySelector('#' + this.idNext());
+    setLayout(this.nextElement);
+  }
+
+  updatePrevoius(id) {
+    const element = pageContainer.querySelector(id).parentElement;
+    element.innerHTML = presentationUpArray[id];
+    this.previousElement = element;
+    setLayout(this.previousElement);
+  }
+
+  dissolve() {
+    this.nextElement.style.transition = 'opacity 0.8s ease-in';
+    this.nextElement.style.opacity = '0';
+  }
+
+  startAnimation(timer) {
+    setTimeout(() => {
+      if (getTopPosition(this.pageContainer) > (isMobileLayout ? window.outerHeight * 0.2 : window.innerHeight * 0.2)) {
+        window.scrollTo({
+          top: isMobileLayout ? window.outerHeight * 0.8 : window.innerHeight * 0.8,
+          behavior: 'smooth'
+        });
+
+        const arrow = document.querySelector('.scroll-down-arrow');
+        setTimeout(() => {
+          arrow.style.transform = 'translateY(-50px)';
+        }, 500);
+        setTimeout(() => {
+          arrow.style.transform = 'translateY(0)';
+        }, 800);
+        setTimeout(() => {
+          arrow.style.transform = 'translateY(-50px)';
+        }, 1300);
+        setTimeout(() => {
+          arrow.style.transform = 'translateY(0)';
+        }, 1600);
+      }
+    }, timer);
+  }
+}
+
+/* 
+-- Navigation class --
+ */
+
+class Navigation {
+  constructor() {
+    this.scrollDownContainer = document.body.querySelector('.scroll-down-container')
+    this.foreground = new Foreground();
+    this.background = new Background();
+    this.setLayout();
+    this.adjustContainerOpacity = this.adjustContainerOpacity.bind(this);
+    this.touchStart = this.touchStart.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.animationId = this.startOpacityAnimation();
+  }
+
+  setLayout() {
+    setLayout(this.scrollDownContainer);
+    setLayout(this.foreground.foregroundContainer);
+    setLayout(this.background.pageContainer);
+  }
+
+  handlefirstScrollDown() {
+    // comm for now: startObserverChilds();
+    document.body.style.height = 'calc(100vh + 10px)';
+    window.scrollTo({
+      top: 1
+    });
+    this.addForeground('homepage');
+    document.addEventListener('touchstart', this.touchStart, { passive: true });
+    document.addEventListener('touchmove', this.handleScroll, { passive: false });
+
+    this.scrollDownContainer.style.top = '-100vh';
+    document.body.style.overflowY = 'hidden';
+    this.foreground.foregroundContainer.style.top = '0vh';
+    this.background.pageContainer.style.top = '0vh';
+    this.background.pageContainer.style.overflowY = 'auto';
+
+    console.log("first scroll down complete");
+  }
+
+  touchStart(event) {
+    startY = event.touches[0].clientY;
+  }
+  handleScroll(event) {
+    const touchY = event.touches[0].clientY;
+
+    if (touchY > startY && !notHomepage) {
+      event.preventDefault();
+      return;
+    }
+    if (touchY < startY && !notLast) {
+      event.preventDefault();
+      return;
+    }
+  }
+
+  adjustContainerOpacity() {
+    const topPosition = this.background.calcPosition().top;
+    if (this.background.topPosition == null) {
+      return;
+    }
+    const bottomPosition = this.background.calcPosition().bottom;
+    const opacityForeground = 1 - (bottomPosition - topPosition) / topPosition;
+    const opacityScrollDown = (bottomPosition - topPosition) / topPosition;
+    const elementToAnimate = isGoingDown ? this.background.nextElement : this.background.previousElement;
+    const elementToDissolve = firstScroll ? this.scrollDownContainer : this.foreground.foregroundContainer;
+
+    if (opacityForeground < 0.98) {
+      elementToAnimate.style.opacity = Math.min(opacityForeground + 0.2, 0.99).toString();
+      elementToDissolve.style.opacity = opacityScrollDown;
+      this.animationId = requestAnimationFrame(this.adjustContainerOpacity);
+    } else {
+      if (firstScroll) {
+        this.handlefirstScrollDown();
+        firstScroll = false;
+      } else if (isGoingDown) {
+        console.log("down scroll for " + nextElement);
+        handleScrollOnPageContainer(nextElement);
+      } else if (!isGoingDown) {
+        console.log("up scroll for " + previousElement);
+        handleScrollOnPageContainer(previousElement);
+      }
+      cancelAnimationFrame(this.animationId);
+      this.background.topPosition = null;
+    }
+  }
+
+  startOpacityAnimation() {
+    const animationId = requestAnimationFrame(this.adjustContainerOpacity);
+    return animationId;
+  }
+
+  updatePrevoius() {
+    const foregroundId = this.foreground.id();
+    this.background.updatePrevoius(foregroundId);
+  }
+
+  addForeground(foregroundEl) {
+    if (foregroundEl != 0 && foregroundEl != 'homepage') {
+      this.updatePrevoius();
+    }
+    this.foreground.update(foregroundEl);
+
+    setTimeout(() => {
+      this.background.dissolve();
+    }, 600);
+
+    setTimeout(() => {
+      this.foreground.appear();
+      this.background.createNextElement();
+    }, 1100);
+
+    setTimeout(() => {
+      this.foreground.triggerAnimation();
+    }, 1600);
+  }
+
+}
 
 /* 
 ---- Variables ----
 */
+let startY = 0;
+var firstScroll = true;
+var isGoingDown = true;
 
-const scrollDownContainer = document.body.querySelector('.scroll-down-container');
-const foregroundContainer = document.querySelector('.foreground-container');
-const pageContainer = document.body.querySelector('.container');
-
-const childElements = Array.from(document.querySelectorAll('.child'));
-const parentElements = Array.from(document.querySelectorAll('.group'));
-
-const loader = document.body.querySelector('.loader');
-var timer = 2800;
-
-var isMobileLayout = window.innerWidth <= 960 || (window.innerWidth > 960 && /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-
-const childElementDict = {
+const childElementIndex = {
   homepage: 0,
   portfolio: 1,
   about: 2,
   contatti: 3,
   prodotti: 4
 };
+const childElementsId = [
+  'homepage',
+  'portfolio',
+  'about',
+  'contatti',
+  'prodotti'
+];
 
-// SetLayout
-setLayout(scrollDownContainer);
-setLayout(foregroundContainer);
-setLayout(pageContainer);
+const loader = document.body.querySelector('.loader');
+var timer = 2800;
 
+var isMobileLayout = window.innerWidth <= 960 || (window.innerWidth > 960 && /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 
+// Start navigation
+var nav = new Navigation();
 
 /* 
 ---- Disable scroll restoration ----
@@ -40,6 +308,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
+  }
+});
+
+// StartAnimation for back action
+window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+    nav.background.startAnimation(700);
   }
 });
 
@@ -64,43 +339,6 @@ function setLayout(element) {
     });
   }
 }
-
-
-/* 
----- Arrow StartAnimation for presentationViews ----
-*/
-function startAnimation(timer) {
-  setTimeout(() => {
-    if (getTopPosition(pageContainer) > (isMobileLayout ? window.outerHeight * 0.2 : window.innerHeight * 0.2)) {
-      window.scrollTo({
-        top: isMobileLayout ? window.outerHeight * 0.8 : window.innerHeight * 0.8,
-        behavior: 'smooth'
-      });
-
-      const arrow = document.querySelector('.scroll-down-arrow');
-      setTimeout(() => {
-        arrow.style.transform = 'translateY(-50px)';
-      }, 500);
-      setTimeout(() => {
-        arrow.style.transform = 'translateY(0)';
-      }, 800);
-      setTimeout(() => {
-        arrow.style.transform = 'translateY(-50px)';
-      }, 1300);
-      setTimeout(() => {
-        arrow.style.transform = 'translateY(0)';
-      }, 1600);
-    }
-  }, timer);
-}
-
-// StartAnimation for back
-window.addEventListener('pageshow', function (event) {
-  if (event.persisted) {
-    startAnimation(700);
-  }
-});
-
 
 /* 
 ---- Menu scroll links ----
@@ -177,72 +415,13 @@ function createScrollLinks() {
 /* 
 ---- Scroll Down to start ----
 */
-var foregroundElement = 0;
-var nextElement = 1;
 
-function getTopPosition(element) {
-  const rect = element.getBoundingClientRect();
-  return rect.top;
+/* ForegroundView & scroll up-down observer
+
+function startObserving(element) {
+  observerCurrentView.observe(element);
 }
 
-function getBottomPosition(element) {
-  const rect = element.getBoundingClientRect();
-  return rect.bottom;
-}
-
-function startObserverChilds() {
-  childElements.forEach(childElement => {
-    observerCurrentView.observe(childElement);
-  });
-}
-
-function handlefirstScrollDown() {
-  startObserverChilds();
-  document.body.style.height = 'calc(100vh + 10px)';
-  window.scrollTo({
-    top: 1
-  });
-  addForeground(0);
-  foregroundElement = 0;
-  document.addEventListener('touchstart', touchStart, { passive: true });
-  document.addEventListener('touchmove', handleScroll, { passive: false });
-
-  scrollDownContainer.style.top = '-100vh';
-  foregroundContainer.style.top = '0vh';
-  pageContainer.style.top = '0vh';
-  document.body.style.overflowY = 'hidden';
-  pageContainer.style.overflow = 'hidden';
-  //pageContainer.style.overflowY = 'auto';
-
-  console.log("first scroll down complete");
-}
-
-let startY = 0;
-
-function touchStart(event) {
-  startY = event.touches[0].clientY;
-}
-
-function handleScroll(event) {
-  const touchY = event.touches[0].clientY;
-
-  if (touchY > startY && !notHomepage) {
-    event.preventDefault();
-    return;
-  }
-  if (touchY < startY && !notLast) {
-    event.preventDefault();
-    return;
-  }
-}
-
-/* 
----- Foreground handling ----
-*/
-let notHomepage = false;
-let notLast = true;
-
-// ForegroundView & scroll up-down observer
 const optionsCurrentView = {
   root: null,
   rootMargin: '0px',
@@ -254,63 +433,22 @@ function handleCurrentView(entries) {
   entries.forEach(entry => {
 
     if (entry.isIntersecting && entry.intersectionRatio > 0.982) {
-      foregroundElement = childElementDict[entry.target.id];
-      console.log("foregroundElement is " + foregroundElement);
+
     } else if (foregroundElement != null && entry.target.id == childElements[foregroundElement].id && entry.intersectionRatio < 0.982) {
 
       const isTopDisappearing = getTopPosition(entry.target) < getTopPosition(foregroundContainer);
-
       if (isTopDisappearing) {
         console.log("going down");
-        childElements[foregroundElement] = pageContainer.querySelector("#" + childElements[foregroundElement].id);
-        parentElements[foregroundElement] = childElements[foregroundElement].parentElement;
-        nextElement = foregroundElement + 1;
       } else {
         console.log("going up");
-        childElements[foregroundElement] = pageContainer.querySelector("#" + childElements[foregroundElement].id);
-        parentElements[foregroundElement] = childElements[foregroundElement].parentElement;
-        nextElement = foregroundElement - 1;
       }
-      topPosition = getTopPosition(parentElements[nextElement]);
-      animationId = requestAnimationFrame(adjustContainerOpacity);
     }
   });
-}
+} 
+--- comm or now
+*/
 
 // OnScroll opacity animation & Trigger handleScrollOnPage
-let animationId;
-var firstScroll = true;
-var topPosition = getTopPosition(parentElements[0]);
-
-function adjustContainerOpacity() {
-  if (topPosition == null) {
-    return;
-  }
-
-  const bottomPosition = firstScroll ? getBottomPosition(parentElements[foregroundElement]) : getBottomPosition(parentElements[nextElement]);
-  const opacityForeground = 1 - (bottomPosition - topPosition) / topPosition;
-  const opacityScrollDown = (bottomPosition - topPosition) / topPosition;
-  const elementToAnimate = firstScroll ? parentElements[foregroundElement] : parentElements[nextElement];
-  const elementToDissolve = firstScroll ? scrollDownContainer : foregroundContainer;
-
-  //console.log("opacityForeground: " + opacityForeground + " opacityScrollDown: " + opacityScrollDown);
-  if (opacityForeground < 0.98) {
-    elementToAnimate.style.opacity = Math.min(opacityForeground + 0.2, 0.99).toString();
-    elementToDissolve.style.opacity = opacityScrollDown;
-    animationId = requestAnimationFrame(adjustContainerOpacity);
-  } else {
-    if (firstScroll) {
-      handlefirstScrollDown();
-      firstScroll = false;
-    } else {
-      console.log("handleScrollOnPageContainer for " + nextElement);
-      handleScrollOnPageContainer(nextElement);
-    }
-    cancelAnimationFrame(animationId);
-    topPosition = null;
-  }
-}
-animationId = requestAnimationFrame(adjustContainerOpacity);
 
 // HandleScrollOnPage
 function handleScrollOnPageContainer(element) {
@@ -319,82 +457,11 @@ function handleScrollOnPageContainer(element) {
   addForeground(element);
 }
 
-function addForeground(element) {
-  parentElements[element].style.opacity = 1;
-  foregroundContainer.style.opacity = 0;
-  foregroundContainer.innerHTML = elementsArray[element];
-  setLayout(foregroundContainer);
-
-  setTimeout(() => {
-    parentElements[element].style.transition = 'opacity 0.8s ease-in';
-    parentElements[element].style.opacity = '0';
-  }, 600);
 
 
-  setTimeout(() => {
-    foregroundContainer.style.opacity = '1';
-    parentElements[element].style.transition = 'none';
-    childElements[element] = foregroundContainer.querySelector("#" + childElements[element].id);
-    parentElements[element] = childElements[element].parentElement;
-  }, 1100);
-
-  setTimeout(() => {
-    triggerAnimation(childElements[element]);
-  }, 1600);
-
-}
-
-function removeForeground(element) {
-  childElements[element] = pageContainer.querySelector("#" + childElements[element].id);
-  parentElements[element] = childElements[element].parentElement;
-}
-
-function checkIfPageBorders(view) {
-  if (view.id == "homepage") {
-    notHomepage = false;
-  } else {
-    notHomepage = true;
-  }
-  if (view.id == childElements[childElements.length - 1].id) {
-    notLast = false;
-  } else {
-    notLast = true;
-  }
-}
 
 
-/* 
------ On Appear animations for sections ----- 
-*/
-var homeAnimationComplete = false;
-var portfolioAnimationComplete = false;
-var aboutAnimationComplete = false;
-var contactsAnimationComplete = false;
 
-function triggerAnimation(view) {
-  checkIfPageBorders(view);
-
-  if (view.id == "homepage" && !homeAnimationComplete) {
-    homeOnAppearAnimation();
-    homeAnimationComplete = true;
-    console.log("triggerAnimation called " + view.id)
-  }
-  if (view.id == "portfolio" && !portfolioAnimationComplete) {
-    portfolioAnimation(view);
-    portfolioAnimationComplete = true;
-    console.log("triggerAnimation called " + view.id)
-  }
-  if (view.id == "about" && !aboutAnimationComplete) {
-    aboutAnimation();
-    console.log("triggerAnimation called " + view.id)
-    aboutAnimationComplete = true;
-  }
-  if (view.id == "contatti" && !contactsAnimationComplete) {
-    contattiAnimation();
-    console.log("triggerAnimation called " + view.id)
-    contactsAnimationComplete = true;
-  }
-}
 
 // On appear home animation 
 function homeOnAppearAnimation(entries, observer) {
@@ -615,7 +682,7 @@ function checkImagesLoaded() {
     loader.querySelector('.progress-bar').style.margin = '0px';
     loader.style.height = '0vh';
 
-    startAnimation(timer);
+    nav.background.startAnimation(timer);
   }
 }
 
