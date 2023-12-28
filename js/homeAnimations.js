@@ -17,9 +17,9 @@ function getBottomPosition(element) {
  */
 
 class Foreground {
-  constructor() {
+  constructor(foregroundElement) {
     this.foregroundContainer = document.querySelector('.foreground-container');
-    this.foregroundElement = null;
+    this.foregroundElement = foregroundElement;
     this.animations = {
       homepage: false,
       portfolio: false,
@@ -30,15 +30,49 @@ class Foreground {
   }
 
   id() {
-    return this.foregroundContainer.querySelector('.child').id;
+    return this.foregroundElement.querySelector('.child').id;
   }
 
-  update(x) {
-    this.foregroundContainer.style.opacity = 0;
-    const index = Number.isInteger(x) ? x : childElementIndex[x];
-    this.foregroundContainer.innerHTML = elementsArray[index];
-    this.foregroundElement = this.foregroundContainer.querySelector('.group');
+  position() {
+    return getTopPosition(this.foregroundElement);
+  }
+
+  height() {
+    return this.foregroundElement.getBoundingClientRect().height;
+  }
+
+  update(isHome, id) {
+    if (isHome) {
+      this.foregroundContainer.style.opacity = 0;
+      this.foregroundContainer.innerHTML = homeHTML;
+      this.foregroundElement = this.foregroundContainer.querySelector('#homepage').parentElement;
+    } else {
+      this.foregroundContainer.style.opacity = 0;
+      const index = childElementIndex[id];
+      this.foregroundContainer.innerHTML = elementsArray[index];
+      this.foregroundElement = this.foregroundContainer.querySelector('#' + id).parentElement;
+    }
     setLayout(this.foregroundContainer);
+    console.log("foregroundElement");
+    console.log(this.foregroundElement);
+  }
+
+  updateWithoutAnimation(isHome, id) {
+    if (isHome) {
+      this.foregroundContainer.style.opacity = 0;
+      this.foregroundContainer.innerHTML = animationCompeleteHome;
+      this.foregroundElement = this.foregroundContainer.querySelector('#homepage').parentElement;
+      setLayout(this.foregroundElement);
+    } else {
+      this.foregroundContainer.style.opacity = 0;
+      const index = childElementIndex[id];
+      if (isMobileLayout) {
+        this.foregroundContainer.innerHTML = elementsAnimationCompleteArrayMobile[index];
+      } else {
+        this.foregroundContainer.innerHTML = elementsAnimationCompleteArrayDesktop[index];
+      }
+      this.foregroundElement = this.foregroundContainer.querySelector('#' + id).parentElement;
+    }
   }
 
   appear() {
@@ -52,16 +86,16 @@ class Foreground {
     if (!animationComplete) {
       switch (id) {
         case "homepage":
-          homeOnAppearAnimation();
+          homeOnAppearAnimation(this.foregroundElement);
           break;
         case "portfolio":
-          portfolioAnimation(view);
+          portfolioAnimation(this.foregroundElement);
           break;
         case "about":
-          aboutAnimation();
+          aboutAnimation(this.foregroundElement);
           break;
         case "contatti":
-          contattiAnimation();
+          contattiAnimation(this.foregroundElement);
           break;
         default:
           break;
@@ -78,48 +112,92 @@ class Foreground {
 class Background {
   constructor() {
     this.pageContainer = document.body.querySelector('.container');
-    this.nextElement = document.querySelector('.group');
-    this.previousElement = null;
-    this.topPosition = getTopPosition(this.nextElement);
+    this.nextElement = null;
+    this.homeElement = document.querySelector('.home-container');
+    this.foregroundElement = null;
   }
 
-  idNext() {
+  triggerAnimation(isHome, isNext) {
+    if (isHome) {
+      this.dissolve(this.homeElement);
+    } else if (isNext) {
+      this.dissolve(this.nextElement);
+    } else {
+      this.dissolve(this.foregroundElement);
+    }
+  }
+
+  createFG() {
+    this.foregroundElement = document.createElement('div');
+    this.foregroundElement.classList.add("group", "scrolling-down", "foreground");
+    this.pageContainer.appendChild(this.foregroundElement);
+  }
+
+  populateFG(id) {
+    this.foregroundElement.innerHTML = presentationDownArray[childElementIndex[id]];
+    this.foregroundElement = this.pageContainer.querySelector('.foreground');
+  }
+
+  resetScrollPosition(top) {
+    //this.foregroundElement.scrollIntoView();
+    this.pageContainer.scrollTo({
+      top: top
+    });
+  }
+
+  populateNext(id) {
+    if (this.nextElement) {
+      this.nextElement.innerHTML = presentationDownArray[childElementIndex[id]];
+    } else {
+      this.nextElement = document.createElement('div');
+      this.nextElement.classList.add("group", "scrolling-down", "next-element");
+      this.nextElement.innerHTML = presentationDownArray[childElementIndex[id]];
+      this.pageContainer.appendChild(this.nextElement);
+    }
+  }
+
+  removeNext() {
+    this.nextElement.remove();
+    this.nextElement = null;
+  }
+
+  idNextElement() {
     return this.nextElement.querySelector('.child').id;
   }
 
-  calcPosition() {
-    if (this.topPosition == null) {
-      this.topPosition = getTopPosition(this.nextElement);
-    }
-    if (this.topPosition == getBottomPosition(this.nextElement)) {
-      this.topPosition == null;
-    }
-    const dict = {
-      top: this.topPosition,
-      bottom: getBottomPosition(this.nextElement)
-    }
-    console.log(dict);
-    return dict;
+  startObserving() {
+    console.log("start observing");
+    homeObserver.observe(this.homeElement);
   }
 
-  createNextElement() {
+  stopObserving() {
+    console.log("stop observing");
+    homeObserver.disconnect();
+  }
+
+  createNextElement(id) {
+    const index = (childElementIndex[id]);
+    console.log("new nextElement " + id);
+    this.populateNext(id);
     this.nextElement.style.transition = 'none';
-    const index = childElementIndex[this.idNext()] + 1;
-    this.pageContainer.innerHTML = this.pageContainer.innerHTML + presentationDownArray[index];
-    this.nextElement = this.pageContainer.querySelector('#' + this.idNext());
     setLayout(this.nextElement);
   }
 
-  updatePrevoius(id) {
-    const element = pageContainer.querySelector(id).parentElement;
-    element.innerHTML = presentationUpArray[id];
-    this.previousElement = element;
-    setLayout(this.previousElement);
+  position() {
+    if (isGoingDown) {
+      if (this.nextElement) {
+        return getTopPosition(this.nextElement);
+      }
+      if (this.foregroundElement) {
+        return getTopPosition(this.foregroundElement);
+      }
+    }
+    return getTopPosition(this.homeElement);
   }
 
-  dissolve() {
-    this.nextElement.style.transition = 'opacity 0.8s ease-in';
-    this.nextElement.style.opacity = '0';
+  dissolve(element) {
+    element.style.transition = 'opacity 0.8s ease-in';
+    element.style.opacity = '0';
   }
 
   startAnimation(timer) {
@@ -155,13 +233,13 @@ class Background {
 class Navigation {
   constructor() {
     this.scrollDownContainer = document.body.querySelector('.scroll-down-container')
-    this.foreground = new Foreground();
+    this.foreground = new Foreground(this.scrollDownContainer);
     this.background = new Background();
     this.setLayout();
     this.adjustContainerOpacity = this.adjustContainerOpacity.bind(this);
     this.touchStart = this.touchStart.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
-    this.animationId = this.startOpacityAnimation();
+    this.animationId = this.startOpacityAnimation([this.background.homeElement], this.scrollDownContainer);
   }
 
   setLayout() {
@@ -170,100 +248,217 @@ class Navigation {
     setLayout(this.background.pageContainer);
   }
 
-  handlefirstScrollDown() {
-    // comm for now: startObserverChilds();
+  calcOpacity() {
+    const topPositionBG = this.background.position();
+    const topPositionFG = this.foreground.position();
+    const height = this.foreground.height();
+    const test = Math.abs(topPositionBG - topPositionFG) / height;
+
+    if (test * height <= height) {
+      opacity = {
+        opacityFG: Math.abs(topPositionBG - topPositionFG) / height,
+        opacityBG: 1 - test
+      }
+    } else {
+      const opacityBG = (Math.abs(topPositionBG - topPositionFG) - height) / height;
+      opacity = {
+        opacityFG: 1 - opacityBG,
+        opacityBG: (Math.abs(topPositionBG - topPositionFG) - height) / height
+      }
+    }
+
+    return opacity;
+  }
+
+  firstScroll() {
     document.body.style.height = 'calc(100vh + 10px)';
     window.scrollTo({
       top: 1
     });
-    this.addForeground('homepage');
     document.addEventListener('touchstart', this.touchStart, { passive: true });
     document.addEventListener('touchmove', this.handleScroll, { passive: false });
-
     this.scrollDownContainer.style.top = '-100vh';
     document.body.style.overflowY = 'hidden';
     this.foreground.foregroundContainer.style.top = '0vh';
     this.background.pageContainer.style.top = '0vh';
     this.background.pageContainer.style.overflowY = 'auto';
 
+    this.foreground.update(true);
+    this.cancelOpacityAnimation();
+
+    setTimeout(() => {
+      this.background.triggerAnimation(true, false);
+    }, 200);
+
+    setTimeout(() => {
+      this.foreground.appear();
+    }, 1000);
+
+    setTimeout(() => {
+      this.foreground.triggerAnimation();
+      this.background.startObserving();
+      // create foreground element
+      this.background.createFG();
+      this.background.populateFG(childElementsId[0]);
+
+      this.startOpacityAnimation([this.background.foregroundElement], this.foreground.foregroundElement);
+
+    }, 1500);
+
     console.log("first scroll down complete");
   }
+
+  foregroundScroll(id, createNext) {
+
+    if (this.foreground.animations[id]) {
+      this.foreground.updateWithoutAnimation(false, id);
+    } else {
+      this.foreground.update(false, id);
+    }
+    this.cancelOpacityAnimation();
+
+    setTimeout(() => {
+      this.background.triggerAnimation(false, false);
+    }, 200);
+
+    setTimeout(() => {
+      this.foreground.appear();
+    }, 1000);
+
+    setTimeout(() => {
+      this.foreground.triggerAnimation();
+      if (createNext) {
+        let idNext = childElementsId[childElementIndex[id] + 1];
+        this.background.createNextElement(idNext);
+        this.startOpacityAnimation([this.background.nextElement, this.background.homeElement], this.foreground.foregroundElement);
+      } else {
+        this.startOpacityAnimation([this.background.homeElement], this.foreground.foregroundElement);
+      }
+
+    }, 1500);
+
+    console.log("foreground scroll down complete");
+  }
+
+  nextScroll() {
+
+    const idNext = this.background.idNextElement();
+    if (this.foreground.animations[idNext]) {
+      this.foreground.updateWithoutAnimation(false, idNext);
+    } else {
+      this.foreground.update(false, idNext);
+    }
+    this.cancelOpacityAnimation();
+
+    setTimeout(() => {
+      this.background.triggerAnimation(false, true);
+    }, 200);
+
+    setTimeout(() => {
+      this.background.resetScrollPosition(this.foreground.height());
+      this.foreground.appear();
+    }, 1000);
+
+    setTimeout(() => {
+      this.foreground.triggerAnimation();
+      this.background.createNextElement(childElementsId[childElementIndex[this.background.idNextElement()] + 1]);
+      this.startOpacityAnimation([this.background.nextElement, this.background.homeElement], this.foreground.foregroundElement);
+    }, 1500);
+
+    console.log("next scroll down complete");
+  }
+
+  // Non viene triggherato perchè opacity della hove va sotto zero quando scrollo verso SU ! ! ! ! ! ! ! 
+  
+  homeScroll() {
+    this.foreground.updateWithoutAnimation(true);
+    this.cancelOpacityAnimation();
+
+    setTimeout(() => {
+      this.background.triggerAnimation(true, false);
+    }, 200);
+
+    setTimeout(() => {
+      this.foreground.appear();
+    }, 1000);
+
+    setTimeout(() => {
+      this.foreground.triggerAnimation();
+      this.background.removeNext();
+      this.background.populateFG(childElementsId[0]);
+
+      // update views to animate & restart opacity animation
+      this.startOpacityAnimation([this.background.foregroundElement], this.foreground.foregroundElement);
+    }, 1500);
+
+    console.log("home scroll complete");
+  }
+
 
   touchStart(event) {
     startY = event.touches[0].clientY;
   }
   handleScroll(event) {
     const touchY = event.touches[0].clientY;
-
-    if (touchY > startY && !notHomepage) {
+    if (touchY > startY && homepage) {
       event.preventDefault();
       return;
     }
-    if (touchY < startY && !notLast) {
+    if (touchY < startY && last) {
       event.preventDefault();
       return;
     }
   }
 
   adjustContainerOpacity() {
-    const topPosition = this.background.calcPosition().top;
-    if (this.background.topPosition == null) {
-      return;
-    }
-    const bottomPosition = this.background.calcPosition().bottom;
-    const opacityForeground = 1 - (bottomPosition - topPosition) / topPosition;
-    const opacityScrollDown = (bottomPosition - topPosition) / topPosition;
-    const elementToAnimate = isGoingDown ? this.background.nextElement : this.background.previousElement;
-    const elementToDissolve = firstScroll ? this.scrollDownContainer : this.foreground.foregroundContainer;
-
-    if (opacityForeground < 0.98) {
-      elementToAnimate.style.opacity = Math.min(opacityForeground + 0.2, 0.99).toString();
-      elementToDissolve.style.opacity = opacityScrollDown;
+    //console.log("opacity animation is running..");
+    //console.log(elementsToAnimate);
+    const opacity = this.calcOpacity();
+    const elementToDissolve = elementsToAnimate.elementToDissolve;
+    const elementsAppearing = elementsToAnimate.elementsAppearing;
+    if (opacity.opacityBG < 0.98) {
+      elementsAppearing.forEach(element => {
+        element.style.opacity = Math.min(opacity.opacityBG + 0.2, 0.99).toString();
+      });
+      elementToDissolve.style.opacity = opacity.opacityFG;
       this.animationId = requestAnimationFrame(this.adjustContainerOpacity);
     } else {
       if (firstScroll) {
-        this.handlefirstScrollDown();
+        this.firstScroll();
+        this.cancelOpacityAnimation();
         firstScroll = false;
-      } else if (isGoingDown) {
-        console.log("down scroll for " + nextElement);
-        handleScrollOnPageContainer(nextElement);
-      } else if (!isGoingDown) {
-        console.log("up scroll for " + previousElement);
-        handleScrollOnPageContainer(previousElement);
+      } else if (this.background.nextElement) {
+        if (isHomeAppearing) {
+          this.homeScroll();
+        } else {
+          this.nextScroll();
+        }
+      } else {
+        if (this.requestedForeground) {
+          this.foregroundScroll(this.requestedForeground, false);
+        } else {
+          this.foregroundScroll(childElementsId[0], true);
+        }
       }
-      cancelAnimationFrame(this.animationId);
-      this.background.topPosition = null;
     }
   }
 
-  startOpacityAnimation() {
+  startOpacityAnimation(elementsAppearing, elementToDissolve) {
+    // update views to animate and restart opacity animation
+    elementsToAnimate = {
+      elementsAppearing: elementsAppearing,
+      elementToDissolve: elementToDissolve
+    }
+    elementsAppearing.forEach(element => {
+      element.style.transition = 'none';
+    });
+    elementToDissolve.style.transition = 'none';
     const animationId = requestAnimationFrame(this.adjustContainerOpacity);
     return animationId;
   }
 
-  updatePrevoius() {
-    const foregroundId = this.foreground.id();
-    this.background.updatePrevoius(foregroundId);
-  }
-
-  addForeground(foregroundEl) {
-    if (foregroundEl != 0 && foregroundEl != 'homepage') {
-      this.updatePrevoius();
-    }
-    this.foreground.update(foregroundEl);
-
-    setTimeout(() => {
-      this.background.dissolve();
-    }, 600);
-
-    setTimeout(() => {
-      this.foreground.appear();
-      this.background.createNextElement();
-    }, 1100);
-
-    setTimeout(() => {
-      this.foreground.triggerAnimation();
-    }, 1600);
+  cancelOpacityAnimation() {
+    cancelAnimationFrame(this.animationId);
   }
 
 }
@@ -274,16 +469,22 @@ class Navigation {
 let startY = 0;
 var firstScroll = true;
 var isGoingDown = true;
+var homepage = true;
+var last = false;
+var isHomeAppearing = false;
+
+var opacity = {
+  opacityBG: 0,
+  opacityFG: 1
+};
 
 const childElementIndex = {
-  homepage: 0,
-  portfolio: 1,
-  about: 2,
-  contatti: 3,
-  prodotti: 4
+  portfolio: 0,
+  about: 1,
+  contatti: 2,
+  prodotti: 3
 };
 const childElementsId = [
-  'homepage',
   'portfolio',
   'about',
   'contatti',
@@ -295,8 +496,23 @@ var timer = 2800;
 
 var isMobileLayout = window.innerWidth <= 960 || (window.innerWidth > 960 && /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 
+// setup opacity animation elements
+let elementsToAnimate;
 // Start navigation
 var nav = new Navigation();
+
+const options = {
+  threshold: 0.5
+};
+const homeObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+      isHomeAppearing = true;
+    } else if (entry.intersectionRatio < 0.5) {
+      isHomeAppearing = false;
+    }
+  });
+}, options);
 
 /* 
 ---- Disable scroll restoration ----
@@ -327,7 +543,7 @@ function setLayout(element) {
     allElements.forEach(element => {
       element.classList.add('mobile');
       if (element.querySelector('#ab-image')) {
-        element.querySelector('#bg').src = "../images/home/about_me_mobile.jpg";
+        element.querySelector('#ab-image').src = "../images/home/about_me_mobile.jpg";
       }
       if (element.querySelector('#bg')) {
         element.querySelector('#bg').src = "../images/home/bg_mobile.jpg";
@@ -412,70 +628,20 @@ function createScrollLinks() {
 */
 
 
-/* 
----- Scroll Down to start ----
-*/
-
-/* ForegroundView & scroll up-down observer
-
-function startObserving(element) {
-  observerCurrentView.observe(element);
-}
-
-const optionsCurrentView = {
-  root: null,
-  rootMargin: '0px',
-  threshold: 0.982
-};
-const observerCurrentView = new IntersectionObserver(handleCurrentView, optionsCurrentView);
-
-function handleCurrentView(entries) {
-  entries.forEach(entry => {
-
-    if (entry.isIntersecting && entry.intersectionRatio > 0.982) {
-
-    } else if (foregroundElement != null && entry.target.id == childElements[foregroundElement].id && entry.intersectionRatio < 0.982) {
-
-      const isTopDisappearing = getTopPosition(entry.target) < getTopPosition(foregroundContainer);
-      if (isTopDisappearing) {
-        console.log("going down");
-      } else {
-        console.log("going up");
-      }
-    }
-  });
-} 
---- comm or now
-*/
-
-// OnScroll opacity animation & Trigger handleScrollOnPage
-
-// HandleScrollOnPage
-function handleScrollOnPageContainer(element) {
-
-  console.log("addForeground");
-  addForeground(element);
-}
-
-
-
-
-
-
 
 // On appear home animation 
-function homeOnAppearAnimation(entries, observer) {
+function homeOnAppearAnimation(foregroundElement) {
   // Animation on intersection
   setTimeout(() => {
-    document.getElementById('menu').style.opacity = '0.85';
+    foregroundElement.querySelector('#menu').style.opacity = '0.85';
   }, 200);
   setTimeout(() => {
-    document.getElementById('name').querySelector('h1').style.opacity = '1';
+    foregroundElement.querySelector('#name').querySelector('h1').style.opacity = '1';
   }, 700);
   setTimeout(() => {
-    document.getElementById('logo').style.opacity = '0.7';
+    foregroundElement.querySelector('#logo').style.opacity = '0.7';
   }, 900);
-  const h2 = document.getElementById('name').querySelector('h2');
+  const h2 = foregroundElement.querySelector('#name').querySelector('h2');
   const text = h2.textContent;
   h2.textContent = text[0];
   setTimeout(() => {
@@ -493,7 +659,6 @@ function homeOnAppearAnimation(entries, observer) {
 
 // Portfolio onAppear Animation
 function portfolioAnimation(view) {
-  console.log("triggerAnimation of " + view.id);
   const start = view.querySelector("#start");
   const second = view.querySelector("#second");
   const matrimoni = view.querySelector("#matrimoni");
@@ -550,19 +715,19 @@ function handleMouseOver(container) {
 }
 
 // About onAppear animation
-function aboutAnimation() {
+function aboutAnimation(aboutElement) {
   const name_txt = " Marta Cosca."
 
-  const descContainer = document.body.querySelector('#descrizione');
-  const heightContainer = document.body.querySelector('#height-container');
-  const image = document.body.querySelector('#ab-image');
-  const title = document.body.querySelector('#ab-title');
-  const sub = document.body.querySelector('#ab-subtitle');
-  const p1 = document.body.querySelector('#ab-p1');
-  const p2 = document.body.querySelector('#ab-p2');
-  const p3 = document.body.querySelector('#ab-p3');
-  const p4 = document.body.querySelector('#ab-p4');
-  const p5 = document.body.querySelector('#ab-p5');
+  const descContainer = aboutElement.querySelector('#descrizione');
+  const heightContainer = aboutElement.querySelector('#height-container');
+  const image = aboutElement.querySelector('#ab-image');
+  const title = aboutElement.querySelector('#ab-title');
+  const sub = aboutElement.querySelector('#ab-subtitle');
+  const p1 = aboutElement.querySelector('#ab-p1');
+  const p2 = aboutElement.querySelector('#ab-p2');
+  const p3 = aboutElement.querySelector('#ab-p3');
+  const p4 = aboutElement.querySelector('#ab-p4');
+  const p5 = aboutElement.querySelector('#ab-p5');
 
   if (!isMobileLayout) {
     title.style.height = 'auto';
@@ -638,8 +803,8 @@ function aboutAnimation() {
 }
 
 // Contatti on appear animation
-function contattiAnimation() {
-  const contatti = Array.from(foregroundContainer.querySelectorAll('.c'));
+function contattiAnimation(foregroundElement) {
+  const contatti = Array.from(foregroundElement.querySelectorAll('.c'));
 
   contatti.forEach((cont, ind) => {
     setTimeout(() => {
@@ -698,31 +863,31 @@ imageSources.forEach(imageSrc => {
   img.onload = () => loadedImagesCount++;
 });
 
-const elementsArray = [
-  `
-    <div class="group">
-            <div id="homepage" class="child">
-                <img id="bg" src="../images/home/bg.jpg">
-                <div id="menu">
-                    <a data-link="#portfolio" id="menu-1" class="scroll-link">PORTFOLIO</a>
-                    <p>•</p>
-                    <a data-link="#about" id="menu-2" class="scroll-link">ABOUT ME</a>
-                    <p>•</p>
-                    <a data-link="#contatti" id="menu-3" class="scroll-link">CONTATTI</a>
-                    <p>•</p>
-                    <a data-link="#prodotti" id="menu-4" class="scroll-link">FOTOPRODOTTI</a>
-                </div>
-                <div id="name">
-                    <img id="logo" src="../images/home/logo.png">
-                    <div class="v">
-                        <h1>MEDUSA</h1>
-                        <h2>PHOTOSTUDIO</h2>
-                    </div>
+var homeHTML = `
+<div class="group">
+        <div id="homepage" class="child">
+            <img id="bg" src="../images/home/bg.jpg">
+            <div id="menu">
+                <a data-link="#portfolio" id="menu-1" class="scroll-link">PORTFOLIO</a>
+                <p>•</p>
+                <a data-link="#about" id="menu-2" class="scroll-link">ABOUT ME</a>
+                <p>•</p>
+                <a data-link="#contatti" id="menu-3" class="scroll-link">CONTATTI</a>
+                <p>•</p>
+                <a data-link="#prodotti" id="menu-4" class="scroll-link">FOTOPRODOTTI</a>
+            </div>
+            <div id="name">
+                <img id="logo" src="../images/home/logo.png">
+                <div class="v">
+                    <h1>MEDUSA</h1>
+                    <h2>PHOTOSTUDIO</h2>
                 </div>
             </div>
         </div>
-    `,
+    </div>
+`;
 
+var elementsArray = [
   `
     <div class="group">
             <div id="portfolio" class="child">
@@ -828,108 +993,259 @@ const elementsArray = [
     `
 ]
 
-const presentationUpArray = [
+const backToHome =
   `
-        <div class="group scrolling-up">
             <div id="homepage" class="child">
                 <div class = "presentation-container">
                     <h3 class="pres">Home</h3>
                     <img class="scroll-up-arrow" src="../images/home/scrollUpArrow.png">
                 </div>
             </div>
-        </div>
-        ` ,
-  `
-        <div class="group scrolling-up">
-            <div id="portfolio" class="child">
-                <div class = "presentation-container">
-                    <h3 class="pres">Portfolio</h3>
-                    <img class="scroll-up-arrow" src="../images/home/scrollUpArrow.png">
-                </div>
-            </div>
-        </div>
-        `,
-  `
-        <div class="group scrolling-up">
-            <div id="about" class="child">
-                <div class = "presentation-container">
-                    <h3 class="pres">About me</h3>
-                    <img class="scroll-up-arrow" src="../images/home/scrollUpArrow.png">
-                </div>
-            </div>
-        </div>
-        `,
-  `
-        <div class="group scrolling-up">
-            <div id="contatti" class="child">
-                <div class = "presentation-container">
-                    <h3 class="pres">Contatti</h3>
-                    <img class="scroll-up-arrow" src="../images/home/scrollUpArrow.png">
-                </div>
-            </div>
-        </div>
-        `,
-  `
-        <div class="group scrolling-up">
-            <div id="prodotti" class="child">
-                <div class = "presentation-container">
-                    <h3 class="pres">Foto<br>prodotti</h3>
-                    <img class="scroll-up-arrow" src="../images/home/scrollUpArrow.png">
-                </div> 
-            </div>
-        </div>
-        `
-]
+        ` ;
 
 const presentationDownArray = [
   `
-        <div class="group scrolling-down">
-            <div id="homepage" class="child">
-                <div class = "presentation-container">
-                    <img class="scroll-down-arrow" src="../images/home/scrollDownArrow.png">
-                    <h3 class="pres">Home</h3>
-                </div>
-            </div>
-        </div>
-        ` ,
-  `
-        <div class="group scrolling-down">
             <div id="portfolio" class="child">
                 <div class = "presentation-container">
                     <img class="scroll-down-arrow" src="../images/home/scrollDownArrow.png">
                     <h3 class="pres">Portfolio</h3>
                 </div>
             </div>
-        </div>
         `,
   `
-        <div class="group scrolling-down">
             <div id="about" class="child">
                 <div class = "presentation-container">
                     <img class="scroll-down-arrow" src="../images/home/scrollDownArrow.png">
                     <h3 class="pres">About me</h3>
                 </div>
             </div>
-        </div>
         `,
   `
-        <div class="group scrolling-down">
             <div id="contatti" class="child">
                 <div class = "presentation-container">
                     <img class="scroll-down-arrow" src="../images/home/scrollDownArrow.png">
                     <h3 class="pres">Contatti</h3>
                 </div>
             </div>
-        </div>
         `,
   `
-        <div class="group scrolling-down">
             <div id="prodotti" class="child">
                 <div class = "presentation-container">
                     <h3 class="pres">Foto<br>prodotti</h3>
                     <img class="scroll-down-arrow" src="../images/home/scrollDownArrow.png">
                 </div> 
             </div>
-        </div>
         `
 ]
+
+var elementsAnimationCompleteArrayDesktop = [
+  `
+  <div class="group desktop" style="transition: none 0s ease 0s; opacity: 0.998728;">
+            <div id="portfolio" class="child desktop">
+                <div class="v desktop" style="height: 100%; width: 100%;">
+                    <div class="h desktop" id="second" style="height: 50%;">
+                        <div class="image-container desktop" id="matrimoni-link" style="width: 50%;">
+                            <img src="../images/home/matrimoni.JPG" id="matrimoni" class="desktop" style="opacity: 1;">
+                            <div class="text-overlay desktop">
+                                <div class="text desktop">Matrimoni</div>
+                            </div>
+                        </div>
+                        <div class="image-container desktop" id="battesimi-link" style="width: 50%;">
+                            <img src="../images/home/battesimi.jpg" class="desktop" style="opacity: 1;">
+                            <div class="text-overlay desktop">
+                                <div class="text desktop">Battesimi</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="h desktop" id="start" style="height: 50%;">
+                        <div id="caption" class="caption desktop" style="width: 50%;">
+                            <h1 class="desktop">portfolio</h1>
+                        </div>
+                        <div class="image-container desktop" id="altro-link" style="width: 50%;">
+                            <img src="../images/home/altro.jpg" class="desktop" style="opacity: 1;">
+                            <div class="text-overlay desktop">
+                                <div class="text desktop">Altro</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>`,
+        `
+        <div class="group desktop" style="transition: none 0s ease 0s; opacity: 0.998728;">
+            <div id="about" class="child desktop">
+                <div class="h desktop" id="height-container">
+                    <img id="ab-image" src="../images/home/about_me.jpg" class="desktop">
+                    <div id="descrizione" class="desktop" style = "justify-content: center; height: auto;">
+                        <div id="ab-title-container" class="desktop">
+                            <h1 id="ab-title" class="desktop" style="height: auto; font-size: 60px; opacity: 1;">Ciao!</h1>
+                        </div>
+                        <h2 id="ab-subtitle" class="desktop" style="opacity: 1;">Mi chiamo Marta Cosca.</h2>
+                        <p id="ab-p1" class="desktop" style="opacity: 1; padding-top: 10px;">Sono diplomata in lingue e laureata in Arti Visive presso la NABA di Milano.</p>
+                        <p id="ab-p2" class="desktop" style="opacity: 1; padding-top: 10px;">Dal 2020 ho la mia attività da fotografa.</p>
+                        <p id="ab-p3" class="desktop" style="opacity: 1; padding-top: 10px;">Amo osservare e documentare tutto ciò che è reale, spontaneo, crudo!</p>
+                        <p id="ab-p4" class="desktop" style="opacity: 1; padding-top: 10px;">Qui non troverete mai finzione, filtri stravolgenti, effetti speciali, visi perfezionati, immagini costruite.</p>
+                        <p id="ab-p5" class="desktop" style="opacity: 1; padding-top: 10px;">Qui troverete una versione bidimensionale, autentica e trasparente di ciò che siete, interpretata da me, che mi innamoro delle piccole cose, dei piccoli gesti, degli sguardi fugaci e di tutto ciò che ci rende unici.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `, 
+        `
+        <div class="group desktop" style="transition: none 0s ease 0s; opacity: 0.998728;">
+            <div id="contatti" class="child desktop">
+                <div class="h desktop" id="height-container">
+                    <div id="title" class="desktop">
+                        <h1 class="desktop">Contatti</h1>
+                    </div>
+                    <div class="c desktop" id="c-p1" style="height: 14vh; opacity: 1;">
+                        <img src="../images/home/phone.png" class="desktop">
+                        <p class="desktop">Telefono:</p>
+                        <p class="desktop">12345832732</p>
+                    </div>
+                    <div class="c desktop" id="c-p2" style="height: 14vh; opacity: 1;">
+                        <img src="../images/home/email.png" class="desktop">
+                        <p class="desktop">Email:</p>
+                        <p class="desktop">12345832732</p>
+                    </div>
+                    <div class="c desktop" id="c-p3" style="height: 14vh; opacity: 1;">
+                        <img src="../images/home/insta1.png" class="desktop">
+                        <p class="desktop">Instagram:</p>
+                        <p class="desktop">12345832732</p>
+                    </div>
+                    <div class="c desktop" id="c-p4" style="height: 14vh; opacity: 1;">
+                        <img src="../images/home/insta2.png" class="desktop">
+                        <p class="desktop">Instagram inclusive profile:</p>
+                        <p class="desktop">12345832732</p>
+                    </div>
+                    <div class="c desktop" id="c-p5" style="height: 14vh; opacity: 1;">
+                        <img src="../images/home/camera.png" class="desktop">
+                        <p class="desktop">Rikorda.it:</p>
+                        <p class="desktop">12345832732</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `,
+        `
+        ** FotoProdotti **
+        `
+];
+
+var elementsAnimationCompleteArrayMobile = [
+  `
+  <div class="group mobile" style="transition: none 0s ease 0s; opacity: 0.998884;">
+            <div id="portfolio" class="child mobile">
+                <div class="v mobile" style="height: 100%; width: 100%;">
+                    <div class="h mobile" id="second">
+                        <div class="image-container mobile" id="matrimoni-link">
+                            <img src="../images/home/matrimoni.JPG" id="matrimoni" class="mobile">
+                            <div class="text-overlay mobile">
+                                <div class="text mobile" style="transform: translateX(0px);">Matrimoni</div>
+                            </div>
+                        </div>
+                        <div class="image-container mobile" id="battesimi-link">
+                            <img src="../images/home/battesimi.jpg" class="mobile">
+                            <div class="text-overlay mobile">
+                                <div class="text mobile" style="transform: translateX(0px);">Battesimi</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="h mobile" id="start">
+                        <div id="caption" class="caption mobile">
+                            <h1 class="mobile">portfolio</h1>
+                        </div>
+                        <div class="image-container mobile" id="altro-link">
+                            <img src="../images/home/altro.jpg" class="mobile">
+                            <div class="text-overlay mobile">
+                                <div class="text mobile" style="transform: translateX(0px);">Altro</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+  `, 
+  `
+  <div class="group mobile" style="transition: none 0s ease 0s; opacity: 0.998884;">
+            <div id="about" class="child mobile">
+                <div class="h mobile" id="height-container">
+                    <img id="ab-image" src="../images/home/about_me_mobile.jpg" class="mobile" style="height: 35%;">
+                    <div id="descrizione" class="mobile" style = "justify-content: center; height: 100%;">
+                        <div id="ab-title-container" class="mobile" style="height: 70px;">
+                            <h1 id="ab-title" class="mobile" style="font-size: 40px; opacity: 1;">Ciao!</h1>
+                        </div>
+                        <h2 id="ab-subtitle" class="mobile" style="opacity: 1;">Mi chiamo Marta Cosca.</h2>
+                        <p id="ab-p1" class="mobile" style="opacity: 1;">Sono diplomata in lingue e laureata in Arti Visive presso la NABA di Milano.</p>
+                        <p id="ab-p2" class="mobile" style="opacity: 1;">Dal 2020 ho la mia attività da fotografa.</p>
+                        <p id="ab-p3" class="mobile" style="opacity: 1;">Amo osservare e documentare tutto ciò che è reale, spontaneo, crudo!</p>
+                        <p id="ab-p4" class="mobile" style="opacity: 1;">Qui non troverete mai finzione, filtri stravolgenti, effetti speciali, visi perfezionati, immagini costruite.</p>
+                        <p id="ab-p5" class="mobile" style="opacity: 1;">Qui troverete una versione bidimensionale, autentica e trasparente di ciò che siete, interpretata da me, che mi innamoro delle piccole cose, dei piccoli gesti, degli sguardi fugaci e di tutto ciò che ci rende unici.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+  `, 
+  `
+  <div class="group mobile" style="transition: none 0s ease 0s; opacity: 0.998884;">
+            <div id="contatti" class="child mobile">
+                <div class="h mobile" id="height-container">
+                    <div id="title" class="mobile">
+                        <h1 class="mobile">Contatti</h1>
+                    </div>
+                    <div class="c mobile" id="c-p1" style="height: 14vh; opacity: 1;">
+                        <img src="../images/home/phone.png" class="mobile">
+                        <p class="mobile">Telefono:</p>
+                        <p class="mobile">12345832732</p>
+                    </div>
+                    <div class="c mobile" id="c-p2" style="height: 14vh; opacity: 1;">
+                        <img src="../images/home/email.png" class="mobile">
+                        <p class="mobile">Email:</p>
+                        <p class="mobile">12345832732</p>
+                    </div>
+                    <div class="c mobile" id="c-p3" style="height: 14vh; opacity: 1;">
+                        <img src="../images/home/insta1.png" class="mobile">
+                        <p class="mobile">Instagram:</p>
+                        <p class="mobile">12345832732</p>
+                    </div>
+                    <div class="c mobile" id="c-p4" style="height: 14vh; opacity: 1;">
+                        <img src="../images/home/insta2.png" class="mobile">
+                        <p class="mobile">Instagram inclusive profile:</p>
+                        <p class="mobile">12345832732</p>
+                    </div>
+                    <div class="c mobile" id="c-p5" style="height: 14vh; opacity: 1;">
+                        <img src="../images/home/camera.png" class="mobile">
+                        <p class="mobile">Rikorda.it:</p>
+                        <p class="mobile">12345832732</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+  `
+];
+
+const animationCompeleteHome = 
+  `
+  <div class="group" style="transition: none 0s ease 0s; opacity: 0.998728;">
+        <div id="homepage" class="child">
+            <img id="bg" src="../images/home/bg.jpg">
+            <div id="menu" style="opacity: 0.85;">
+                <a data-link="#portfolio" id="menu-1" class="scroll-link">PORTFOLIO</a>
+                <p>•</p>
+                <a data-link="#about" id="menu-2" class="scroll-link">ABOUT ME</a>
+                <p>•</p>
+                <a data-link="#contatti" id="menu-3" class="scroll-link">CONTATTI</a>
+                <p>•</p>
+                <a data-link="#prodotti" id="menu-4" class="scroll-link">FOTOPRODOTTI</a>
+            </div>
+            <div id="name">
+                <img id="logo" src="../images/home/logo.png" style="opacity: 0.7;">
+                <div class="v">
+                    <h1 style="opacity: 1;">MEDUSA</h1>
+                    <h2 style="opacity: 1;">PHOTOSTUDIO</h2>
+                </div>
+            </div>
+        </div>
+    </div>`;
